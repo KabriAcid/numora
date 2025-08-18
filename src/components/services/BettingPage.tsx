@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { ArrowLeft, Target, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../layout/DashboardLayout";
-import bet9jaIcon from "../../assets/icons/glo.png";
-import sportybetIcon from "../../assets/icons/mtn.svg";
-import nairabetIcon from "../../assets/icons/airtel-logo1.png";
-import betkingIcon from "../../assets/icons/9mobile.png";
-import x1betIcon from "../../assets/icons/dstv.png";
-import merrybetIcon from "../../assets/icons/gotv.png";
+import bet9jaIcon from "../../assets/icons/bet9ja.png";
+import sportybetIcon from "../../assets/icons/sportybet.png";
+import nairabetIcon from "../../assets/icons/nairabet.png";
+import betkingIcon from "../../assets/icons/betking.svg";
+import x1betIcon from "../../assets/icons/1xbet.png";
+import merrybetIcon from "../../assets/icons/merrybet.png";
+import betwayIcon from "../../assets/icons/betway.png";
+import defaultIcon from "../../assets/icons/default.svg";
 
 interface BettingPageProps {
   user: any;
@@ -26,38 +28,38 @@ const BettingPage: React.FC<BettingPageProps> = ({ user, onLogout }) => {
     {
       id: "bet9ja",
       name: "Bet9ja",
-      icon: bet9jaIcon,
+      icon: bet9jaIcon || defaultIcon,
       description: "Nigeria's number 1 betting site",
     },
     {
       id: "sportybet",
       name: "SportyBet",
-      icon: sportybetIcon,
+      icon: sportybetIcon || defaultIcon,
       description: "Your winning partner",
     },
     {
       id: "nairabet",
       name: "NairaBet",
-      icon: nairabetIcon,
+      icon: nairabetIcon || defaultIcon,
       description: "Bet with the best",
     },
     {
       id: "betking",
       name: "BetKing",
-      icon: betkingIcon,
+      icon: betkingIcon || defaultIcon,
       description: "King of betting",
     },
     {
       id: "1xbet",
       name: "1xBet",
-      icon: x1betIcon,
+      icon: x1betIcon || defaultIcon,
       description: "High odds, fast payouts",
     },
     {
-      id: "merrybet",
-      name: "MerryBet",
-      icon: merrybetIcon,
-      description: "Merry all the way",
+      id: "betway",
+      name: "Betway",
+      icon: betwayIcon || defaultIcon,
+      description: "Bet your way",
     },
   ];
 

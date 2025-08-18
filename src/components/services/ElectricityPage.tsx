@@ -8,6 +8,7 @@ import abujaIcon from "../../assets/icons/glo.png";
 import kanoIcon from "../../assets/icons/glo.png";
 import portharcourtIcon from "../../assets/icons/glo.png";
 import ibadanIcon from "../../assets/icons/glo.png";
+import defaultIcon from "../../assets/icons/default.svg";
 
 interface ElectricityPageProps {
   user: any;
@@ -27,16 +28,16 @@ const ElectricityPage: React.FC<ElectricityPageProps> = ({
   const [errors, setErrors] = useState<any>({});
 
   const discos = [
-    { id: "eko", name: "Eko Electric", icon: ekoIcon },
-    { id: "ikeja", name: "Ikeja Electric", icon: ikejaIcon },
-    { id: "abuja", name: "Abuja Electric", icon: abujaIcon },
-    { id: "kano", name: "Kano Electric", icon: kanoIcon },
+    { id: "eko", name: "Eko Electric", icon: ekoIcon || defaultIcon },
+    { id: "ikeja", name: "Ikeja Electric", icon: ikejaIcon || defaultIcon },
+    { id: "abuja", name: "Abuja Electric", icon: abujaIcon || defaultIcon },
+    { id: "kano", name: "Kano Electric", icon: kanoIcon || defaultIcon },
     {
       id: "portharcourt",
       name: "Port Harcourt Electric",
-      icon: portharcourtIcon,
+      icon: portharcourtIcon || defaultIcon,
     },
-    { id: "ibadan", name: "Ibadan Electric", icon: ibadanIcon },
+    { id: "ibadan", name: "Ibadan Electric", icon: ibadanIcon || defaultIcon },
   ];
 
   const meterTypes = [
@@ -150,7 +151,7 @@ const ElectricityPage: React.FC<ElectricityPageProps> = ({
                   }`}
                 >
                   <img
-                    src={disco.icon}
+                    src={disco.icon || defaultIcon}
                     alt={disco.name}
                     className="w-8 h-8 object-contain mx-auto mb-2 rounded-lg shadow"
                   />
