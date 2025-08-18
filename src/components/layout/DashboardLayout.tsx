@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { 
-  LayoutDashboard, 
-  Phone, 
-  Wifi, 
-  Tv, 
-  Zap, 
-  GraduationCap, 
-  ArrowRightLeft, 
-  Target, 
-  Wallet, 
-  History, 
-  User, 
-  Menu, 
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import {
+  LayoutDashboard,
+  Phone,
+  Wifi,
+  Tv,
+  Zap,
+  GraduationCap,
+  ArrowRightLeft,
+  Target,
+  Wallet,
+  History,
+  User,
+  Menu,
   X,
   Bell,
-  LogOut
-} from 'lucide-react';
+  LogOut,
+} from "lucide-react";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -24,30 +24,38 @@ interface DashboardLayoutProps {
   onLogout: () => void;
 }
 
-const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, user, onLogout }) => {
+const DashboardLayout: React.FC<DashboardLayoutProps> = ({
+  children,
+  user,
+  onLogout,
+}) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
   const navigationItems = [
-    { path: '/dashboard', label: 'Overview', icon: LayoutDashboard },
-    { path: '/airtime', label: 'Buy Airtime', icon: Phone },
-    { path: '/data', label: 'Buy Data', icon: Wifi },
-    { path: '/tv', label: 'Pay Bills', icon: Tv },
-    { path: '/electricity', label: 'Electricity', icon: Zap },
-    { path: '/education', label: 'Education', icon: GraduationCap },
-    { path: '/airtime-to-cash', label: 'Airtime to Cash', icon: ArrowRightLeft },
-    { path: '/betting', label: 'Betting', icon: Target },
-    { path: '/wallet', label: 'Wallet', icon: Wallet },
-    { path: '/transactions', label: 'Transactions', icon: History },
-    { path: '/profile', label: 'Profile', icon: User },
+    { path: "/dashboard", label: "Overview", icon: LayoutDashboard },
+    { path: "/airtime", label: "Buy Airtime", icon: Phone },
+    { path: "/data", label: "Buy Data", icon: Wifi },
+    { path: "/tv", label: "Pay Bills", icon: Tv },
+    { path: "/electricity", label: "Electricity", icon: Zap },
+    { path: "/education", label: "Education", icon: GraduationCap },
+    {
+      path: "/airtime-to-cash",
+      label: "Airtime to Cash",
+      icon: ArrowRightLeft,
+    },
+    { path: "/betting", label: "Betting", icon: Target },
+    { path: "/wallet", label: "Wallet", icon: Wallet },
+    { path: "/transactions", label: "Transactions", icon: History },
+    { path: "/profile", label: "Profile", icon: User },
   ];
 
   const mobileNavigationItems = [
-    { path: '/dashboard', label: 'Home', icon: LayoutDashboard },
-    { path: '/wallet', label: 'Wallet', icon: Wallet },
-    { path: '/transactions', label: 'History', icon: History },
-    { path: '/profile', label: 'Profile', icon: User },
+    { path: "/dashboard", label: "Home", icon: LayoutDashboard },
+    { path: "/wallet", label: "Wallet", icon: Wallet },
+    { path: "/transactions", label: "History", icon: History },
+    { path: "/profile", label: "Profile", icon: User },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -62,7 +70,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, user, onLog
               <div className="w-8 h-8 bg-[#13070C] rounded-lg flex items-center justify-center mr-3">
                 <Wallet className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-bold text-[#13070C]">VTU Platform</span>
+              <span className="text-xl font-bold text-[#13070C]">Numora</span>
             </div>
           </div>
           <div className="flex flex-1 flex-col overflow-y-auto">
@@ -75,13 +83,17 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, user, onLog
                     onClick={() => navigate(item.path)}
                     className={`group flex items-center px-3 py-3 text-sm font-medium rounded-2xl transition-all duration-200 w-full text-left ${
                       isActive(item.path)
-                        ? 'bg-[#EFF9F0] text-[#13070C] shadow-sm'
-                        : 'text-gray-600 hover:bg-gray-50 hover:text-[#13070C]'
+                        ? "bg-[#EFF9F0] text-[#13070C] shadow-sm"
+                        : "text-gray-600 hover:bg-gray-50 hover:text-[#13070C]"
                     }`}
                   >
-                    <Icon className={`mr-3 h-5 w-5 flex-shrink-0 ${
-                      isActive(item.path) ? 'text-[#13070C]' : 'text-gray-400 group-hover:text-[#13070C]'
-                    }`} />
+                    <Icon
+                      className={`mr-3 h-5 w-5 flex-shrink-0 ${
+                        isActive(item.path)
+                          ? "text-[#13070C]"
+                          : "text-gray-400 group-hover:text-[#13070C]"
+                      }`}
+                    />
                     {item.label}
                   </button>
                 );
@@ -101,9 +113,22 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, user, onLog
       </div>
 
       {/* Mobile sidebar */}
-      <div className={`lg:hidden fixed inset-0 flex z-40 ${sidebarOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
-        <div className={`fixed inset-0 bg-gray-600 bg-opacity-75 transition-opacity ${sidebarOpen ? 'opacity-100' : 'opacity-0'}`} onClick={() => setSidebarOpen(false)} />
-        <div className={`relative flex-1 flex flex-col max-w-xs w-full bg-white shadow-xl transform transition-transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <div
+        className={`lg:hidden fixed inset-0 flex z-40 ${
+          sidebarOpen ? "pointer-events-auto" : "pointer-events-none"
+        }`}
+      >
+        <div
+          className={`fixed inset-0 bg-gray-600 bg-opacity-75 transition-opacity ${
+            sidebarOpen ? "opacity-100" : "opacity-0"
+          }`}
+          onClick={() => setSidebarOpen(false)}
+        />
+        <div
+          className={`relative flex-1 flex flex-col max-w-xs w-full bg-white shadow-xl transform transition-transform ${
+            sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
           <div className="absolute top-0 right-0 -mr-12 pt-2">
             <button
               className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
@@ -117,7 +142,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, user, onLog
               <div className="w-8 h-8 bg-[#13070C] rounded-lg flex items-center justify-center mr-3">
                 <Wallet className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-bold text-[#13070C]">VTU Platform</span>
+              <span className="text-xl font-bold text-[#13070C]">Numora</span>
             </div>
             <nav className="px-2 space-y-1">
               {navigationItems.map((item) => {
@@ -131,13 +156,17 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, user, onLog
                     }}
                     className={`group flex items-center px-3 py-3 text-sm font-medium rounded-2xl transition-all duration-200 w-full text-left ${
                       isActive(item.path)
-                        ? 'bg-[#EFF9F0] text-[#13070C] shadow-sm'
-                        : 'text-gray-600 hover:bg-gray-50 hover:text-[#13070C]'
+                        ? "bg-[#EFF9F0] text-[#13070C] shadow-sm"
+                        : "text-gray-600 hover:bg-gray-50 hover:text-[#13070C]"
                     }`}
                   >
-                    <Icon className={`mr-3 h-5 w-5 flex-shrink-0 ${
-                      isActive(item.path) ? 'text-[#13070C]' : 'text-gray-400 group-hover:text-[#13070C]'
-                    }`} />
+                    <Icon
+                      className={`mr-3 h-5 w-5 flex-shrink-0 ${
+                        isActive(item.path)
+                          ? "text-[#13070C]"
+                          : "text-gray-400 group-hover:text-[#13070C]"
+                      }`}
+                    />
                     {item.label}
                   </button>
                 );
@@ -169,7 +198,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, user, onLog
           <div className="flex-1 px-4 flex justify-between">
             <div className="flex-1 flex items-center">
               <h1 className="text-lg font-semibold text-[#13070C]">
-                {navigationItems.find(item => item.path === location.pathname)?.label || 'Dashboard'}
+                {navigationItems.find((item) => item.path === location.pathname)
+                  ?.label || "Dashboard"}
               </h1>
             </div>
             <div className="flex items-center">
@@ -181,9 +211,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, user, onLog
         </div>
 
         {/* Page content */}
-        <main className="flex-1 pb-20 lg:pb-8">
-          {children}
-        </main>
+        <main className="flex-1 pb-20 lg:pb-8">{children}</main>
 
         {/* Mobile bottom navigation */}
         <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg">
@@ -195,14 +223,14 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, user, onLog
                   key={item.path}
                   onClick={() => navigate(item.path)}
                   className={`flex-1 flex flex-col items-center py-3 px-2 text-xs font-medium transition-colors ${
-                    isActive(item.path)
-                      ? 'text-[#13070C]'
-                      : 'text-gray-500'
+                    isActive(item.path) ? "text-[#13070C]" : "text-gray-500"
                   }`}
                 >
-                  <Icon className={`h-5 w-5 mb-1 ${
-                    isActive(item.path) ? 'text-[#13070C]' : 'text-gray-400'
-                  }`} />
+                  <Icon
+                    className={`h-5 w-5 mb-1 ${
+                      isActive(item.path) ? "text-[#13070C]" : "text-gray-400"
+                    }`}
+                  />
                   {item.label}
                 </button>
               );

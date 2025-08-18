@@ -1,5 +1,5 @@
-import React from 'react';
-import { Wallet } from 'lucide-react';
+import React from "react";
+import { Wallet } from "lucide-react";
 
 const LoadingScreen: React.FC = () => {
   return (
@@ -11,7 +11,7 @@ const LoadingScreen: React.FC = () => {
           </div>
           <div className="absolute inset-0 w-20 h-20 mx-auto border-4 border-transparent border-t-[#13070C] rounded-2xl animate-spin"></div>
         </div>
-        <h2 className="text-2xl font-bold text-[#13070C] mb-2">VTU Platform</h2>
+        <h2 className="text-2xl font-bold text-[#13070C] mb-2">Numora</h2>
         <p className="text-gray-600">Loading your dashboard...</p>
       </div>
     </div>

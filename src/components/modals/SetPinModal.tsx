@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Lock, X } from 'lucide-react';
+import React, { useState } from "react";
+import { Lock, X } from "lucide-react";
 
 interface SetPinModalProps {
   onSetPin: (pin: string) => void;
@@ -7,10 +7,10 @@ interface SetPinModalProps {
 }
 
 const SetPinModal: React.FC<SetPinModalProps> = ({ onSetPin, onClose }) => {
-  const [pin, setPin] = useState(['', '', '', '']);
-  const [confirmPin, setConfirmPin] = useState(['', '', '', '']);
+  const [pin, setPin] = useState(["", "", "", ""]);
+  const [confirmPin, setConfirmPin] = useState(["", "", "", ""]);
   const [step, setStep] = useState(1);
-  const [errors, setErrors] = useState('');
+  const [errors, setErrors] = useState("");
 
   const handlePinChange = (index: number, value: string, isConfirm = false) => {
     if (!/^\d?$/.test(value)) return;
@@ -33,49 +33,65 @@ const SetPinModal: React.FC<SetPinModalProps> = ({ onSetPin, onClose }) => {
     }
 
     // Clear errors
-    setErrors('');
+    setErrors("");
   };
 
-  const handleKeyDown = (index: number, e: React.KeyboardEvent, isConfirm = false) => {
-    if (e.key === 'Backspace' && !e.currentTarget.value && index > 0) {
+  const handleKeyDown = (
+    index: number,
+    e: React.KeyboardEvent,
+    isConfirm = false
+  ) => {
+    if (
+      e.key === "Backspace" &&
+      !(e.currentTarget as HTMLInputElement).value &&
+      index > 0
+    ) {
       const prevInput = document.getElementById(
         isConfirm ? `confirm-pin-${index - 1}` : `pin-${index - 1}`
       );
       prevInput?.focus();
     }
+    // Submit on Enter if all digits are filled
+    if (e.key === "Enter") {
+      if (!isConfirm && pin.join("").length === 4 && step === 1) {
+        handleContinue();
+      } else if (isConfirm && confirmPin.join("").length === 4 && step === 2) {
+        handleConfirm();
+      }
+    }
   };
 
   const handleContinue = () => {
-    const pinString = pin.join('');
-    
+    const pinString = pin.join("");
+
     if (pinString.length !== 4) {
-      setErrors('Please enter a 4-digit PIN');
+      setErrors("Please enter a 4-digit PIN");
       return;
     }
 
     setStep(2);
-    setErrors('');
-    
+    setErrors("");
+
     // Focus first confirm input
     setTimeout(() => {
-      document.getElementById('confirm-pin-0')?.focus();
+      document.getElementById("confirm-pin-0")?.focus();
     }, 100);
   };
 
   const handleConfirm = () => {
-    const pinString = pin.join('');
-    const confirmPinString = confirmPin.join('');
+    const pinString = pin.join("");
+    const confirmPinString = confirmPin.join("");
 
     if (confirmPinString.length !== 4) {
-      setErrors('Please enter your 4-digit PIN');
+      setErrors("Please enter your 4-digit PIN");
       return;
     }
 
     if (pinString !== confirmPinString) {
-      setErrors('PINs do not match. Please try again.');
-      setConfirmPin(['', '', '', '']);
+      setErrors("PINs do not match. Please try again.");
+      setConfirmPin(["", "", "", ""]);
       setTimeout(() => {
-        document.getElementById('confirm-pin-0')?.focus();
+        document.getElementById("confirm-pin-0")?.focus();
       }, 100);
       return;
     }
@@ -83,7 +99,11 @@ const SetPinModal: React.FC<SetPinModalProps> = ({ onSetPin, onClose }) => {
     onSetPin(pinString);
   };
 
-  const renderPinInputs = (pinArray: string[], prefix: string, isConfirm = false) => (
+  const renderPinInputs = (
+    pinArray: string[],
+    prefix: string,
+    isConfirm = false
+  ) => (
     <div className="flex justify-center space-x-4 mb-6">
       {pinArray.map((digit, index) => (
         <input
@@ -105,7 +125,7 @@ const SetPinModal: React.FC<SetPinModalProps> = ({ onSetPin, onClose }) => {
       <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-[#13070C]">
-            {step === 1 ? 'Set Transaction PIN' : 'Confirm PIN'}
+            {step === 1 ? "Set Transaction PIN" : "Confirm PIN"}
           </h2>
           <button
             onClick={onClose}
@@ -120,16 +140,16 @@ const SetPinModal: React.FC<SetPinModalProps> = ({ onSetPin, onClose }) => {
             <Lock className="w-8 h-8 text-[#13070C]" />
           </div>
           <p className="text-gray-600">
-            {step === 1 
-              ? 'Create a 4-digit PIN to secure your transactions' 
-              : 'Re-enter your PIN to confirm'}
+            {step === 1
+              ? "Create a 4-digit PIN to secure your transactions"
+              : "Re-enter your PIN to confirm"}
           </p>
         </div>
 
         {step === 1 ? (
           <>
-            {renderPinInputs(pin, 'pin')}
-            
+            {renderPinInputs(pin, "pin")}
+
             {errors && (
               <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm text-center mb-6">
                 {errors}
@@ -138,7 +158,7 @@ const SetPinModal: React.FC<SetPinModalProps> = ({ onSetPin, onClose }) => {
 
             <button
               onClick={handleContinue}
-              disabled={pin.join('').length !== 4}
+              disabled={pin.join("").length !== 4}
               className="w-full bg-[#13070C] text-white py-4 px-4 rounded-2xl font-medium hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-[#13070C] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
               Continue
@@ -146,8 +166,8 @@ const SetPinModal: React.FC<SetPinModalProps> = ({ onSetPin, onClose }) => {
           </>
         ) : (
           <>
-            {renderPinInputs(confirmPin, 'confirm-pin', true)}
-            
+            {renderPinInputs(confirmPin, "confirm-pin", true)}
+
             {errors && (
               <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm text-center mb-6">
                 {errors}
@@ -158,8 +178,8 @@ const SetPinModal: React.FC<SetPinModalProps> = ({ onSetPin, onClose }) => {
               <button
                 onClick={() => {
                   setStep(1);
-                  setConfirmPin(['', '', '', '']);
-                  setErrors('');
+                  setConfirmPin(["", "", "", ""]);
+                  setErrors("");
                 }}
                 className="flex-1 bg-gray-100 text-gray-700 py-4 px-4 rounded-2xl font-medium hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-all"
               >
@@ -167,7 +187,7 @@ const SetPinModal: React.FC<SetPinModalProps> = ({ onSetPin, onClose }) => {
               </button>
               <button
                 onClick={handleConfirm}
-                disabled={confirmPin.join('').length !== 4}
+                disabled={confirmPin.join("").length !== 4}
                 className="flex-1 bg-[#13070C] text-white py-4 px-4 rounded-2xl font-medium hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-[#13070C] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
                 Confirm PIN

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Eye, EyeOff, Wallet, Mail, Lock, User, Phone } from 'lucide-react';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { Eye, EyeOff, Wallet, Mail, Lock, User, Phone } from "lucide-react";
 
 interface RegisterPageProps {
   onLogin: (userData: any) => void;
@@ -8,12 +8,12 @@ interface RegisterPageProps {
 
 const RegisterPage: React.FC<RegisterPageProps> = ({ onLogin }) => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    password: '',
-    confirmPassword: ''
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [showPassword, setShowPassword] = useState(false);
@@ -35,148 +35,158 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onLogin }) => {
     const hasUpperCase = /[A-Z]/.test(password);
     const hasLowerCase = /[a-z]/.test(password);
     const hasNumbers = /\d/.test(password);
-    
+
     return {
       isValid: hasMinLength && hasUpperCase && hasLowerCase && hasNumbers,
-      message: !hasMinLength ? 'Password must be at least 8 characters' :
-               !hasUpperCase ? 'Password must contain at least one uppercase letter' :
-               !hasLowerCase ? 'Password must contain at least one lowercase letter' :
-               !hasNumbers ? 'Password must contain at least one number' : ''
+      message: !hasMinLength
+        ? "Password must be at least 8 characters"
+        : !hasUpperCase
+        ? "Password must contain at least one uppercase letter"
+        : !hasLowerCase
+        ? "Password must contain at least one lowercase letter"
+        : !hasNumbers
+        ? "Password must contain at least one number"
+        : "",
     };
   };
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    
+    setFormData((prev) => ({ ...prev, [field]: value }));
+
     // Real-time validation
     const newErrors = { ...errors };
-    
-    if (field === 'firstName') {
+
+    if (field === "firstName") {
       if (!value) {
-        newErrors.firstName = 'First name is required';
+        newErrors.firstName = "First name is required";
       } else if (value.length < 2) {
-        newErrors.firstName = 'First name must be at least 2 characters';
+        newErrors.firstName = "First name must be at least 2 characters";
       } else {
         delete newErrors.firstName;
       }
     }
-    
-    if (field === 'lastName') {
+
+    if (field === "lastName") {
       if (!value) {
-        newErrors.lastName = 'Last name is required';
+        newErrors.lastName = "Last name is required";
       } else if (value.length < 2) {
-        newErrors.lastName = 'Last name must be at least 2 characters';
+        newErrors.lastName = "Last name must be at least 2 characters";
       } else {
         delete newErrors.lastName;
       }
     }
-    
-    if (field === 'email') {
+
+    if (field === "email") {
       if (!value) {
-        newErrors.email = 'Email is required';
+        newErrors.email = "Email is required";
       } else if (!validateEmail(value)) {
-        newErrors.email = 'Please enter a valid email address';
+        newErrors.email = "Please enter a valid email address";
       } else {
         delete newErrors.email;
       }
     }
-    
-    if (field === 'phone') {
+
+    if (field === "phone") {
       if (!value) {
-        newErrors.phone = 'Phone number is required';
+        newErrors.phone = "Phone number is required";
       } else if (!validatePhone(value)) {
-        newErrors.phone = 'Please enter a valid Nigerian phone number';
+        newErrors.phone = "Please enter a valid Nigerian phone number";
       } else {
         delete newErrors.phone;
       }
     }
-    
-    if (field === 'password') {
+
+    if (field === "password") {
       const validation = validatePassword(value);
       if (!value) {
-        newErrors.password = 'Password is required';
+        newErrors.password = "Password is required";
       } else if (!validation.isValid) {
         newErrors.password = validation.message;
       } else {
         delete newErrors.password;
       }
-      
+
       // Check confirm password match
       if (formData.confirmPassword && value !== formData.confirmPassword) {
-        newErrors.confirmPassword = 'Passwords do not match';
+        newErrors.confirmPassword = "Passwords do not match";
       } else if (formData.confirmPassword) {
         delete newErrors.confirmPassword;
       }
     }
-    
-    if (field === 'confirmPassword') {
+
+    if (field === "confirmPassword") {
       if (!value) {
-        newErrors.confirmPassword = 'Please confirm your password';
+        newErrors.confirmPassword = "Please confirm your password";
       } else if (value !== formData.password) {
-        newErrors.confirmPassword = 'Passwords do not match';
+        newErrors.confirmPassword = "Passwords do not match";
       } else {
         delete newErrors.confirmPassword;
       }
     }
-    
+
     setErrors(newErrors);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validate all fields
     const newErrors: Record<string, string> = {};
-    
-    if (!formData.firstName) newErrors.firstName = 'First name is required';
-    if (!formData.lastName) newErrors.lastName = 'Last name is required';
-    if (!formData.email) newErrors.email = 'Email is required';
-    if (!formData.phone) newErrors.phone = 'Phone number is required';
-    if (!formData.password) newErrors.password = 'Password is required';
-    if (!formData.confirmPassword) newErrors.confirmPassword = 'Please confirm your password';
-    
+
+    if (!formData.firstName) newErrors.firstName = "First name is required";
+    if (!formData.lastName) newErrors.lastName = "Last name is required";
+    if (!formData.email) newErrors.email = "Email is required";
+    if (!formData.phone) newErrors.phone = "Phone number is required";
+    if (!formData.password) newErrors.password = "Password is required";
+    if (!formData.confirmPassword)
+      newErrors.confirmPassword = "Please confirm your password";
+
     if (formData.email && !validateEmail(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = "Please enter a valid email address";
     }
-    
+
     if (formData.phone && !validatePhone(formData.phone)) {
-      newErrors.phone = 'Please enter a valid Nigerian phone number';
+      newErrors.phone = "Please enter a valid Nigerian phone number";
     }
-    
+
     if (formData.password) {
       const validation = validatePassword(formData.password);
       if (!validation.isValid) {
         newErrors.password = validation.message;
       }
     }
-    
-    if (formData.password && formData.confirmPassword && formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
+
+    if (
+      formData.password &&
+      formData.confirmPassword &&
+      formData.password !== formData.confirmPassword
+    ) {
+      newErrors.confirmPassword = "Passwords do not match";
     }
-    
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-    
+
     setIsLoading(true);
-    
+
     // Simulate API call
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
       const userData = {
-        id: '1',
+        id: "1",
         name: `${formData.firstName} ${formData.lastName}`,
         email: formData.email,
         phone: formData.phone,
         balance: 0,
-        hasTransactionPin: false
+        hasTransactionPin: false,
       };
-      
+
       onLogin(userData);
     } catch (error) {
-      setErrors({ general: 'Registration failed. Please try again.' });
+      setErrors({ general: "Registration failed. Please try again." });
     } finally {
       setIsLoading(false);
     }
@@ -191,8 +201,10 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onLogin }) => {
             <div className="w-16 h-16 bg-[#13070C] rounded-2xl flex items-center justify-center mx-auto mb-4">
               <Wallet className="w-8 h-8 text-white" />
             </div>
-            <h2 className="text-2xl font-bold text-[#13070C]">Create Account</h2>
-            <p className="text-gray-600 mt-2">Join VTU Platform today</p>
+            <h2 className="text-2xl font-bold text-[#13070C]">
+              Create Account
+            </h2>
+            <p className="text-gray-600 mt-2">Join Numora today</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -213,18 +225,24 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onLogin }) => {
                   <input
                     type="text"
                     value={formData.firstName}
-                    onChange={(e) => handleInputChange('firstName', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("firstName", e.target.value)
+                    }
                     className={`w-full pl-12 pr-4 py-4 border rounded-2xl focus:ring-2 focus:ring-[#13070C] focus:border-transparent transition-all ${
-                      errors.firstName ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                      errors.firstName
+                        ? "border-red-300 bg-red-50"
+                        : "border-gray-300"
                     }`}
                     placeholder="First name"
                   />
                 </div>
                 {errors.firstName && (
-                  <p className="mt-1 text-sm text-red-600">{errors.firstName}</p>
+                  <p className="mt-1 text-sm text-red-600">
+                    {errors.firstName}
+                  </p>
                 )}
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Last Name
@@ -232,9 +250,13 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onLogin }) => {
                 <input
                   type="text"
                   value={formData.lastName}
-                  onChange={(e) => handleInputChange('lastName', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("lastName", e.target.value)
+                  }
                   className={`w-full px-4 py-4 border rounded-2xl focus:ring-2 focus:ring-[#13070C] focus:border-transparent transition-all ${
-                    errors.lastName ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                    errors.lastName
+                      ? "border-red-300 bg-red-50"
+                      : "border-gray-300"
                   }`}
                   placeholder="Last name"
                 />
@@ -254,9 +276,11 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onLogin }) => {
                 <input
                   type="email"
                   value={formData.email}
-                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  onChange={(e) => handleInputChange("email", e.target.value)}
                   className={`w-full pl-12 pr-4 py-4 border rounded-2xl focus:ring-2 focus:ring-[#13070C] focus:border-transparent transition-all ${
-                    errors.email ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                    errors.email
+                      ? "border-red-300 bg-red-50"
+                      : "border-gray-300"
                   }`}
                   placeholder="Enter your email"
                 />
@@ -276,9 +300,11 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onLogin }) => {
                 <input
                   type="tel"
                   value={formData.phone}
-                  onChange={(e) => handleInputChange('phone', e.target.value)}
+                  onChange={(e) => handleInputChange("phone", e.target.value)}
                   className={`w-full pl-12 pr-4 py-4 border rounded-2xl focus:ring-2 focus:ring-[#13070C] focus:border-transparent transition-all ${
-                    errors.phone ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                    errors.phone
+                      ? "border-red-300 bg-red-50"
+                      : "border-gray-300"
                   }`}
                   placeholder="08012345678"
                 />
@@ -296,11 +322,15 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onLogin }) => {
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   value={formData.password}
-                  onChange={(e) => handleInputChange('password', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("password", e.target.value)
+                  }
                   className={`w-full pl-12 pr-12 py-4 border rounded-2xl focus:ring-2 focus:ring-[#13070C] focus:border-transparent transition-all ${
-                    errors.password ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                    errors.password
+                      ? "border-red-300 bg-red-50"
+                      : "border-gray-300"
                   }`}
                   placeholder="Create a strong password"
                 />
@@ -309,7 +339,11 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onLogin }) => {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
                 </button>
               </div>
               {errors.password && (
@@ -325,11 +359,15 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onLogin }) => {
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
-                  type={showConfirmPassword ? 'text' : 'password'}
+                  type={showConfirmPassword ? "text" : "password"}
                   value={formData.confirmPassword}
-                  onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("confirmPassword", e.target.value)
+                  }
                   className={`w-full pl-12 pr-12 py-4 border rounded-2xl focus:ring-2 focus:ring-[#13070C] focus:border-transparent transition-all ${
-                    errors.confirmPassword ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                    errors.confirmPassword
+                      ? "border-red-300 bg-red-50"
+                      : "border-gray-300"
                   }`}
                   placeholder="Confirm your password"
                 />
@@ -338,11 +376,17 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onLogin }) => {
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
-                  {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showConfirmPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
                 </button>
               </div>
               {errors.confirmPassword && (
-                <p className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.confirmPassword}
+                </p>
               )}
             </div>
 
@@ -358,15 +402,18 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onLogin }) => {
                   Creating Account...
                 </div>
               ) : (
-                'Create Account'
+                "Create Account"
               )}
             </button>
           </form>
 
           <div className="mt-8 text-center">
             <p className="text-gray-600">
-              Already have an account?{' '}
-              <Link to="/login" className="text-[#13070C] hover:underline font-medium">
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                className="text-[#13070C] hover:underline font-medium"
+              >
                 Sign in
               </Link>
             </p>

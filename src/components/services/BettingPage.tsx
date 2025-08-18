@@ -7,7 +7,6 @@ import sportybetIcon from "../../assets/icons/sportybet.png";
 import nairabetIcon from "../../assets/icons/nairabet.png";
 import betkingIcon from "../../assets/icons/betking.svg";
 import x1betIcon from "../../assets/icons/1xbet.png";
-import merrybetIcon from "../../assets/icons/merrybet.png";
 import betwayIcon from "../../assets/icons/betway.png";
 import defaultIcon from "../../assets/icons/default.svg";
 
