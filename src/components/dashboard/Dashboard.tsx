@@ -36,7 +36,8 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
     setShowLogoutModal(false);
   };
 
-  const [profileCollapsed, setProfileCollapsed] = useState(false);
+  // Collapsed means hidden, so default to true (show less)
+  const [profileCollapsed, setProfileCollapsed] = useState(true);
   const profileSteps = [
     {
       label: "Create account",
@@ -84,7 +85,9 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
                 Finish setting up your account to enjoy Numora fully
               </span>
             </div>
-            <span className="text-sm font-bold text-primary">20% complete</span>
+            <span className="text-sm font-bold text-secondary">
+              20% complete
+            </span>
           </div>
           <div className="w-full bg-primary rounded-full h-2 mb-6">
             <div
@@ -93,58 +96,74 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
             ></div>
           </div>
           <button
-            className="text-xs text-gray-500 hover:underline mb-4"
+            className="flex items-center gap-1 text-xs text-gray-500 hover:underline mb-4 focus:outline-none"
             onClick={() => setProfileCollapsed((prev) => !prev)}
+            aria-expanded={!profileCollapsed}
+            aria-controls="profile-steps-list"
           >
             {profileCollapsed ? "Show more" : "Show less"}
+            <ChevronRight
+              className={`w-4 h-4 transition-transform duration-300 ${
+                !profileCollapsed ? "rotate-90" : ""
+              }`}
+            />
           </button>
-          {!profileCollapsed && (
-            <ul className="space-y-3">
-              {profileSteps.map((step, idx) => (
-                <li
-                  key={idx}
-                  className="flex items-center gap-4 p-3 bg-white rounded-xl border border-gray-100 shadow-sm"
-                >
-                  <div className="bg-primary rounded-xl p-2">
-                    {step.icon === "UserPlus" && (
-                      <UserPlus className="w-6 h-6 text-secondary" />
-                    )}
-                    {step.icon === "Mail" && (
-                      <Mail className="w-6 h-6 text-secondary" />
-                    )}
-                    {step.icon === "Info" && (
-                      <Info className="w-6 h-6 text-secondary" />
-                    )}
-                    {step.icon === "Fingerprint" && (
-                      <Fingerprint className="w-6 h-6 text-secondary" />
-                    )}
-                    {step.icon === "Banknote" && (
-                      <Banknote className="w-6 h-6 text-secondary" />
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-semibold text-secondary">
-                      {step.label}
-                    </div>
-                    <div className="text-sm text-gray-600">
-                      {step.description}
-                    </div>
-                  </div>
-                  <div
-                    className={
-                      step.completed ? "text-success" : "text-gray-400"
-                    }
+          <div
+            id="profile-steps-list"
+            className={`overflow-hidden transition-all duration-300 ${
+              profileCollapsed
+                ? "max-h-0 opacity-0"
+                : "max-h-[1000px] opacity-100"
+            }`}
+          >
+            {!profileCollapsed && (
+              <ul className="space-y-3">
+                {profileSteps.map((step, idx) => (
+                  <li
+                    key={idx}
+                    className="flex items-center gap-4 p-3 bg-white rounded-xl border border-gray-100 shadow-sm"
                   >
-                    {step.completed ? (
-                      <Check className="w-5 h-5" />
-                    ) : (
-                      <ChevronRight className="w-5 h-5" />
-                    )}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
+                    <div className="bg-primary rounded-xl p-2">
+                      {step.icon === "UserPlus" && (
+                        <UserPlus className="w-6 h-6 text-secondary" />
+                      )}
+                      {step.icon === "Mail" && (
+                        <Mail className="w-6 h-6 text-secondary" />
+                      )}
+                      {step.icon === "Info" && (
+                        <Info className="w-6 h-6 text-secondary" />
+                      )}
+                      {step.icon === "Fingerprint" && (
+                        <Fingerprint className="w-6 h-6 text-secondary" />
+                      )}
+                      {step.icon === "Banknote" && (
+                        <Banknote className="w-6 h-6 text-secondary" />
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-semibold text-secondary">
+                        {step.label}
+                      </div>
+                      <div className="text-sm text-gray-600">
+                        {step.description}
+                      </div>
+                    </div>
+                    <div
+                      className={
+                        step.completed ? "text-success" : "text-gray-400"
+                      }
+                    >
+                      {step.completed ? (
+                        <Check className="w-5 h-5" />
+                      ) : (
+                        <ChevronRight className="w-5 h-5" />
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
         {/* Wallet Section */}
         <div className="mb-8">
