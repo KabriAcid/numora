@@ -23,6 +23,7 @@ const AirtimeToCashPage: React.FC<AirtimeToCashPageProps> = ({
   const [phoneNumber, setPhoneNumber] = useState("");
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [errors, setErrors] = useState<any>({});
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const networks = [
     {
@@ -80,6 +81,18 @@ const AirtimeToCashPage: React.FC<AirtimeToCashPageProps> = ({
     }
 
     return null;
+  };
+  const handleLogoutClick = () => {
+    setShowLogoutModal(true);
+  };
+
+  const handleConfirmLogout = () => {
+    setShowLogoutModal(false);
+    onLogout();
+  };
+
+  const handleCancelLogout = () => {
+    setShowLogoutModal(false);
   };
 
   const validateAmount = (amt: string) => {

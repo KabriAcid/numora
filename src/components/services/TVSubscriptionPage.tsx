@@ -21,6 +21,7 @@ const TVSubscriptionPage: React.FC<TVSubscriptionPageProps> = ({
   const [selectedPackage, setSelectedPackage] = useState("");
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [errors, setErrors] = useState<any>({});
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const providers = [
     { id: "dstv", name: "DStv", icon: dstvIcon },
@@ -112,8 +113,21 @@ const TVSubscriptionPage: React.FC<TVSubscriptionPageProps> = ({
         )
       : null;
 
+  const handleLogoutClick = () => {
+    setShowLogoutModal(true);
+  };
+
+  const handleConfirmLogout = () => {
+    setShowLogoutModal(false);
+    onLogout();
+  };
+
+  const handleCancelLogout = () => {
+    setShowLogoutModal(false);
+  };
+
   return (
-    <DashboardLayout user={user} onLogout={onLogout}>
+    <DashboardLayout user={user} onLogout={handleLogoutClick}>
       <div className="p-6">
         <div className="flex items-center mb-6">
           <button
@@ -303,6 +317,33 @@ const TVSubscriptionPage: React.FC<TVSubscriptionPageProps> = ({
                   className="flex-1 py-3 bg-[#13070C] text-white rounded-2xl font-medium hover:bg-opacity-90 transition-colors"
                 >
                   Confirm
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {/* Logout Confirmation Modal */}
+        {showLogoutModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black bg-opacity-40">
+            <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full mx-4">
+              <h2 className="text-xl font-bold text-gray-900 mb-4 text-center">
+                Confirm Logout
+              </h2>
+              <p className="text-gray-600 mb-6 text-center">
+                Are you sure you want to logout?
+              </p>
+              <div className="flex space-x-3">
+                <button
+                  onClick={handleCancelLogout}
+                  className="flex-1 py-3 border border-gray-300 rounded-2xl font-medium hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleConfirmLogout}
+                  className="flex-1 py-3 bg-[#13070C] text-white rounded-2xl font-medium hover:bg-opacity-90 transition-colors"
+                >
+                  Logout
                 </button>
               </div>
             </div>

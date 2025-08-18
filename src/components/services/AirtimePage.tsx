@@ -283,7 +283,7 @@ const AirtimePage: React.FC<AirtimePageProps> = ({ user, onLogout }) => {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Phone Number</span>
-                  <span className="font-medium">{phoneNumber}</span>
+                  <span className="font-n">{phoneNumber}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Amount</span>
@@ -291,31 +291,13 @@ const AirtimePage: React.FC<AirtimePageProps> = ({ user, onLogout }) => {
                     ₦{customAmount || selectedAmount}
                   </span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Charges</span>
-                  <span className="font-medium">₦0.00</span>
-                </div>
-                <hr />
-                <div className="flex justify-between font-bold">
-                  <span>Total</span>
-                  <span>₦{customAmount || selectedAmount}</span>
-                </div>
               </div>
-
-              <div className="flex space-x-3">
-                <button
-                  onClick={() => setShowConfirmModal(false)}
-                  className="flex-1 py-3 border border-gray-300 rounded-2xl font-medium hover:bg-gray-50 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleConfirmPurchase}
-                  className="flex-1 py-3 bg-[#13070C] text-white rounded-2xl font-medium hover:bg-opacity-90 transition-colors"
-                >
-                  Confirm
-                </button>
-              </div>
+              <button
+                onClick={handleConfirmPurchase}
+                className="w-full bg-green-600 text-white py-3 rounded-2xl font-medium hover:bg-green-700 transition-colors"
+              >
+                Confirm & Buy
+              </button>
             </div>
           </div>
         )}

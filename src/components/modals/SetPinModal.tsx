@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useState as useReactState } from "react";
 import { Lock, X } from "lucide-react";
 
 interface SetPinModalProps {
@@ -11,6 +11,12 @@ const SetPinModal: React.FC<SetPinModalProps> = ({ onSetPin, onClose }) => {
   const [confirmPin, setConfirmPin] = useState(["", "", "", ""]);
   const [step, setStep] = useState(1);
   const [errors, setErrors] = useState("");
+  const [isPinSet, setIsPinSet] = useReactState(false);
+
+  useEffect(() => {
+    const pinStatus = sessionStorage.getItem("isPinSet");
+    setIsPinSet(pinStatus === "true");
+  }, []);
 
   const handlePinChange = (index: number, value: string, isConfirm = false) => {
     if (!/^\d?$/.test(value)) return;
@@ -96,6 +102,9 @@ const SetPinModal: React.FC<SetPinModalProps> = ({ onSetPin, onClose }) => {
       return;
     }
 
+    // Save PIN status in sessionStorage
+    sessionStorage.setItem("isPinSet", "true");
+    sessionStorage.setItem("userPin", pinString);
     onSetPin(pinString);
   };
 
@@ -119,6 +128,8 @@ const SetPinModal: React.FC<SetPinModalProps> = ({ onSetPin, onClose }) => {
       ))}
     </div>
   );
+
+  if (isPinSet) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
