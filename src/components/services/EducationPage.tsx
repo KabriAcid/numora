@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { ArrowLeft, GraduationCap, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../layout/DashboardLayout";
-import waecIcon from "../../assets/icons/glo.png";
-import jambIcon from "../../assets/icons/mtn.svg";
-import necoIcon from "../../assets/icons/airtel-logo1.png";
-import nabtebIcon from "../../assets/icons/9mobile.png";
+import waecIcon from "../../assets/icons/waec.svg";
+import jambIcon from "../../assets/icons/jamb.png";
+import necoIcon from "../../assets/icons/neco.png";
+import nabtebIcon from "../../assets/icons/nabteb.png";
+import defaultIcon from "../../assets/icons/default.svg";
 
 interface EducationPageProps {
   user: any;
@@ -24,25 +25,25 @@ const EducationPage: React.FC<EducationPageProps> = ({ user, onLogout }) => {
     {
       id: "waec",
       name: "WAEC",
-      icon: waecIcon,
+      icon: waecIcon || defaultIcon,
       description: "West African Examinations Council",
     },
     {
       id: "jamb",
       name: "JAMB",
-      icon: jambIcon,
+      icon: jambIcon || defaultIcon,
       description: "Joint Admissions and Matriculation Board",
     },
     {
       id: "neco",
       name: "NECO",
-      icon: necoIcon,
+      icon: necoIcon || defaultIcon,
       description: "National Examinations Council",
     },
     {
       id: "nabteb",
       name: "NABTEB",
-      icon: nabtebIcon,
+      icon: nabtebIcon || defaultIcon,
       description: "National Business and Technical Examinations Board",
     },
   ];

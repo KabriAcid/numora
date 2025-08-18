@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../layout/DashboardLayout";
 import ekoIcon from "../../assets/icons/eko.png";
 import ikejaIcon from "../../assets/icons/Ikeja-Electric.png";
-import abujaIcon from "../../assets/icons/glo.png";
-import kanoIcon from "../../assets/icons/glo.png";
-import portharcourtIcon from "../../assets/icons/glo.png";
-import ibadanIcon from "../../assets/icons/glo.png";
+import abujaIcon from "../../assets/icons/aedc.png";
+import kanoIcon from "../../assets/icons/kedco.png";
+import portharcourtIcon from "../../assets/icons/yedc.png";
+import ibadanIcon from "../../assets/icons/default.svg";
 import defaultIcon from "../../assets/icons/default.svg";
 
 interface ElectricityPageProps {
