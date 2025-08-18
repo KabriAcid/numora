@@ -1,79 +1,96 @@
-import React, { useState } from 'react';
-import { ArrowLeft, Tv, Check } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import DashboardLayout from '../layout/DashboardLayout';
+import React, { useState } from "react";
+import { ArrowLeft, Tv, Check } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import DashboardLayout from "../layout/DashboardLayout";
+import dstvIcon from "../../assets/icons/dstv.png";
+import gotvIcon from "../../assets/icons/gotv.png";
+import startimesIcon from "../../assets/icons/startimes.png";
 
 interface TVSubscriptionPageProps {
   user: any;
   onLogout: () => void;
 }
 
-const TVSubscriptionPage: React.FC<TVSubscriptionPageProps> = ({ user, onLogout }) => {
+const TVSubscriptionPage: React.FC<TVSubscriptionPageProps> = ({
+  user,
+  onLogout,
+}) => {
   const navigate = useNavigate();
-  const [selectedProvider, setSelectedProvider] = useState('');
-  const [smartCardNumber, setSmartCardNumber] = useState('');
-  const [selectedPackage, setSelectedPackage] = useState('');
+  const [selectedProvider, setSelectedProvider] = useState("");
+  const [smartCardNumber, setSmartCardNumber] = useState("");
+  const [selectedPackage, setSelectedPackage] = useState("");
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [errors, setErrors] = useState<any>({});
 
   const providers = [
-    { id: 'dstv', name: 'DStv', color: 'bg-blue-600' },
-    { id: 'gotv', name: 'GOtv', color: 'bg-green-600' },
-    { id: 'startimes', name: 'StarTimes', color: 'bg-purple-600' }
+    { id: "dstv", name: "DStv", icon: dstvIcon },
+    { id: "gotv", name: "GOtv", icon: gotvIcon },
+    { id: "startimes", name: "StarTimes", icon: startimesIcon },
   ];
 
   const packages = {
     dstv: [
-      { id: 'padi', name: 'DStv Padi', price: 2500, duration: '1 Month' },
-      { id: 'yanga', name: 'DStv Yanga', price: 3500, duration: '1 Month' },
-      { id: 'confam', name: 'DStv Confam', price: 6200, duration: '1 Month' },
-      { id: 'compact', name: 'DStv Compact', price: 10500, duration: '1 Month' },
-      { id: 'premium', name: 'DStv Premium', price: 24500, duration: '1 Month' }
+      { id: "padi", name: "DStv Padi", price: 2500, duration: "1 Month" },
+      { id: "yanga", name: "DStv Yanga", price: 3500, duration: "1 Month" },
+      { id: "confam", name: "DStv Confam", price: 6200, duration: "1 Month" },
+      {
+        id: "compact",
+        name: "DStv Compact",
+        price: 10500,
+        duration: "1 Month",
+      },
+      {
+        id: "premium",
+        name: "DStv Premium",
+        price: 24500,
+        duration: "1 Month",
+      },
     ],
     gotv: [
-      { id: 'smallie', name: 'GOtv Smallie', price: 1100, duration: '1 Month' },
-      { id: 'jinja', name: 'GOtv Jinja', price: 2250, duration: '1 Month' },
-      { id: 'jolli', name: 'GOtv Jolli', price: 3300, duration: '1 Month' },
-      { id: 'max', name: 'GOtv Max', price: 4850, duration: '1 Month' }
+      { id: "smallie", name: "GOtv Smallie", price: 1100, duration: "1 Month" },
+      { id: "jinja", name: "GOtv Jinja", price: 2250, duration: "1 Month" },
+      { id: "jolli", name: "GOtv Jolli", price: 3300, duration: "1 Month" },
+      { id: "max", name: "GOtv Max", price: 4850, duration: "1 Month" },
     ],
     startimes: [
-      { id: 'nova', name: 'Nova', price: 1200, duration: '1 Month' },
-      { id: 'basic', name: 'Basic', price: 2200, duration: '1 Month' },
-      { id: 'smart', name: 'Smart', price: 3000, duration: '1 Month' },
-      { id: 'classic', name: 'Classic', price: 4200, duration: '1 Month' },
-      { id: 'super', name: 'Super', price: 6500, duration: '1 Month' }
-    ]
+      { id: "nova", name: "Nova", price: 1200, duration: "1 Month" },
+      { id: "basic", name: "Basic", price: 2200, duration: "1 Month" },
+      { id: "smart", name: "Smart", price: 3000, duration: "1 Month" },
+      { id: "classic", name: "Classic", price: 4200, duration: "1 Month" },
+      { id: "super", name: "Super", price: 6500, duration: "1 Month" },
+    ],
   };
 
   const validateSmartCardNumber = (number: string) => {
-    if (!number) return 'Smart card number is required';
-    if (number.length < 10) return 'Smart card number must be at least 10 digits';
+    if (!number) return "Smart card number is required";
+    if (number.length < 10)
+      return "Smart card number must be at least 10 digits";
     return null;
   };
 
   const handleSmartCardChange = (value: string) => {
-    const cleaned = value.replace(/\D/g, '');
+    const cleaned = value.replace(/\D/g, "");
     setSmartCardNumber(cleaned);
-    
+
     const error = validateSmartCardNumber(cleaned);
-    setErrors(prev => ({ ...prev, smartCardNumber: error }));
+    setErrors((prev: any) => ({ ...prev, smartCardNumber: error }));
   };
 
   const handleProviderChange = (providerId: string) => {
     setSelectedProvider(providerId);
-    setSelectedPackage(''); // Reset package when provider changes
+    setSelectedPackage(""); // Reset package when provider changes
   };
 
   const handleSubmit = () => {
     const smartCardError = validateSmartCardNumber(smartCardNumber);
-    
+
     const newErrors: any = {};
-    if (!selectedProvider) newErrors.provider = 'Please select a TV provider';
+    if (!selectedProvider) newErrors.provider = "Please select a TV provider";
     if (smartCardError) newErrors.smartCardNumber = smartCardError;
-    if (!selectedPackage) newErrors.package = 'Please select a package';
+    if (!selectedPackage) newErrors.package = "Please select a package";
 
     setErrors(newErrors);
-    
+
     if (Object.keys(newErrors).length === 0) {
       setShowConfirmModal(true);
     }
@@ -84,20 +101,23 @@ const TVSubscriptionPage: React.FC<TVSubscriptionPageProps> = ({ user, onLogout 
     setShowConfirmModal(false);
     // Show success message and redirect
     setTimeout(() => {
-      navigate('/dashboard');
+      navigate("/dashboard");
     }, 1000);
   };
 
-  const selectedPackageDetails = selectedProvider && selectedPackage 
-    ? packages[selectedProvider as keyof typeof packages]?.find(p => p.id === selectedPackage)
-    : null;
+  const selectedPackageDetails =
+    selectedProvider && selectedPackage
+      ? packages[selectedProvider as keyof typeof packages]?.find(
+          (p) => p.id === selectedPackage
+        )
+      : null;
 
   return (
     <DashboardLayout user={user} onLogout={onLogout}>
       <div className="p-6">
         <div className="flex items-center mb-6">
           <button
-            onClick={() => navigate('/dashboard')}
+            onClick={() => navigate("/dashboard")}
             className="mr-4 p-2 hover:bg-gray-100 rounded-lg transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
@@ -107,7 +127,9 @@ const TVSubscriptionPage: React.FC<TVSubscriptionPageProps> = ({ user, onLogout 
               <Tv className="w-5 h-5 text-purple-600" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">TV Subscription</h1>
+              <h1 className="text-2xl font-bold text-gray-900">
+                TV Subscription
+              </h1>
               <p className="text-gray-600">Renew your cable TV subscription</p>
             </div>
           </div>
@@ -124,13 +146,17 @@ const TVSubscriptionPage: React.FC<TVSubscriptionPageProps> = ({ user, onLogout 
                 <button
                   key={provider.id}
                   onClick={() => handleProviderChange(provider.id)}
-                  className={`p-4 border-2 rounded-2xl transition-all ${
+                  className={`p-4 border-2 rounded-2xl transition-all flex flex-col items-center ${
                     selectedProvider === provider.id
-                      ? 'border-blue-500 bg-blue-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      ? "border-blue-500 bg-blue-50"
+                      : "border-gray-200 hover:border-gray-300"
                   }`}
                 >
-                  <div className={`w-8 h-8 ${provider.color} rounded-lg mx-auto mb-2`}></div>
+                  <img
+                    src={provider.icon}
+                    alt={provider.name}
+                    className="w-8 h-8 object-contain mx-auto mb-2 rounded-lg shadow"
+                  />
                   <p className="font-medium text-sm">{provider.name}</p>
                 </button>
               ))}
@@ -151,11 +177,13 @@ const TVSubscriptionPage: React.FC<TVSubscriptionPageProps> = ({ user, onLogout 
               onChange={(e) => handleSmartCardChange(e.target.value)}
               placeholder="Enter your smart card number"
               className={`w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                errors.smartCardNumber ? 'border-red-500' : 'border-gray-300'
+                errors.smartCardNumber ? "border-red-500" : "border-gray-300"
               }`}
             />
             {errors.smartCardNumber && (
-              <p className="text-red-500 text-sm mt-1">{errors.smartCardNumber}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.smartCardNumber}
+              </p>
             )}
           </div>
 
@@ -166,25 +194,31 @@ const TVSubscriptionPage: React.FC<TVSubscriptionPageProps> = ({ user, onLogout 
                 Select Package
               </label>
               <div className="space-y-3">
-                {packages[selectedProvider as keyof typeof packages]?.map((pkg) => (
-                  <button
-                    key={pkg.id}
-                    onClick={() => setSelectedPackage(pkg.id)}
-                    className={`w-full p-4 border-2 rounded-2xl transition-all text-left ${
-                      selectedPackage === pkg.id
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                  >
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-medium">{pkg.name}</p>
-                        <p className="text-sm text-gray-600">{pkg.duration}</p>
+                {packages[selectedProvider as keyof typeof packages]?.map(
+                  (pkg) => (
+                    <button
+                      key={pkg.id}
+                      onClick={() => setSelectedPackage(pkg.id)}
+                      className={`w-full p-4 border-2 rounded-2xl transition-all text-left ${
+                        selectedPackage === pkg.id
+                          ? "border-blue-500 bg-blue-50"
+                          : "border-gray-200 hover:border-gray-300"
+                      }`}
+                    >
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <p className="font-medium">{pkg.name}</p>
+                          <p className="text-sm text-gray-600">
+                            {pkg.duration}
+                          </p>
+                        </div>
+                        <p className="font-bold text-lg">
+                          ₦{pkg.price.toLocaleString()}
+                        </p>
                       </div>
-                      <p className="font-bold text-lg">₦{pkg.price.toLocaleString()}</p>
-                    </div>
-                  </button>
-                ))}
+                    </button>
+                  )
+                )}
               </div>
               {errors.package && (
                 <p className="text-red-500 text-sm mt-1">{errors.package}</p>
@@ -209,14 +243,20 @@ const TVSubscriptionPage: React.FC<TVSubscriptionPageProps> = ({ user, onLogout 
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Check className="w-8 h-8 text-green-600" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Confirm Subscription</h3>
-                <p className="text-gray-600">Please review your TV subscription</p>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  Confirm Subscription
+                </h3>
+                <p className="text-gray-600">
+                  Please review your TV subscription
+                </p>
               </div>
 
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Provider</span>
-                  <span className="font-medium">{providers.find(p => p.id === selectedProvider)?.name}</span>
+                  <span className="font-medium">
+                    {providers.find((p) => p.id === selectedProvider)?.name}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Smart Card</span>
@@ -224,15 +264,21 @@ const TVSubscriptionPage: React.FC<TVSubscriptionPageProps> = ({ user, onLogout 
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Package</span>
-                  <span className="font-medium">{selectedPackageDetails.name}</span>
+                  <span className="font-medium">
+                    {selectedPackageDetails.name}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Duration</span>
-                  <span className="font-medium">{selectedPackageDetails.duration}</span>
+                  <span className="font-medium">
+                    {selectedPackageDetails.duration}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Amount</span>
-                  <span className="font-medium">₦{selectedPackageDetails.price.toLocaleString()}</span>
+                  <span className="font-medium">
+                    ₦{selectedPackageDetails.price.toLocaleString()}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Charges</span>

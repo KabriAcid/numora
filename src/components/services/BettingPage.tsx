@@ -1,7 +1,13 @@
-import React, { useState } from 'react';
-import { ArrowLeft, Target, Check } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import DashboardLayout from '../layout/DashboardLayout';
+import React, { useState } from "react";
+import { ArrowLeft, Target, Check } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import DashboardLayout from "../layout/DashboardLayout";
+import bet9jaIcon from "../../assets/icons/glo.png";
+import sportybetIcon from "../../assets/icons/mtn.svg";
+import nairabetIcon from "../../assets/icons/airtel-logo1.png";
+import betkingIcon from "../../assets/icons/9mobile.png";
+import x1betIcon from "../../assets/icons/dstv.png";
+import merrybetIcon from "../../assets/icons/gotv.png";
 
 interface BettingPageProps {
   user: any;
@@ -10,61 +16,92 @@ interface BettingPageProps {
 
 const BettingPage: React.FC<BettingPageProps> = ({ user, onLogout }) => {
   const navigate = useNavigate();
-  const [selectedPlatform, setSelectedPlatform] = useState('');
-  const [userId, setUserId] = useState('');
-  const [amount, setAmount] = useState('');
+  const [selectedPlatform, setSelectedPlatform] = useState("");
+  const [userId, setUserId] = useState("");
+  const [amount, setAmount] = useState("");
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [errors, setErrors] = useState<any>({});
 
   const bettingPlatforms = [
-    { id: 'bet9ja', name: 'Bet9ja', color: 'bg-green-600', description: 'Nigeria\'s number 1 betting site' },
-    { id: 'sportybet', name: 'SportyBet', color: 'bg-blue-600', description: 'Your winning partner' },
-    { id: 'nairabet', name: 'NairaBet', color: 'bg-red-600', description: 'Bet with the best' },
-    { id: 'betking', name: 'BetKing', color: 'bg-purple-600', description: 'King of betting' },
-    { id: '1xbet', name: '1xBet', color: 'bg-indigo-600', description: 'High odds, fast payouts' },
-    { id: 'merrybet', name: 'MerryBet', color: 'bg-yellow-600', description: 'Merry all the way' }
+    {
+      id: "bet9ja",
+      name: "Bet9ja",
+      icon: bet9jaIcon,
+      description: "Nigeria's number 1 betting site",
+    },
+    {
+      id: "sportybet",
+      name: "SportyBet",
+      icon: sportybetIcon,
+      description: "Your winning partner",
+    },
+    {
+      id: "nairabet",
+      name: "NairaBet",
+      icon: nairabetIcon,
+      description: "Bet with the best",
+    },
+    {
+      id: "betking",
+      name: "BetKing",
+      icon: betkingIcon,
+      description: "King of betting",
+    },
+    {
+      id: "1xbet",
+      name: "1xBet",
+      icon: x1betIcon,
+      description: "High odds, fast payouts",
+    },
+    {
+      id: "merrybet",
+      name: "MerryBet",
+      icon: merrybetIcon,
+      description: "Merry all the way",
+    },
   ];
 
   const validateUserId = (id: string) => {
-    if (!id) return 'User ID is required';
-    if (id.length < 3) return 'User ID must be at least 3 characters';
+    if (!id) return "User ID is required";
+    if (id.length < 3) return "User ID must be at least 3 characters";
     return null;
   };
 
   const validateAmount = (amt: string) => {
-    if (!amt) return 'Amount is required';
+    if (!amt) return "Amount is required";
     const numAmount = Number(amt);
-    if (isNaN(numAmount) || numAmount < 100) return 'Minimum amount is ₦100';
-    if (numAmount > 100000) return 'Maximum amount is ₦100,000';
+    if (isNaN(numAmount) || numAmount < 100) return "Minimum amount is ₦100";
+    if (numAmount > 100000) return "Maximum amount is ₦100,000";
     return null;
   };
 
   const handleUserIdChange = (value: string) => {
     setUserId(value);
-    
+
     const error = validateUserId(value);
-    setErrors(prev => ({ ...prev, userId: error }));
+    setErrors((prev: any) => ({ ...prev, userId: error }));
   };
 
   const handleAmountChange = (value: string) => {
-    const cleaned = value.replace(/\D/g, '');
+    const cleaned = value.replace(/\D/g, "");
     setAmount(cleaned);
-    
+
     const error = validateAmount(cleaned);
-    setErrors(prev => ({ ...prev, amount: error }));
+    setErrors((prev: any) => ({ ...prev, amount: error }));
   };
 
   const handleSubmit = () => {
     const userIdError = validateUserId(userId);
     const amountError = validateAmount(amount);
-    
+
     const newErrors: any = {};
-    if (!selectedPlatform) newErrors.platform = 'Please select a betting platform';
+    if (!selectedPlatform)
+      newErrors.platform = "Please select a betting platform";
     if (userIdError) newErrors.userId = userIdError;
     if (amountError) newErrors.amount = amountError;
 
     setErrors(newErrors);
-    
+
     if (Object.keys(newErrors).length === 0) {
       setShowConfirmModal(true);
     }
@@ -75,18 +112,20 @@ const BettingPage: React.FC<BettingPageProps> = ({ user, onLogout }) => {
     setShowConfirmModal(false);
     // Show success message and redirect
     setTimeout(() => {
-      navigate('/dashboard');
+      navigate("/dashboard");
     }, 1000);
   };
 
-  const selectedPlatformData = bettingPlatforms.find(p => p.id === selectedPlatform);
+  const selectedPlatformData = bettingPlatforms.find(
+    (p) => p.id === selectedPlatform
+  );
 
   return (
     <DashboardLayout user={user} onLogout={onLogout}>
       <div className="p-6">
         <div className="flex items-center mb-6">
           <button
-            onClick={() => navigate('/dashboard')}
+            onClick={() => navigate("/dashboard")}
             className="mr-4 p-2 hover:bg-gray-100 rounded-lg transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
@@ -96,8 +135,12 @@ const BettingPage: React.FC<BettingPageProps> = ({ user, onLogout }) => {
               <Target className="w-5 h-5 text-orange-600" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Betting Payments</h1>
-              <p className="text-gray-600">Fund your betting account instantly</p>
+              <h1 className="text-2xl font-bold text-gray-900">
+                Betting Payments
+              </h1>
+              <p className="text-gray-600">
+                Fund your betting account instantly
+              </p>
             </div>
           </div>
         </div>
@@ -113,15 +156,21 @@ const BettingPage: React.FC<BettingPageProps> = ({ user, onLogout }) => {
                 <button
                   key={platform.id}
                   onClick={() => setSelectedPlatform(platform.id)}
-                  className={`p-4 border-2 rounded-2xl transition-all text-left ${
+                  className={`p-4 border-2 rounded-2xl transition-all flex flex-col items-center ${
                     selectedPlatform === platform.id
-                      ? 'border-blue-500 bg-blue-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      ? "border-blue-500 bg-blue-50"
+                      : "border-gray-200 hover:border-gray-300"
                   }`}
                 >
-                  <div className={`w-8 h-8 ${platform.color} rounded-lg mb-2`}></div>
+                  <img
+                    src={platform.icon}
+                    alt={platform.name}
+                    className="w-8 h-8 object-contain mx-auto mb-2 rounded-lg shadow"
+                  />
                   <p className="font-medium text-sm">{platform.name}</p>
-                  <p className="text-xs text-gray-600">{platform.description}</p>
+                  <p className="text-xs text-gray-600">
+                    {platform.description}
+                  </p>
                 </button>
               ))}
             </div>
@@ -141,7 +190,7 @@ const BettingPage: React.FC<BettingPageProps> = ({ user, onLogout }) => {
               onChange={(e) => handleUserIdChange(e.target.value)}
               placeholder="Enter your betting account ID"
               className={`w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                errors.userId ? 'border-red-500' : 'border-gray-300'
+                errors.userId ? "border-red-500" : "border-gray-300"
               }`}
             />
             {errors.userId && (
@@ -160,7 +209,7 @@ const BettingPage: React.FC<BettingPageProps> = ({ user, onLogout }) => {
               onChange={(e) => handleAmountChange(e.target.value)}
               placeholder="Enter amount to fund"
               className={`w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                errors.amount ? 'border-red-500' : 'border-gray-300'
+                errors.amount ? "border-red-500" : "border-gray-300"
               }`}
             />
             {errors.amount && (
@@ -178,7 +227,9 @@ const BettingPage: React.FC<BettingPageProps> = ({ user, onLogout }) => {
 
           {/* Info */}
           <div className="mt-6 p-4 bg-yellow-50 rounded-2xl">
-            <h4 className="font-medium text-yellow-900 mb-2">Important Notice:</h4>
+            <h4 className="font-medium text-yellow-900 mb-2">
+              Important Notice:
+            </h4>
             <ul className="text-sm text-yellow-800 space-y-1">
               <li>• Ensure your account ID is correct</li>
               <li>• Funds are credited instantly</li>
@@ -196,14 +247,20 @@ const BettingPage: React.FC<BettingPageProps> = ({ user, onLogout }) => {
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Check className="w-8 h-8 text-green-600" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Confirm Payment</h3>
-                <p className="text-gray-600">Please review your betting account funding</p>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  Confirm Payment
+                </h3>
+                <p className="text-gray-600">
+                  Please review your betting account funding
+                </p>
               </div>
 
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Platform</span>
-                  <span className="font-medium">{selectedPlatformData.name}</span>
+                  <span className="font-medium">
+                    {selectedPlatformData.name}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">User ID</span>
@@ -211,7 +268,9 @@ const BettingPage: React.FC<BettingPageProps> = ({ user, onLogout }) => {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Amount</span>
-                  <span className="font-medium">₦{Number(amount).toLocaleString()}</span>
+                  <span className="font-medium">
+                    ₦{Number(amount).toLocaleString()}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Charges</span>
