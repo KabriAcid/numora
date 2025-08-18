@@ -168,6 +168,26 @@ const AirtimeToCashPage: React.FC<AirtimeToCashPageProps> = ({
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
+          <button
+            onClick={handleLogoutClick}
+            className="ml-auto p-2 hover:bg-red-50 rounded-lg transition-colors"
+            title="Sign out"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-5 h-5 text-red-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1"
+              />
+            </svg>
+          </button>
           <div className="flex items-center">
             <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center mr-3">
               <RefreshCw className="w-5 h-5 text-green-600" />
@@ -353,6 +373,52 @@ const AirtimeToCashPage: React.FC<AirtimeToCashPageProps> = ({
                   className="flex-1 py-3 bg-[#13070C] text-white rounded-2xl font-medium hover:bg-opacity-90 transition-colors"
                 >
                   Confirm
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Logout Confirmation Modal */}
+        {showLogoutModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
+            <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full mx-4">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold text-[#13070C]">Sign Out</h2>
+              </div>
+              <div className="text-center mb-8">
+                <div className="w-16 h-16 bg-red-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-8 h-8 text-red-500"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1"
+                    />
+                  </svg>
+                </div>
+                <p className="text-gray-600">
+                  Are you sure you want to sign out?
+                </p>
+              </div>
+              <div className="flex space-x-3">
+                <button
+                  onClick={handleCancelLogout}
+                  className="flex-1 bg-gray-100 text-gray-700 py-3 px-4 rounded-2xl font-medium hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-all"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleConfirmLogout}
+                  className="flex-1 bg-red-500 text-white py-3 px-4 rounded-2xl font-medium hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all"
+                >
+                  Sign Out
                 </button>
               </div>
             </div>

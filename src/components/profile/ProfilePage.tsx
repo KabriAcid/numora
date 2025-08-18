@@ -1,7 +1,15 @@
-import React, { useState } from 'react';
-import { ArrowLeft, User, Mail, Phone, Lock, Camera, Check } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import DashboardLayout from '../layout/DashboardLayout';
+import React, { useState } from "react";
+import {
+  ArrowLeft,
+  User,
+  Mail,
+  Phone,
+  Lock,
+  Camera,
+  Check,
+} from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import DashboardLayout from "../layout/DashboardLayout";
 
 interface ProfilePageProps {
   user: any;
@@ -10,16 +18,16 @@ interface ProfilePageProps {
 
 const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('profile');
+  const [activeTab, setActiveTab] = useState("profile");
   const [formData, setFormData] = useState({
-    firstName: user?.firstName || 'John',
-    lastName: user?.lastName || 'Doe',
-    email: user?.email || 'john.doe@example.com',
-    phone: user?.phone || '08012345678',
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: '',
-    transactionPin: ''
+    firstName: user?.firstName || "John",
+    lastName: user?.lastName || "Doe",
+    email: user?.email || "john.doe@example.com",
+    phone: user?.phone || "08012345678",
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+    transactionPin: "",
   });
   const [errors, setErrors] = useState<any>({});
   const [showSuccess, setShowSuccess] = useState(false);
@@ -27,10 +35,13 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
   const profileCompletion = 85; // Mock completion percentage
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
     // Clear error when user starts typing
     if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: null }));
+      setErrors((prev: Record<string, string | null>) => ({
+        ...prev,
+        [field]: null,
+      }));
     }
   };
 
@@ -40,16 +51,19 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
   };
 
   const validatePhone = (phone: string) => {
-    return phone.length === 11 && phone.startsWith('0');
+    return phone.length === 11 && phone.startsWith("0");
   };
 
   const handleProfileUpdate = () => {
     const newErrors: any = {};
-    
-    if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
-    if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
-    if (!validateEmail(formData.email)) newErrors.email = 'Please enter a valid email';
-    if (!validatePhone(formData.phone)) newErrors.phone = 'Please enter a valid phone number';
+
+    if (!formData.firstName.trim())
+      newErrors.firstName = "First name is required";
+    if (!formData.lastName.trim()) newErrors.lastName = "Last name is required";
+    if (!validateEmail(formData.email))
+      newErrors.email = "Please enter a valid email";
+    if (!validatePhone(formData.phone))
+      newErrors.phone = "Please enter a valid phone number";
 
     setErrors(newErrors);
 
@@ -62,12 +76,15 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
 
   const handlePasswordChange = () => {
     const newErrors: any = {};
-    
-    if (!formData.currentPassword) newErrors.currentPassword = 'Current password is required';
-    if (!formData.newPassword) newErrors.newPassword = 'New password is required';
-    if (formData.newPassword.length < 6) newErrors.newPassword = 'Password must be at least 6 characters';
+
+    if (!formData.currentPassword)
+      newErrors.currentPassword = "Current password is required";
+    if (!formData.newPassword)
+      newErrors.newPassword = "New password is required";
+    if (formData.newPassword.length < 6)
+      newErrors.newPassword = "Password must be at least 6 characters";
     if (formData.newPassword !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
+      newErrors.confirmPassword = "Passwords do not match";
     }
 
     setErrors(newErrors);
@@ -75,24 +92,32 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
     if (Object.keys(newErrors).length === 0) {
       // Simulate API call
       setShowSuccess(true);
-      setFormData(prev => ({ ...prev, currentPassword: '', newPassword: '', confirmPassword: '' }));
+      setFormData((prev) => ({
+        ...prev,
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+      }));
       setTimeout(() => setShowSuccess(false), 3000);
     }
   };
 
   const handlePinChange = () => {
     const newErrors: any = {};
-    
-    if (!formData.transactionPin) newErrors.transactionPin = 'Transaction PIN is required';
-    if (formData.transactionPin.length !== 4) newErrors.transactionPin = 'PIN must be 4 digits';
-    if (!/^\d+$/.test(formData.transactionPin)) newErrors.transactionPin = 'PIN must contain only numbers';
+
+    if (!formData.transactionPin)
+      newErrors.transactionPin = "Transaction PIN is required";
+    if (formData.transactionPin.length !== 4)
+      newErrors.transactionPin = "PIN must be 4 digits";
+    if (!/^\d+$/.test(formData.transactionPin))
+      newErrors.transactionPin = "PIN must contain only numbers";
 
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
       // Simulate API call
       setShowSuccess(true);
-      setFormData(prev => ({ ...prev, transactionPin: '' }));
+      setFormData((prev) => ({ ...prev, transactionPin: "" }));
       setTimeout(() => setShowSuccess(false), 3000);
     }
   };
@@ -102,14 +127,18 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
       <div className="p-6">
         <div className="flex items-center mb-6">
           <button
-            onClick={() => navigate('/dashboard')}
+            onClick={() => navigate("/dashboard")}
             className="mr-4 p-2 hover:bg-gray-100 rounded-lg transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Profile Settings</h1>
-            <p className="text-gray-600">Manage your account information and security</p>
+            <h1 className="text-2xl font-bold text-gray-900">
+              Profile Settings
+            </h1>
+            <p className="text-gray-600">
+              Manage your account information and security
+            </p>
           </div>
         </div>
 
@@ -128,11 +157,15 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
               {/* Profile Completion */}
               <div className="mb-6">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-gray-700">Profile Completion</span>
-                  <span className="text-sm font-medium text-blue-600">{profileCompletion}%</span>
+                  <span className="text-sm font-medium text-gray-700">
+                    Profile Completion
+                  </span>
+                  <span className="text-sm font-medium text-blue-600">
+                    {profileCompletion}%
+                  </span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div 
+                  <div
                     className="bg-blue-600 h-2 rounded-full transition-all duration-300"
                     style={{ width: `${profileCompletion}%` }}
                   ></div>
@@ -142,22 +175,22 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
               {/* Navigation */}
               <nav className="space-y-2">
                 <button
-                  onClick={() => setActiveTab('profile')}
+                  onClick={() => setActiveTab("profile")}
                   className={`w-full text-left px-4 py-3 rounded-xl transition-colors ${
-                    activeTab === 'profile' 
-                      ? 'bg-blue-50 text-blue-600 font-medium' 
-                      : 'text-gray-700 hover:bg-gray-50'
+                    activeTab === "profile"
+                      ? "bg-blue-50 text-blue-600 font-medium"
+                      : "text-gray-700 hover:bg-gray-50"
                   }`}
                 >
                   <User className="w-4 h-4 inline mr-3" />
                   Profile Information
                 </button>
                 <button
-                  onClick={() => setActiveTab('security')}
+                  onClick={() => setActiveTab("security")}
                   className={`w-full text-left px-4 py-3 rounded-xl transition-colors ${
-                    activeTab === 'security' 
-                      ? 'bg-blue-50 text-blue-600 font-medium' 
-                      : 'text-gray-700 hover:bg-gray-50'
+                    activeTab === "security"
+                      ? "bg-blue-50 text-blue-600 font-medium"
+                      : "text-gray-700 hover:bg-gray-50"
                   }`}
                 >
                   <Lock className="w-4 h-4 inline mr-3" />
@@ -170,17 +203,22 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
           {/* Main Content */}
           <div className="lg:col-span-3">
             <div className="bg-white rounded-2xl p-6 shadow-sm">
-              {activeTab === 'profile' && (
+              {activeTab === "profile" && (
                 <div>
-                  <h2 className="text-xl font-semibold text-gray-900 mb-6">Profile Information</h2>
-                  
+                  <h2 className="text-xl font-semibold text-gray-900 mb-6">
+                    Profile Information
+                  </h2>
+
                   {/* Profile Picture */}
                   <div className="flex items-center mb-8">
                     <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mr-6">
-                      {formData.firstName.charAt(0)}{formData.lastName.charAt(0)}
+                      {formData.firstName.charAt(0)}
+                      {formData.lastName.charAt(0)}
                     </div>
                     <div>
-                      <h3 className="font-medium text-gray-900">{formData.firstName} {formData.lastName}</h3>
+                      <h3 className="font-medium text-gray-900">
+                        {formData.firstName} {formData.lastName}
+                      </h3>
                       <p className="text-gray-600 mb-2">{formData.email}</p>
                       <button className="flex items-center text-blue-600 hover:text-blue-700 text-sm font-medium">
                         <Camera className="w-4 h-4 mr-1" />
@@ -198,13 +236,19 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
                       <input
                         type="text"
                         value={formData.firstName}
-                        onChange={(e) => handleInputChange('firstName', e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange("firstName", e.target.value)
+                        }
                         className={`w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                          errors.firstName ? 'border-red-500' : 'border-gray-300'
+                          errors.firstName
+                            ? "border-red-500"
+                            : "border-gray-300"
                         }`}
                       />
                       {errors.firstName && (
-                        <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.firstName}
+                        </p>
                       )}
                     </div>
 
@@ -215,13 +259,17 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
                       <input
                         type="text"
                         value={formData.lastName}
-                        onChange={(e) => handleInputChange('lastName', e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange("lastName", e.target.value)
+                        }
                         className={`w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                          errors.lastName ? 'border-red-500' : 'border-gray-300'
+                          errors.lastName ? "border-red-500" : "border-gray-300"
                         }`}
                       />
                       {errors.lastName && (
-                        <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.lastName}
+                        </p>
                       )}
                     </div>
 
@@ -232,13 +280,17 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
                       <input
                         type="email"
                         value={formData.email}
-                        onChange={(e) => handleInputChange('email', e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange("email", e.target.value)
+                        }
                         className={`w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                          errors.email ? 'border-red-500' : 'border-gray-300'
+                          errors.email ? "border-red-500" : "border-gray-300"
                         }`}
                       />
                       {errors.email && (
-                        <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.email}
+                        </p>
                       )}
                     </div>
 
@@ -249,13 +301,20 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
                       <input
                         type="tel"
                         value={formData.phone}
-                        onChange={(e) => handleInputChange('phone', e.target.value.replace(/\D/g, '').substring(0, 11))}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "phone",
+                            e.target.value.replace(/\D/g, "").substring(0, 11)
+                          )
+                        }
                         className={`w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                          errors.phone ? 'border-red-500' : 'border-gray-300'
+                          errors.phone ? "border-red-500" : "border-gray-300"
                         }`}
                       />
                       {errors.phone && (
-                        <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.phone}
+                        </p>
                       )}
                     </div>
                   </div>
@@ -269,13 +328,17 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
                 </div>
               )}
 
-              {activeTab === 'security' && (
+              {activeTab === "security" && (
                 <div>
-                  <h2 className="text-xl font-semibold text-gray-900 mb-6">Security Settings</h2>
-                  
+                  <h2 className="text-xl font-semibold text-gray-900 mb-6">
+                    Security Settings
+                  </h2>
+
                   {/* Change Password */}
                   <div className="mb-8">
-                    <h3 className="text-lg font-medium text-gray-900 mb-4">Change Password</h3>
+                    <h3 className="text-lg font-medium text-gray-900 mb-4">
+                      Change Password
+                    </h3>
                     <div className="space-y-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -284,13 +347,19 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
                         <input
                           type="password"
                           value={formData.currentPassword}
-                          onChange={(e) => handleInputChange('currentPassword', e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange("currentPassword", e.target.value)
+                          }
                           className={`w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                            errors.currentPassword ? 'border-red-500' : 'border-gray-300'
+                            errors.currentPassword
+                              ? "border-red-500"
+                              : "border-gray-300"
                           }`}
                         />
                         {errors.currentPassword && (
-                          <p className="text-red-500 text-sm mt-1">{errors.currentPassword}</p>
+                          <p className="text-red-500 text-sm mt-1">
+                            {errors.currentPassword}
+                          </p>
                         )}
                       </div>
 
@@ -301,13 +370,19 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
                         <input
                           type="password"
                           value={formData.newPassword}
-                          onChange={(e) => handleInputChange('newPassword', e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange("newPassword", e.target.value)
+                          }
                           className={`w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                            errors.newPassword ? 'border-red-500' : 'border-gray-300'
+                            errors.newPassword
+                              ? "border-red-500"
+                              : "border-gray-300"
                           }`}
                         />
                         {errors.newPassword && (
-                          <p className="text-red-500 text-sm mt-1">{errors.newPassword}</p>
+                          <p className="text-red-500 text-sm mt-1">
+                            {errors.newPassword}
+                          </p>
                         )}
                       </div>
 
@@ -318,13 +393,19 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
                         <input
                           type="password"
                           value={formData.confirmPassword}
-                          onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange("confirmPassword", e.target.value)
+                          }
                           className={`w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                            errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
+                            errors.confirmPassword
+                              ? "border-red-500"
+                              : "border-gray-300"
                           }`}
                         />
                         {errors.confirmPassword && (
-                          <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>
+                          <p className="text-red-500 text-sm mt-1">
+                            {errors.confirmPassword}
+                          </p>
                         )}
                       </div>
 
@@ -339,7 +420,9 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
 
                   {/* Change Transaction PIN */}
                   <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-4">Change Transaction PIN</h3>
+                    <h3 className="text-lg font-medium text-gray-900 mb-4">
+                      Change Transaction PIN
+                    </h3>
                     <div className="space-y-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -349,14 +432,23 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
                           type="password"
                           maxLength={4}
                           value={formData.transactionPin}
-                          onChange={(e) => handleInputChange('transactionPin', e.target.value.replace(/\D/g, '').substring(0, 4))}
+                          onChange={(e) =>
+                            handleInputChange(
+                              "transactionPin",
+                              e.target.value.replace(/\D/g, "").substring(0, 4)
+                            )
+                          }
                           placeholder="Enter 4-digit PIN"
                           className={`w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                            errors.transactionPin ? 'border-red-500' : 'border-gray-300'
+                            errors.transactionPin
+                              ? "border-red-500"
+                              : "border-gray-300"
                           }`}
                         />
                         {errors.transactionPin && (
-                          <p className="text-red-500 text-sm mt-1">{errors.transactionPin}</p>
+                          <p className="text-red-500 text-sm mt-1">
+                            {errors.transactionPin}
+                          </p>
                         )}
                       </div>
 
