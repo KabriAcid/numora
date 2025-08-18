@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { ArrowLeft, Wifi, Check } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../layout/DashboardLayout';
+import mtnIcon from '../../assets/icons/mtn.svg';
+import gloIcon from '../../assets/icons/glo.png';
+import airtelIcon from '../../assets/icons/airtel-logo1.png';
+import nineMobileIcon from '../../assets/icons/9mobile.png';
 
 interface DataPageProps {
   user: any;
@@ -17,10 +21,10 @@ const DataPage: React.FC<DataPageProps> = ({ user, onLogout }) => {
   const [errors, setErrors] = useState<any>({});
 
   const networks = [
-    { id: 'mtn', name: 'MTN', color: 'bg-yellow-500', prefixes: ['0803', '0806', '0813', '0816', '0903', '0906', '0913', '0916'] },
-    { id: 'glo', name: 'Glo', color: 'bg-green-500', prefixes: ['0805', '0807', '0815', '0811', '0905', '0915'] },
-    { id: 'airtel', name: 'Airtel', color: 'bg-red-500', prefixes: ['0802', '0808', '0812', '0901', '0902', '0907', '0912'] },
-    { id: '9mobile', name: '9mobile', color: 'bg-green-600', prefixes: ['0809', '0817', '0818', '0909', '0908'] }
+    { id: 'mtn', name: 'MTN', icon: mtnIcon, prefixes: ['0803','0806','0703','0706','0813','0816','0810','0814','0903','0906','0913','0916'] },
+    { id: 'airtel', name: 'Airtel', icon: airtelIcon, prefixes: ['0802','0808','0708','0812','0701','0902','0907','0901','0912'] },
+    { id: 'glo', name: 'Glo', icon: gloIcon, prefixes: ['0805','0807','0705','0815','0811','0905'] },
+    { id: '9mobile', name: '9mobile', icon: nineMobileIcon, prefixes: ['0809','0817','0818','0909','0908'] }
   ];
 
   const dataPlans = {
@@ -167,13 +171,17 @@ const DataPage: React.FC<DataPageProps> = ({ user, onLogout }) => {
                 <button
                   key={network.id}
                   onClick={() => handleNetworkChange(network.id)}
-                  className={`p-4 border-2 rounded-2xl transition-all ${
+                  className={`p-4 border-2 rounded-2xl transition-all flex flex-col items-center ${
                     selectedNetwork === network.id
                       ? 'border-blue-500 bg-blue-50'
                       : 'border-gray-200 hover:border-gray-300'
                   }`}
                 >
-                  <div className={`w-8 h-8 ${network.color} rounded-lg mx-auto mb-2`}></div>
+                  <img
+                    src={network.icon}
+                    alt={network.name}
+                    className="w-8 h-8 object-contain mx-auto mb-2 rounded-lg shadow"
+                  />
                   <p className="font-medium text-sm">{network.name}</p>
                 </button>
               ))}
