@@ -1,13 +1,4 @@
 import React, { useState } from "react";
-import {
-  UserPlus,
-  Mail,
-  Info,
-  Fingerprint,
-  Banknote,
-  Check,
-  ChevronRight,
-} from "lucide-react";
 import DashboardLayout from "../layout/DashboardLayout";
 import WalletCard from "../ui/WalletCard";
 import ServiceGrid from "../ui/ServiceGrid";
@@ -36,8 +27,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
     setShowLogoutModal(false);
   };
 
-  // Collapsed means hidden, so default to true (show less)
-  const [profileCollapsed, setProfileCollapsed] = useState(true);
+  const [profileCollapsed, setProfileCollapsed] = useState(false);
   const profileSteps = [
     {
       label: "Create account",
@@ -85,9 +75,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
                 Finish setting up your account to enjoy Numora fully
               </span>
             </div>
-            <span className="text-sm font-bold text-secondary">
-              20% complete
-            </span>
+            <span className="text-sm font-bold text-primary">20% complete</span>
           </div>
           <div className="w-full bg-primary rounded-full h-2 mb-6">
             <div
@@ -96,74 +84,143 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
             ></div>
           </div>
           <button
-            className="flex items-center gap-1 text-xs text-gray-500 hover:underline mb-4 focus:outline-none"
+            className="text-xs text-gray-500 hover:underline mb-4"
             onClick={() => setProfileCollapsed((prev) => !prev)}
-            aria-expanded={!profileCollapsed}
-            aria-controls="profile-steps-list"
           >
             {profileCollapsed ? "Show more" : "Show less"}
-            <ChevronRight
-              className={`w-4 h-4 transition-transform duration-300 ${
-                !profileCollapsed ? "rotate-90" : ""
-              }`}
-            />
           </button>
-          <div
-            id="profile-steps-list"
-            className={`overflow-hidden transition-all duration-300 ${
-              profileCollapsed
-                ? "max-h-0 opacity-0"
-                : "max-h-[1000px] opacity-100"
-            }`}
-          >
-            {!profileCollapsed && (
-              <ul className="space-y-3">
-                {profileSteps.map((step, idx) => (
-                  <li
-                    key={idx}
-                    className="flex items-center gap-4 p-3 bg-white rounded-xl border border-gray-100 shadow-sm"
+          {!profileCollapsed && (
+            <ul className="space-y-3">
+              {profileSteps.map((step, idx) => (
+                <li
+                  key={idx}
+                  className="flex items-center gap-4 p-3 bg-white rounded-xl border border-gray-100 shadow-sm"
+                >
+                  <div className="bg-primary rounded-xl p-2">
+                    {/* Lucide icon, e.g. <UserPlus />, <Mail />, etc. */}
+                    {step.icon === "UserPlus" && (
+                      <svg
+                        className="w-6 h-6 text-secondary"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                        <circle cx="8.5" cy="7" r="4" />
+                        <line x1="20" y1="8" x2="20" y2="14" />
+                        <line x1="23" y1="11" x2="17" y2="11" />
+                      </svg>
+                    )}
+                    {step.icon === "Mail" && (
+                      <svg
+                        className="w-6 h-6 text-secondary"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        viewBox="0 0 24 24"
+                      >
+                        <rect x="3" y="5" width="18" height="14" rx="2" />
+                        <polyline points="3 7 12 13 21 7" />
+                      </svg>
+                    )}
+                    {step.icon === "Info" && (
+                      <svg
+                        className="w-6 h-6 text-secondary"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="16" x2="12" y2="12" />
+                        <line x1="12" y1="8" x2="12" y2="8" />
+                      </svg>
+                    )}
+                    {step.icon === "Fingerprint" && (
+                      <svg
+                        className="w-6 h-6 text-secondary"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M12 11c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm0 0v1m0 4v1m0-5v-1m0-4V5m0 0V4m0 4h4m-4 0H8" />
+                      </svg>
+                    )}
+                    {step.icon === "Banknote" && (
+                      <svg
+                        className="w-6 h-6 text-secondary"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        viewBox="0 0 24 24"
+                      >
+                        <rect x="3" y="7" width="18" height="10" rx="2" />
+                        <circle cx="12" cy="12" r="3" />
+                        <path d="M3 7v10M21 7v10" />
+                      </svg>
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-semibold text-secondary">
+                      {step.label}
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      {step.description}
+                    </div>
+                  </div>
+                  <div
+                    className={
+                      step.completed ? "text-success" : "text-gray-400"
+                    }
                   >
-                    <div className="bg-primary rounded-xl p-2">
-                      {step.icon === "UserPlus" && (
-                        <UserPlus className="w-6 h-6 text-secondary" />
-                      )}
-                      {step.icon === "Mail" && (
-                        <Mail className="w-6 h-6 text-secondary" />
-                      )}
-                      {step.icon === "Info" && (
-                        <Info className="w-6 h-6 text-secondary" />
-                      )}
-                      {step.icon === "Fingerprint" && (
-                        <Fingerprint className="w-6 h-6 text-secondary" />
-                      )}
-                      {step.icon === "Banknote" && (
-                        <Banknote className="w-6 h-6 text-secondary" />
-                      )}
-                    </div>
-                    <div className="flex-1">
-                      <div className="font-semibold text-secondary">
-                        {step.label}
-                      </div>
-                      <div className="text-sm text-gray-600">
-                        {step.description}
-                      </div>
-                    </div>
-                    <div
-                      className={
-                        step.completed ? "text-success" : "text-gray-400"
-                      }
-                    >
-                      {step.completed ? (
-                        <Check className="w-5 h-5" />
-                      ) : (
-                        <ChevronRight className="w-5 h-5" />
-                      )}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+                    {step.completed ? (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-5 h-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-5 h-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
         {/* Wallet Section */}
         <div className="mb-8">

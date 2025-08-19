@@ -31,6 +31,15 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
   });
   const [errors, setErrors] = useState<any>({});
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const handleConfirmLogout = () => {
+    setShowLogoutModal(false);
+    onLogout();
+  };
+
+  const handleCancelLogout = () => {
+    setShowLogoutModal(false);
+  };
 
   const profileCompletion = 85; // Mock completion percentage
 
@@ -173,7 +182,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
               </div>
 
               {/* Navigation */}
-              <nav className="space-y-2">
+              <nav className="space-y-2 mb-4">
                 <button
                   onClick={() => setActiveTab("profile")}
                   className={`w-full text-left px-4 py-3 rounded-xl transition-colors ${
@@ -197,6 +206,12 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
                   Security Settings
                 </button>
               </nav>
+              <button
+                onClick={() => setShowLogoutModal(true)}
+                className="w-full px-4 py-3 bg-red-50 text-red-600 rounded-xl font-medium hover:bg-red-100 transition-colors"
+              >
+                Logout
+              </button>
             </div>
           </div>
 
@@ -466,6 +481,38 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
           </div>
         </div>
       </div>
+      {/* Logout Confirmation Modal */}
+      {showLogoutModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black bg-opacity-40">
+          <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full mx-4">
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Lock className="w-8 h-8 text-red-600" />
+              </div>
+              <h2 className="text-xl font-bold text-gray-900 mb-2">
+                Confirm Logout
+              </h2>
+              <p className="text-gray-600 mb-4">
+                Are you sure you want to logout?
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={handleCancelLogout}
+                className="w-1/2 bg-gray-200 text-gray-700 py-3 rounded-2xl font-medium hover:bg-gray-300 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmLogout}
+                className="w-1/2 bg-red-600 text-white py-3 rounded-2xl font-medium hover:bg-red-700 transition-colors"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </DashboardLayout>
   );
 };

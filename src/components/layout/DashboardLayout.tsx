@@ -37,7 +37,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
     { path: "/dashboard", label: "Overview", icon: LayoutDashboard },
     { path: "/airtime", label: "Buy Airtime", icon: Phone },
     { path: "/data", label: "Buy Data", icon: Wifi },
-    { path: "/tv", label: "Pay Bills", icon: Tv },
+    { path: "/tv", label: "Cable TV", icon: Tv },
     { path: "/electricity", label: "Electricity", icon: Zap },
     { path: "/education", label: "Education", icon: GraduationCap },
     {
