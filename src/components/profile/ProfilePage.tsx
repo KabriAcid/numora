@@ -17,6 +17,131 @@ interface ProfilePageProps {
 }
 
 const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
+  // Modal states for other progress items
+  const [showEmailModal, setShowEmailModal] = useState(false);
+  const [showBVNModal, setShowBVNModal] = useState(false);
+  const [showBankModal, setShowBankModal] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
+  const [bvn, setBVN] = useState("");
+  const [bvnError, setBVNError] = useState("");
+  const [bankDetails, setBankDetails] = useState({
+    accountNumber: "",
+    bankName: "",
+    accountName: "",
+  });
+  const [bankErrors, setBankErrors] = useState<any>({});
+
+  // Handlers for modals
+  const handleSendEmail = () => {
+    setEmailSent(true);
+    setTimeout(() => {
+      setShowEmailModal(false);
+      setEmailSent(false);
+    }, 2000);
+  };
+
+  const handleBVNVerify = () => {
+    if (!bvn || bvn.length !== 11 || !/^\d+$/.test(bvn)) {
+      setBVNError("Please enter a valid 11-digit BVN");
+      return;
+    }
+    setBVNError("");
+    setShowBVNModal(false);
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
+  };
+
+  const handleBankDetailsChange = (field: string, value: string) => {
+    setBankDetails((prev) => ({ ...prev, [field]: value }));
+    if (bankErrors[field]) {
+      setBankErrors((prev: Record<string, string | null>) => ({
+        ...prev,
+        [field]: null,
+      }));
+    }
+  };
+
+  const handleBankDetailsSave = () => {
+    const errors: any = {};
+    if (
+      !bankDetails.accountNumber.trim() ||
+      bankDetails.accountNumber.length !== 10 ||
+      !/^\d+$/.test(bankDetails.accountNumber)
+    )
+      errors.accountNumber = "Valid 10-digit account number required";
+    if (!bankDetails.bankName.trim()) errors.bankName = "Bank name required";
+    if (!bankDetails.accountName.trim())
+      errors.accountName = "Account name required";
+    setBankErrors(errors);
+    if (Object.keys(errors).length === 0) {
+      setShowBankModal(false);
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 3000);
+    }
+  };
+  // Modal state for Basic Info
+  const [showBasicInfoModal, setShowBasicInfoModal] = useState(false);
+  const [basicInfo, setBasicInfo] = useState({
+    billingStreet: "",
+    billingCity: "",
+    billingState: "",
+    billingCountry: "",
+    homeStreet: "",
+    homeCity: "",
+    homeState: "",
+    homeZip: "",
+    avatar: null,
+    avatarPreview: "",
+  });
+  const [basicInfoErrors, setBasicInfoErrors] = useState<any>({});
+
+  const handleBasicInfoChange = (
+    field: string,
+    value: string | File | null
+  ) => {
+    setBasicInfo((prev) => ({ ...prev, [field]: value }));
+    if (basicInfoErrors[field]) {
+      setBasicInfoErrors((prev: Record<string, string | null>) => ({
+        ...prev,
+        [field]: null,
+      }));
+    }
+    // Avatar preview
+    if (field === "avatar" && value instanceof File) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setBasicInfo((prev) => ({
+          ...prev,
+          avatarPreview: reader.result as string,
+        }));
+      };
+      reader.readAsDataURL(value);
+    }
+  };
+
+  const handleBasicInfoSave = () => {
+    const errors: any = {};
+    if (!basicInfo.billingStreet.trim())
+      errors.billingStreet = "Billing street required";
+    if (!basicInfo.billingCity.trim())
+      errors.billingCity = "Billing city required";
+    if (!basicInfo.billingState.trim())
+      errors.billingState = "Billing state required";
+    if (!basicInfo.billingCountry.trim())
+      errors.billingCountry = "Billing country required";
+    if (!basicInfo.homeStreet.trim())
+      errors.homeStreet = "Home street required";
+    if (!basicInfo.homeCity.trim()) errors.homeCity = "Home city required";
+    if (!basicInfo.homeState.trim()) errors.homeState = "Home state required";
+    if (!basicInfo.homeZip.trim()) errors.homeZip = "Home zip required";
+    setBasicInfoErrors(errors);
+    if (Object.keys(errors).length === 0) {
+      // Simulate API call
+      setShowBasicInfoModal(false);
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 3000);
+    }
+  };
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("profile");
   const [formData, setFormData] = useState({
@@ -166,19 +291,260 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
               {/* Profile Completion */}
               <div className="mb-6">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-gray-700">
+                  <span className="text-sm font-medium text-gray-00">
                     Profile Completion
                   </span>
                   <span className="text-sm font-medium text-blue-600">
                     {profileCompletion}%
                   </span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="w-full bg-gray-200 rounded-full h-2 relative">
                   <div
                     className="bg-blue-600 h-2 rounded-full transition-all duration-300"
                     style={{ width: `${profileCompletion}%` }}
                   ></div>
                 </div>
+                {/* Progress actions */}
+                <div
+                  className="flex flex-wrap gap-2 mt-3"
+                  style={{ pointerEvents: "auto" }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setShowEmailModal(true)}
+                    style={{ cursor: "pointer" }}
+                    className="px-3 py-1 bg-blue-50 text-blue-600 rounded-xl text-xs font-medium hover:bg-blue-100 transition-colors"
+                  >
+                    Verify Email
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowBasicInfoModal(true)}
+                    style={{ cursor: "pointer" }}
+                    className="px-3 py-1 bg-blue-50 text-blue-600 rounded-xl text-xs font-medium hover:bg-blue-100 transition-colors"
+                  >
+                    Add Basic Info
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowBVNModal(true)}
+                    style={{ cursor: "pointer" }}
+                    className="px-3 py-1 bg-blue-50 text-blue-600 rounded-xl text-xs font-medium hover:bg-blue-100 transition-colors"
+                  >
+                    Link BVN
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowBankModal(true)}
+                    style={{ cursor: "pointer" }}
+                    className="px-3 py-1 bg-blue-50 text-blue-600 rounded-xl text-xs font-medium hover:bg-blue-100 transition-colors"
+                  >
+                    Add Bank Details
+                  </button>
+                </div>
+                {/* Email Verification Modal */}
+                {showEmailModal && (
+                  <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black bg-opacity-40">
+                    <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full mx-4">
+                      <div className="text-center mb-6">
+                        <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <Mail className="w-8 h-8 text-blue-600" />
+                        </div>
+                        <h2 className="text-xl font-bold text-gray-900 mb-2">
+                          Verify Your Email
+                        </h2>
+                        <p className="text-gray-600 mb-4">
+                          We'll send a verification link to your email address.
+                        </p>
+                      </div>
+                      <div className="flex gap-3">
+                        <button
+                          onClick={() => setShowEmailModal(false)}
+                          className="w-1/2 bg-gray-200 text-gray-700 py-3 rounded-2xl font-medium hover:bg-gray-300 transition-colors"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          onClick={handleSendEmail}
+                          className="w-1/2 bg-blue-600 text-white py-3 rounded-2xl font-medium hover:bg-blue-700 transition-colors"
+                        >
+                          Send Verification Email
+                        </button>
+                      </div>
+                      {emailSent && (
+                        <p className="text-green-600 text-center mt-4">
+                          Verification email sent!
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                )}
+                {/* BVN Modal */}
+                {showBVNModal && (
+                  <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black bg-opacity-40">
+                    <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full mx-4">
+                      <div className="text-center mb-6">
+                        <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <Lock className="w-8 h-8 text-blue-600" />
+                        </div>
+                        <h2 className="text-xl font-bold text-gray-900 mb-2">
+                          Link Your BVN
+                        </h2>
+                        <p className="text-gray-600 mb-4">
+                          Enter your BVN to verify your identity.
+                        </p>
+                      </div>
+                      <div className="mb-4">
+                        <input
+                          type="text"
+                          value={bvn}
+                          onChange={(e) =>
+                            setBVN(
+                              e.target.value.replace(/\D/g, "").substring(0, 11)
+                            )
+                          }
+                          placeholder="Enter 11-digit BVN"
+                          className={`w-full px-4 py-3 border rounded-2xl ${
+                            bvnError ? "border-red-500" : "border-gray-300"
+                          }`}
+                        />
+                        {bvnError && (
+                          <p className="text-red-500 text-xs mt-1">
+                            {bvnError}
+                          </p>
+                        )}
+                      </div>
+                      <div className="flex gap-3">
+                        <button
+                          onClick={() => setShowBVNModal(false)}
+                          className="w-1/2 bg-gray-200 text-gray-700 py-3 rounded-2xl font-medium hover:bg-gray-300 transition-colors"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          onClick={handleBVNVerify}
+                          className="w-1/2 bg-blue-600 text-white py-3 rounded-2xl font-medium hover:bg-blue-700 transition-colors"
+                        >
+                          Verify BVN
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {/* Bank Details Modal */}
+                {showBankModal && (
+                  <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black bg-opacity-40">
+                    <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full mx-4">
+                      <div className="text-center mb-6">
+                        <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <User className="w-8 h-8 text-blue-600" />
+                        </div>
+                        <h2 className="text-xl font-bold text-gray-900 mb-2">
+                          Add Bank Details
+                        </h2>
+                        <p className="text-gray-600 mb-4">
+                          Provide your bank account information to receive
+                          payments.
+                        </p>
+                      </div>
+                      <form className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Account Number
+                          </label>
+                          <input
+                            type="text"
+                            value={bankDetails.accountNumber}
+                            onChange={(e) =>
+                              handleBankDetailsChange(
+                                "accountNumber",
+                                e.target.value
+                                  .replace(/\D/g, "")
+                                  .substring(0, 10)
+                              )
+                            }
+                            className={`w-full px-4 py-2 border rounded-xl ${
+                              bankErrors.accountNumber
+                                ? "border-red-500"
+                                : "border-gray-300"
+                            }`}
+                          />
+                          {bankErrors.accountNumber && (
+                            <p className="text-red-500 text-xs mt-1">
+                              {bankErrors.accountNumber}
+                            </p>
+                          )}
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Bank Name
+                          </label>
+                          <input
+                            type="text"
+                            value={bankDetails.bankName}
+                            onChange={(e) =>
+                              handleBankDetailsChange(
+                                "bankName",
+                                e.target.value
+                              )
+                            }
+                            className={`w-full px-4 py-2 border rounded-xl ${
+                              bankErrors.bankName
+                                ? "border-red-500"
+                                : "border-gray-300"
+                            }`}
+                          />
+                          {bankErrors.bankName && (
+                            <p className="text-red-500 text-xs mt-1">
+                              {bankErrors.bankName}
+                            </p>
+                          )}
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Account Name
+                          </label>
+                          <input
+                            type="text"
+                            value={bankDetails.accountName}
+                            onChange={(e) =>
+                              handleBankDetailsChange(
+                                "accountName",
+                                e.target.value
+                              )
+                            }
+                            className={`w-full px-4 py-2 border rounded-xl ${
+                              bankErrors.accountName
+                                ? "border-red-500"
+                                : "border-gray-300"
+                            }`}
+                          />
+                          {bankErrors.accountName && (
+                            <p className="text-red-500 text-xs mt-1">
+                              {bankErrors.accountName}
+                            </p>
+                          )}
+                        </div>
+                        <div className="flex gap-3 mt-4">
+                          <button
+                            type="button"
+                            onClick={() => setShowBankModal(false)}
+                            className="w-1/2 bg-gray-200 text-gray-700 py-3 rounded-2xl font-medium hover:bg-gray-300 transition-colors"
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            type="button"
+                            onClick={handleBankDetailsSave}
+                            className="w-1/2 bg-blue-600 text-white py-3 rounded-2xl font-medium hover:bg-blue-700 transition-colors"
+                          >
+                            Save Bank Details
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Navigation */}
@@ -481,6 +847,248 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
           </div>
         </div>
       </div>
+      {/* Basic Info Modal */}
+      {showBasicInfoModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black bg-opacity-40">
+          <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-lg w-full mx-4">
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <User className="w-8 h-8 text-blue-600" />
+              </div>
+              <h2 className="text-xl font-bold text-gray-900 mb-2">
+                Complete Your Basic Information
+              </h2>
+              <p className="text-gray-600 mb-4">
+                Add your billing info, home address, and upload an avatar to
+                complete your profile.
+              </p>
+            </div>
+            <form className="space-y-4">
+              {/* Avatar Upload */}
+              <div className="flex flex-col items-center mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Avatar
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) {
+                      handleBasicInfoChange("avatar", e.target.files[0]);
+                    }
+                  }}
+                  className="mb-2"
+                />
+                {basicInfo.avatarPreview && (
+                  <img
+                    src={basicInfo.avatarPreview}
+                    alt="Avatar Preview"
+                    className="w-16 h-16 rounded-full object-cover border"
+                  />
+                )}
+              </div>
+              {/* Billing Info */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Billing Street
+                  </label>
+                  <input
+                    type="text"
+                    value={basicInfo.billingStreet}
+                    onChange={(e) =>
+                      handleBasicInfoChange("billingStreet", e.target.value)
+                    }
+                    className={`w-full px-4 py-2 border rounded-xl ${
+                      basicInfoErrors.billingStreet
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    }`}
+                  />
+                  {basicInfoErrors.billingStreet && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {basicInfoErrors.billingStreet}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Billing City
+                  </label>
+                  <input
+                    type="text"
+                    value={basicInfo.billingCity}
+                    onChange={(e) =>
+                      handleBasicInfoChange("billingCity", e.target.value)
+                    }
+                    className={`w-full px-4 py-2 border rounded-xl ${
+                      basicInfoErrors.billingCity
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    }`}
+                  />
+                  {basicInfoErrors.billingCity && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {basicInfoErrors.billingCity}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Billing State
+                  </label>
+                  <input
+                    type="text"
+                    value={basicInfo.billingState}
+                    onChange={(e) =>
+                      handleBasicInfoChange("billingState", e.target.value)
+                    }
+                    className={`w-full px-4 py-2 border rounded-xl ${
+                      basicInfoErrors.billingState
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    }`}
+                  />
+                  {basicInfoErrors.billingState && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {basicInfoErrors.billingState}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Billing Country
+                  </label>
+                  <input
+                    type="text"
+                    value={basicInfo.billingCountry}
+                    onChange={(e) =>
+                      handleBasicInfoChange("billingCountry", e.target.value)
+                    }
+                    className={`w-full px-4 py-2 border rounded-xl ${
+                      basicInfoErrors.billingCountry
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    }`}
+                  />
+                  {basicInfoErrors.billingCountry && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {basicInfoErrors.billingCountry}
+                    </p>
+                  )}
+                </div>
+              </div>
+              {/* Home Address */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Home Street
+                  </label>
+                  <input
+                    type="text"
+                    value={basicInfo.homeStreet}
+                    onChange={(e) =>
+                      handleBasicInfoChange("homeStreet", e.target.value)
+                    }
+                    className={`w-full px-4 py-2 border rounded-xl ${
+                      basicInfoErrors.homeStreet
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    }`}
+                  />
+                  {basicInfoErrors.homeStreet && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {basicInfoErrors.homeStreet}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Home City
+                  </label>
+                  <input
+                    type="text"
+                    value={basicInfo.homeCity}
+                    onChange={(e) =>
+                      handleBasicInfoChange("homeCity", e.target.value)
+                    }
+                    className={`w-full px-4 py-2 border rounded-xl ${
+                      basicInfoErrors.homeCity
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    }`}
+                  />
+                  {basicInfoErrors.homeCity && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {basicInfoErrors.homeCity}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Home State
+                  </label>
+                  <input
+                    type="text"
+                    value={basicInfo.homeState}
+                    onChange={(e) =>
+                      handleBasicInfoChange("homeState", e.target.value)
+                    }
+                    className={`w-full px-4 py-2 border rounded-xl ${
+                      basicInfoErrors.homeState
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    }`}
+                  />
+                  {basicInfoErrors.homeState && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {basicInfoErrors.homeState}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Home Zip/Postal Code
+                  </label>
+                  <input
+                    type="text"
+                    value={basicInfo.homeZip}
+                    onChange={(e) =>
+                      handleBasicInfoChange("homeZip", e.target.value)
+                    }
+                    className={`w-full px-4 py-2 border rounded-xl ${
+                      basicInfoErrors.homeZip
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    }`}
+                  />
+                  {basicInfoErrors.homeZip && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {basicInfoErrors.homeZip}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className="flex gap-3 mt-6">
+                <button
+                  type="button"
+                  onClick={() => setShowBasicInfoModal(false)}
+                  className="w-1/2 bg-gray-200 text-gray-700 py-3 rounded-2xl font-medium hover:bg-gray-300 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleBasicInfoSave}
+                  className="w-1/2 bg-blue-600 text-white py-3 rounded-2xl font-medium hover:bg-blue-700 transition-colors"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
       {/* Logout Confirmation Modal */}
       {showLogoutModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black bg-opacity-40">
