@@ -1,0 +1,2 @@
+- Change the layout of the fields in the register page i.e firstname and lastname;
+- 

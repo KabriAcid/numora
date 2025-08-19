@@ -10,6 +10,9 @@ export default {
         secondary: {
           DEFAULT: "#13070C", // New secondary color
         },
+        dark: {
+          DEFAULT: "#23272F", // Custom dark color
+        },
         accent: {
           DEFAULT: "#f97316",
           light: "#fdba74",

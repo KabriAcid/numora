@@ -168,26 +168,7 @@ const AirtimeToCashPage: React.FC<AirtimeToCashPageProps> = ({
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
-          <button
-            onClick={handleLogoutClick}
-            className="ml-auto p-2 hover:bg-red-50 rounded-lg transition-colors"
-            title="Sign out"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-5 h-5 text-red-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1"
-              />
-            </svg>
-          </button>
+          {/* Removed SVG sign out button for consistent header layout */}
           <div className="flex items-center">
             <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center mr-3">
               <RefreshCw className="w-5 h-5 text-green-600" />
