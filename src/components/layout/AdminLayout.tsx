@@ -68,9 +68,9 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, onLogout }) => {
                 <LayoutDashboard className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h2 className="text-xl font-ginto font-bold text-neutral-900">VTU Admin</h2>
+                <h2 className="text-xl font-ginto font-bold text-neutral-900">Numora Admin</h2>
                 <p className="text-sm text-neutral-500">Control Panel</p>
-              </div>
+              </div> 
             </div>
             <button
               onClick={() => setSidebarOpen(false)}

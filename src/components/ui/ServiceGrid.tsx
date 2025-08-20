@@ -8,7 +8,7 @@ import {
   GraduationCap,
   ArrowRightLeft,
   Target,
-} from "lucide-react";
+} from "lucide-react"
 
 const ServiceGrid: React.FC = () => {
   const navigate = useNavigate();
