@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
+
+// User imports
 import LoginPage from './components/auth/LoginPage';
 import RegisterPage from './components/auth/RegisterPage';
 import ResetPasswordPage from './components/auth/ResetPasswordPage';
@@ -17,16 +20,30 @@ import ProfilePage from './components/profile/ProfilePage';
 import LoadingScreen from './components/ui/LoadingScreen';
 import SetPinModal from './components/modals/SetPinModal';
 
+// Admin imports
+import AdminLogin from './components/auth/AdminLogin';
+import AdminDashboard from './components/admin/AdminDashboard';
+import AdminLayout from './components/layout/AdinLayout';
+import Analytics from './components/admin/Analytics';
+import PricingControl from './components/admin/PricingControl';
+import UserManagement from './components/admin/UserManagement';
+import TransactionManagement from './components/admin/TransactionManagement';
+import AdminProfile from './components/admin/AdminProfile';
+
 function App() {
+  // User state
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showSetPinModal, setShowSetPinModal] = useState(false);
 
+  // Admin state
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+
   useEffect(() => {
-    // Simulate authentication check
+    // User auth check
     const checkAuth = async () => {
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise(resolve => setTimeout(resolve, 1000));
       const savedAuth = localStorage.getItem('vtu_auth');
       if (savedAuth) {
         const authData = JSON.parse(savedAuth);
@@ -38,10 +55,16 @@ function App() {
       }
       setIsLoading(false);
     };
-
     checkAuth();
+
+    // Admin auth check
+    const adminToken = localStorage.getItem('admin_token');
+    if (adminToken) {
+      setIsAdminAuthenticated(true);
+    }
   }, []);
 
+  // User handlers
   const handleLogin = (userData) => {
     setIsAuthenticated(true);
     setUser(userData);
@@ -64,37 +87,88 @@ function App() {
     setShowSetPinModal(false);
   };
 
+  // Admin handlers
+  const handleAdminLogin = () => {
+    setIsAdminAuthenticated(true);
+    localStorage.setItem('admin_token', 'sample_token');
+  };
+
+  const handleAdminLogout = () => {
+    setIsAdminAuthenticated(false);
+    localStorage.removeItem('admin_token');
+  };
+
   if (isLoading) {
     return <LoadingScreen />;
   }
 
   return (
     <Router>
-      <div className="min-h-screen bg-[#EFF9F0]">
-        {!isAuthenticated ? (
+      <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-primary-50/30 to-accent-50/20">
+        <AnimatePresence mode="wait">
           <Routes>
-            <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
-            <Route path="/register" element={<RegisterPage onLogin={handleLogin} />} />
-            <Route path="/reset-password" element={<ResetPasswordPage />} />
-            <Route path="*" element={<Navigate to="/login" />} />
+            {/* Admin routes */}
+            <Route
+              path="/admin/login"
+              element={
+                !isAdminAuthenticated ? (
+                  <AdminLogin onLogin={handleAdminLogin} />
+                ) : (
+                  <Navigate to="/admin" replace />
+                )
+              }
+            />
+            <Route
+              path="/admin/*"
+              element={
+                isAdminAuthenticated ? (
+                  <AdminLayout onLogout={handleAdminLogout}>
+                    <Routes>
+                      <Route index element={<AdminDashboard />} />
+                      <Route path="analytics" element={<Analytics />} />
+                      <Route path="pricing" element={<PricingControl />} />
+                      <Route path="users" element={<UserManagement />} />
+                      <Route path="transactions" element={<TransactionManagement />} />
+                      <Route path="profile" element={<AdminProfile />} />
+                    </Routes>
+                  </AdminLayout>
+                ) : (
+                  <Navigate to="/admin/login" replace />
+                )
+              }
+            />
+
+            {/* User routes */}
+            {!isAuthenticated ? (
+              <>
+                <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
+                <Route path="/register" element={<RegisterPage onLogin={handleLogin} />} />
+                <Route path="/reset-password" element={<ResetPasswordPage />} />
+                <Route path="*" element={<Navigate to="/login" />} />
+              </>
+            ) : (
+              <>
+                <Route path="/dashboard" element={<Dashboard user={user} onLogout={handleLogout} />} />
+                <Route path="/airtime" element={<AirtimePage user={user} onLogout={handleLogout} />} />
+                <Route path="/data" element={<DataPage user={user} onLogout={handleLogout} />} />
+                <Route path="/tv" element={<TVSubscriptionPage user={user} onLogout={handleLogout} />} />
+                <Route path="/electricity" element={<ElectricityPage user={user} onLogout={handleLogout} />} />
+                <Route path="/education" element={<EducationPage user={user} onLogout={handleLogout} />} />
+                <Route path="/airtime-to-cash" element={<AirtimeToCashPage user={user} onLogout={handleLogout} />} />
+                <Route path="/betting" element={<BettingPage user={user} onLogout={handleLogout} />} />
+                <Route path="/wallet" element={<WalletPage user={user} onLogout={handleLogout} />} />
+                <Route path="/transactions" element={<TransactionsPage user={user} onLogout={handleLogout} />} />
+                <Route path="/profile" element={<ProfilePage user={user} onLogout={handleLogout} />} />
+                <Route path="*" element={<Navigate to="/dashboard" />} />
+              </>
+            )}
+
+            {/* Default route */}
+            <Route path="/" element={<Navigate to={isAdminAuthenticated ? "/admin" : (isAuthenticated ? "/dashboard" : "/login")} replace />} />
           </Routes>
-        ) : (
-          <Routes>
-            <Route path="/dashboard" element={<Dashboard user={user} onLogout={handleLogout} />} />
-            <Route path="/airtime" element={<AirtimePage user={user} onLogout={handleLogout} />} />
-            <Route path="/data" element={<DataPage user={user} onLogout={handleLogout} />} />
-            <Route path="/tv" element={<TVSubscriptionPage user={user} onLogout={handleLogout} />} />
-            <Route path="/electricity" element={<ElectricityPage user={user} onLogout={handleLogout} />} />
-            <Route path="/education" element={<EducationPage user={user} onLogout={handleLogout} />} />
-            <Route path="/airtime-to-cash" element={<AirtimeToCashPage user={user} onLogout={handleLogout} />} />
-            <Route path="/betting" element={<BettingPage user={user} onLogout={handleLogout} />} />
-            <Route path="/wallet" element={<WalletPage user={user} onLogout={handleLogout} />} />
-            <Route path="/transactions" element={<TransactionsPage user={user} onLogout={handleLogout} />} />
-            <Route path="/profile" element={<ProfilePage user={user} onLogout={handleLogout} />} />
-            <Route path="*" element={<Navigate to="/dashboard" />} />
-          </Routes>
-        )}
-        
+        </AnimatePresence>
+
+        {/* User SetPin Modal */}
         {showSetPinModal && (
           <SetPinModal onSetPin={handleSetPin} onClose={() => setShowSetPinModal(false)} />
         )}
