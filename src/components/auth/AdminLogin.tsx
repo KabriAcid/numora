@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Eye, EyeOff, Shield, Fingerprint } from 'lucide-react';
-import axios from 'axios';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Eye, EyeOff, Shield, Fingerprint } from "lucide-react";
+import axios from "axios";
 
 interface AdminLoginProps {
   onLogin: () => void;
@@ -9,42 +9,51 @@ interface AdminLoginProps {
 
 const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setError('');
+    setError("");
 
     try {
       // Simulate API call - replace with actual endpoint
-      const response = await axios.post('/backend/auth/admin_login.php', formData);
-      
+      const response = await axios.post(
+        "/backend/auth/admin_login.php",
+        formData
+      );
+
       if (response.data.success) {
-        localStorage.setItem('admin_token', response.data.token);
-        localStorage.setItem('admin_user', JSON.stringify(response.data.admin));
+        localStorage.setItem("admin_token", response.data.token);
+        localStorage.setItem("admin_user", JSON.stringify(response.data.admin));
         onLogin();
       } else {
-        setError(response.data.message || 'Login failed');
+        setError(response.data.message || "Login failed");
       }
     } catch (err) {
       // For demo purposes, allow login with demo credentials
-      if (formData.email === 'admin@vtu.com' && formData.password === 'admin123') {
-        localStorage.setItem('admin_token', 'demo_token');
-        localStorage.setItem('admin_user', JSON.stringify({
-          id: 1,
-          name: 'Admin User',
-          email: 'admin@vtu.com',
-          role: 'super_admin'
-        }));
+      if (
+        formData.email === "admin@numora.com" &&
+        formData.password === "admin123"
+      ) {
+        localStorage.setItem("admin_token", "demo_token");
+        localStorage.setItem(
+          "admin_user",
+          JSON.stringify({
+            id: 1,
+            name: "Admin User",
+            email: "admin@numora.com",
+            role: "super_admin",
+          })
+        );
         onLogin();
       } else {
-        setError('Invalid credentials. Use admin@vtu.com / admin123 for demo');
+        setError("Invalid credentials. Use admin@numora.com / admin123 for demo");
       }
     } finally {
       setIsLoading(false);
@@ -52,11 +61,11 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }));
-    if (error) setError('');
+    if (error) setError("");
   };
 
   return (
@@ -79,7 +88,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
             <Shield className="w-10 h-10 text-white" />
           </div>
           <h1 className="text-4xl font-ginto font-bold text-neutral-900 mb-2">
-            Admin Portal
+            Numora
           </h1>
           <p className="text-neutral-600 text-lg">
             Secure access to your VTU dashboard
@@ -106,7 +115,10 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
 
             <div className="space-y-4">
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-neutral-700 mb-2">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-neutral-700 mb-2"
+                >
                   Email Address
                 </label>
                 <input
@@ -122,12 +134,15 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-neutral-700 mb-2">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-neutral-700 mb-2"
+                >
                   Password
                 </label>
                 <div className="relative">
                   <input
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     name="password"
                     value={formData.password}
@@ -141,7 +156,11 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-4 top-1/2 transform -translate-y-1/2 text-neutral-400 hover:text-neutral-600 transition-colors"
                   >
-                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    {showPassword ? (
+                      <EyeOff className="w-5 h-5" />
+                    ) : (
+                      <Eye className="w-5 h-5" />
+                    )}
                   </button>
                 </div>
               </div>
@@ -167,7 +186,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
 
           <div className="mt-6 pt-6 border-t border-neutral-200">
             <p className="text-center text-sm text-neutral-500">
-              Demo credentials: admin@vtu.com / admin123
+              Demo credentials: admin@numora.com / admin123
             </p>
           </div>
         </motion.div>

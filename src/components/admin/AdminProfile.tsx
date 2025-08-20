@@ -26,8 +26,8 @@ const AdminProfile: React.FC = () => {
   // Mock admin data - replace with actual data from localStorage or API
   const [adminData, setAdminData] = useState({
     id: 1,
-    name: 'Admin User',
-    email: 'admin@vtu.com',
+    name: 'Kabri Acid',
+    email: 'admin@numora.com',
     phone: '+234 800 123 4567',
     role: 'Super Admin',
     created_at: '2023-12-01',

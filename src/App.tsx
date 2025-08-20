@@ -21,9 +21,9 @@ import LoadingScreen from './components/ui/LoadingScreen';
 import SetPinModal from './components/modals/SetPinModal';
 
 // Admin imports
-import AdminLogin from './components/auth/AdminLogin';
+import AdminLogin from './components/auth/AdminLogin';  
 import AdminDashboard from './components/admin/AdminDashboard';
-import AdminLayout from './components/layout/AdinLayout';
+import AdminLayout from './components/layout/AdminLayout';
 import Analytics from './components/admin/Analytics';
 import PricingControl from './components/admin/PricingControl';
 import UserManagement from './components/admin/UserManagement';
@@ -33,7 +33,13 @@ import AdminProfile from './components/admin/AdminProfile';
 function App() {
   // User state
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
+  type User = {
+    hasTransactionPin: boolean;
+    transactionPin?: string;
+    // Add other user properties as needed
+    [key: string]: any;
+  };
+  const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showSetPinModal, setShowSetPinModal] = useState(false);
 
@@ -65,7 +71,8 @@ function App() {
   }, []);
 
   // User handlers
-  const handleLogin = (userData) => {
+
+  const handleLogin = (userData: User) => {
     setIsAuthenticated(true);
     setUser(userData);
     localStorage.setItem('vtu_auth', JSON.stringify({ user: userData }));
@@ -80,8 +87,9 @@ function App() {
     localStorage.removeItem('vtu_auth');
   };
 
-  const handleSetPin = (pin) => {
-    const updatedUser = { ...user, hasTransactionPin: true };
+  const handleSetPin = (pin: string) => {
+    // You can use the pin value here if needed, for example, save it to user object
+    const updatedUser = { ...user, hasTransactionPin: true, transactionPin: pin };
     setUser(updatedUser);
     localStorage.setItem('vtu_auth', JSON.stringify({ user: updatedUser }));
     setShowSetPinModal(false);
