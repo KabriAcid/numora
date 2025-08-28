@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
 import { Eye, EyeOff, Wallet, Mail, Lock, User, Phone } from "lucide-react";
 
 interface RegisterPageProps {
@@ -7,6 +8,35 @@ interface RegisterPageProps {
 }
 
 const RegisterPage: React.FC<RegisterPageProps> = ({ onLogin }) => {
+  const handleGoogleSuccess = async (credentialResponse: any) => {
+    // TODO: Send credentialResponse.credential to backend for verification
+    // Simulate login for now
+    const userData = {
+      id: "google-1",
+      name: "Google User",
+      email: "googleuser@email.com",
+      phone: "",
+      balance: 0,
+      hasTransactionPin: false,
+      googleCredential: credentialResponse.credential,
+    };
+    if (typeof onLogin === "function") onLogin(userData);
+  };
+
+  const handleGoogleError = () => {
+    setErrors({ general: "Google login failed. Please try again." });
+  };
+  {
+    /* Google Sign-In Button */
+  }
+  <div className="mt-8 flex flex-col items-center">
+    <GoogleLogin
+      onSuccess={handleGoogleSuccess}
+      onError={handleGoogleError}
+      width="100%"
+    />
+    <span className="mt-2 text-gray-500 text-sm">Or register with Google</span>
+  </div>;
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -389,6 +419,8 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onLogin }) => {
                 </p>
               )}
             </div>
+
+            {/* Sign in with ooogle button and sVG icon */}
 
             {/* Submit button */}
             <button
