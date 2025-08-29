@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { GoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 import { Eye, EyeOff, Wallet, Mail, Lock, User, Phone } from "lucide-react";
 
 interface RegisterPageProps {
@@ -8,35 +8,6 @@ interface RegisterPageProps {
 }
 
 const RegisterPage: React.FC<RegisterPageProps> = ({ onLogin }) => {
-  const handleGoogleSuccess = async (credentialResponse: any) => {
-    // TODO: Send credentialResponse.credential to backend for verification
-    // Simulate login for now
-    const userData = {
-      id: "google-1",
-      name: "Google User",
-      email: "googleuser@email.com",
-      phone: "",
-      balance: 0,
-      hasTransactionPin: false,
-      googleCredential: credentialResponse.credential,
-    };
-    if (typeof onLogin === "function") onLogin(userData);
-  };
-
-  const handleGoogleError = () => {
-    setErrors({ general: "Google login failed. Please try again." });
-  };
-  {
-    /* Google Sign-In Button */
-  }
-  <div className="mt-8 flex flex-col items-center">
-    <GoogleLogin
-      onSuccess={handleGoogleSuccess}
-      onError={handleGoogleError}
-      width="100%"
-    />
-    <span className="mt-2 text-gray-500 text-sm">Or register with Google</span>
-  </div>;
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -49,6 +20,31 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleGoogleSuccess = async (tokenResponse: any) => {
+    // TODO: Send tokenResponse.access_token to backend for verification
+    // Simulate login for now
+    const userData = {
+      id: "google-1",
+      name: "Google User",
+      email: "googleuser@email.com",
+      phone: "",
+      balance: 0,
+      hasTransactionPin: false,
+      googleCredential: tokenResponse.access_token,
+    };
+    if (typeof onLogin === "function") onLogin(userData);
+  };
+
+  const handleGoogleError = () => {
+    setErrors({ general: "Google login failed. Please try again." });
+  };
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: handleGoogleSuccess,
+    onError: handleGoogleError,
+    flow: "implicit",
+  });
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -420,7 +416,42 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onLogin }) => {
               )}
             </div>
 
-            {/* Sign in with ooogle button and sVG icon */}
+            {/* Custom Google login button with SVG icon */}
+            <button
+              type="button"
+              onClick={() => googleLogin()}
+              className="w-full bg-white border border-gray-300 rounded-2xl py-3 flex items-center justify-center gap-2 shadow hover:bg-gray-50 mt-4"
+            >
+              {/* Google SVG icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 48 48"
+                className="h-5 w-5"
+              >
+                <g>
+                  <path
+                    fill="#4285F4"
+                    d="M24 9.5c3.54 0 6.36 1.22 8.32 2.26l6.18-6.18C34.36 2.36 29.52 0 24 0 14.64 0 6.48 5.64 2.64 14.04l7.6 5.9C12.36 13.36 17.76 9.5 24 9.5z"
+                  />
+                  <path
+                    fill="#34A853"
+                    d="M46.1 24.5c0-1.54-.14-3.02-.4-4.44H24v8.44h12.44c-.54 2.74-2.18 5.06-4.64 6.62l7.36 5.72C43.52 37.36 46.1 31.5 46.1 24.5z"
+                  />
+                  <path
+                    fill="#FBBC05"
+                    d="M10.24 28.94c-1.12-3.36-1.12-6.98 0-10.34l-7.6-5.9C.86 16.64 0 20.22 0 24c0 3.78.86 7.36 2.64 10.3l7.6-5.36z"
+                  />
+                  <path
+                    fill="#EA4335"
+                    d="M24 46c5.52 0 10.36-1.86 14.18-5.08l-7.36-5.72c-2.02 1.36-4.62 2.18-6.82 2.18-5.24 0-9.64-3.86-11.36-9.44l-7.6 5.36C6.48 42.36 14.64 46 24 46z"
+                  />
+                  <path fill="none" d="M0 0h48v48H0z" />
+                </g>
+              </svg>
+              <span className="font-medium text-gray-700">
+                Login with Google
+              </span>
+            </button>
 
             {/* Submit button */}
             <button

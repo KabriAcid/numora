@@ -104,7 +104,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
               <Wallet className="w-8 h-8 text-white" />
             </div>
             <h2 className="text-2xl font-bold text-[#13070C]">Welcome Back</h2>
-            <p className="text-gray-600 mt-2">Sign in to your VTU account</p>
+            <p className="text-gray-600 mt-2">Sign in to your Numora account</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
