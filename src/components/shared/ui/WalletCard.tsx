@@ -8,7 +8,7 @@ interface WalletCardProps {
 }
 
 const WalletCard: React.FC<WalletCardProps> = ({ user }) => {
-	const balance = user.balance ?? 0;
+	const balance = user.balance ?? 5955;
 	const [showBalance, setShowBalance] = useState(true);
 	const [showFundModal, setShowFundModal] = useState(false);
 	// Withdraw is intentionally disabled until the settlement flow is implemented.
@@ -64,7 +64,7 @@ const WalletCard: React.FC<WalletCardProps> = ({ user }) => {
 					<div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
 						<button
 							onClick={() => setShowFundModal(true)}
-							className="cursor-pointer min-w-0 text-white bg-white bg-opacity-20 hover:bg-opacity-30 backdrop-blur-sm px-4 sm:px-6 py-3 rounded-xl font-medium transition-all flex items-center justify-center"
+							className="cursor-pointer min-w-0 bg-[#13070C] text-white hover:bg-[#260d18] px-4 sm:px-6 py-3 rounded-xl font-medium transition-all flex items-center justify-center shadow-sm"
 						>
 							<Plus className="w-5 h-5 mr-2" />
 							Fund Wallet

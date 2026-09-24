@@ -10,7 +10,7 @@ import RecentTransactions from "@/components/shared/ui/RecentTransactions";
 
 export default function WalletScreen() {
 	const router = useRouter();
-	const user = { balance: 0 };
+	const user = { balance: 5955 };
 
 	return (
 		<DashboardLayout>
@@ -20,7 +20,7 @@ export default function WalletScreen() {
 						type="button"
 						onClick={() => router.push("/dashboard")}
 						aria-label="Back to dashboard"
-						className="mr-4 p-2 hover:bg-gray-100 rounded-lg transition-colors"
+						className="cursor-pointer mr-4 p-2 hover:bg-gray-100 rounded-lg transition-colors"
 					>
 						<ArrowLeft className="w-5 h-5" />
 					</button>

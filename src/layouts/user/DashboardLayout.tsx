@@ -70,7 +70,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 									<button
 										key={item.path}
 										onClick={() => router.push(item.path)}
-										className={`group flex items-center px-3 py-3 text-sm font-medium rounded-2xl transition-all duration-200 w-full text-left ${
+										className={`cursor-pointer group flex items-center px-3 py-3 text-sm font-medium rounded-2xl transition-all duration-200 w-full text-left ${
 											isActive(item.path)
 												? "bg-[#EFF9F0] text-[#13070C] shadow-sm"
 												: "text-gray-600 hover:bg-gray-50 hover:text-[#13070C]"
@@ -91,7 +91,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 						<div className="px-2 pb-4">
 							<button
 								onClick={handleLogout}
-								className="group flex items-center px-3 py-3 text-sm font-medium rounded-2xl transition-all duration-200 w-full text-left text-red-600 hover:bg-red-50"
+								className="cursor-pointer group flex items-center px-3 py-3 text-sm font-medium rounded-2xl transition-all duration-200 w-full text-left text-red-600 hover:bg-red-50"
 							>
 								<LogOut className="mr-3 h-5 w-5 flex-shrink-0 text-red-400 group-hover:text-red-600" />
 								Logout
@@ -143,7 +143,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 											router.push(item.path);
 											setSidebarOpen(false);
 										}}
-										className={`group flex items-center px-3 py-3 text-sm font-medium rounded-2xl transition-all duration-200 w-full text-left ${
+										className={`cursor-pointer group flex items-center px-3 py-3 text-sm font-medium rounded-2xl transition-all duration-200 w-full text-left ${
 											isActive(item.path)
 												? "bg-[#EFF9F0] text-[#13070C] shadow-sm"
 												: "text-gray-600 hover:bg-gray-50 hover:text-[#13070C]"
@@ -179,7 +179,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 				{/* Top bar */}
 				<div className="sticky top-0 z-10 flex-shrink-0 flex h-16 bg-white shadow-sm lg:hidden">
 					<button
-						className="px-4 border-r border-gray-200 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#13070C] lg:hidden"
+						className="cursor-pointer px-4 border-r border-gray-200 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#13070C] lg:hidden"
 						onClick={() => setSidebarOpen(true)}
 					>
 						<Menu className="h-6 w-6" />
@@ -192,7 +192,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 							</h1>
 						</div>
 						<div className="flex items-center">
-							<button className="p-2 rounded-full text-gray-400 hover:text-[#13070C] hover:bg-gray-100">
+							<button className="cursor-pointer p-2 rounded-full text-gray-400 hover:text-[#13070C] hover:bg-gray-100">
 								<Bell className="h-5 w-5" />
 							</button>
 						</div>
