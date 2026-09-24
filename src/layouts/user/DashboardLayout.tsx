@@ -72,7 +72,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 										onClick={() => router.push(item.path)}
 										className={`cursor-pointer group flex items-center px-3 py-3 text-sm font-medium rounded-2xl transition-all duration-200 w-full text-left ${
 											isActive(item.path)
-											? "bg-[#EFF9F0] text-[#13070C]"
+												? "bg-[#EFF9F0] text-[#13070C]"
 												: "text-gray-600 hover:bg-gray-50 hover:text-[#13070C]"
 										}`}
 									>
