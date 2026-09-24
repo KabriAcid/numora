@@ -8,11 +8,11 @@ interface DataHeaderProps {
 
 export default function DataHeader({ onBack }: DataHeaderProps) {
 	return (
-		<div className="flex items-center mb-6">
+		<div className="mb-6">
 			<button
 				type="button"
 				onClick={onBack}
-				className="mr-4 p-2 hover:bg-gray-100 rounded-lg"
+				className="hover:bg-gray-100 rounded-lg"
 				aria-label="Back to dashboard"
 			>
 				<ArrowLeft className="w-5 h-5" />

@@ -1,6 +1,7 @@
 "use client";
 
 import { Check } from "lucide-react";
+import Image from "next/image";
 import type { DataPlan } from "@/types/service";
 
 interface DataConfirmationModalProps {
@@ -19,7 +20,7 @@ export default function DataConfirmationModal({
 	onConfirm,
 }: DataConfirmationModalProps) {
 	return (
-		<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+		<div className="fixed inset-0 backdrop-blur-sm bg-opacity-50 flex items-center justify-center p-4 z-50">
 			<div className="bg-white rounded-3xl p-6 w-full max-w-sm">
 				<div className="text-center mb-6">
 					<div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -33,21 +34,22 @@ export default function DataConfirmationModal({
 				<div className="space-y-4 mb-6">
 					<div className="flex justify-between">
 						<span className="text-gray-600">Network</span>
-						<span className="font-medium">{networkName}</span>
+						{/* <span className="font-medium">{networkName}</span> */}
+						<img src="/assets/providers/networks/mtn.svg" alt="" width={50} height={50} />
 					</div>
 					<div className="flex justify-between">
 						<span className="text-gray-600">Phone Number</span>
 						<span className="font-medium">{phoneNumber}</span>
 					</div>
 					<div className="flex justify-between">
-						<span className="text-gray-600">Data Plan</span>
+						<span className="text-gray-600">Data Size</span>
 						<span className="font-medium">{plan.name}</span>
 					</div>
 					<div className="flex justify-between">
 						<span className="text-gray-600">Validity</span>
 						<span className="font-medium">{plan.validity}</span>
 					</div>
-					<div className="flex justify-between font-bold">
+					<div className="flex justify-between font-bold text-lg">
 						<span>Total</span>
 						<span>₦{plan.price}</span>
 					</div>

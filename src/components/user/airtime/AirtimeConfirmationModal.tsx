@@ -6,6 +6,7 @@ interface AirtimeConfirmationModalProps {
 	networkName?: string;
 	phoneNumber: string;
 	amount: string;
+	onCancel: () => void;
 	onConfirm: () => void;
 }
 
@@ -13,10 +14,11 @@ export default function AirtimeConfirmationModal({
 	networkName,
 	phoneNumber,
 	amount,
-	onConfirm,
+	onCancel,
+	onConfirm
 }: AirtimeConfirmationModalProps) {
 	return (
-		<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+		<div className="fixed inset-0 backdrop-blur-sm bg-opacity-50 flex items-center justify-center p-4 z-50">
 			<div className="bg-white rounded-3xl p-6 w-full max-w-sm">
 				<div className="text-center mb-6">
 					<div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -38,16 +40,25 @@ export default function AirtimeConfirmationModal({
 					</div>
 					<div className="flex justify-between">
 						<span className="text-gray-600">Amount</span>
-						<span className="font-medium">₦{amount}</span>
+						<span className="font-bold text-lg">₦{amount}</span>
 					</div>
 				</div>
-				<button
-					type="button"
-					onClick={onConfirm}
-					className="w-full bg-green-600 text-white py-3 rounded-2xl font-medium hover:bg-green-700 transition-colors"
-				>
-					Confirm &amp; Buy
-				</button>
+				<div className="flex space-x-3">
+					<button
+						type="button"
+						onClick={onCancel}
+						className="flex-1 py-3 border border-gray-300 rounded-2xl font-medium hover:bg-gray-50"
+					>
+						Cancel
+					</button>
+					<button
+						type="button"
+						onClick={onConfirm}
+						className="flex-1 py-3 bg-[#13070C] text-white rounded-2xl font-medium"
+					>
+						Confirm
+					</button>
+				</div>
 			</div>
 		</div>
 	);

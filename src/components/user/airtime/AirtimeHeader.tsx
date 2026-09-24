@@ -8,7 +8,7 @@ interface AirtimeHeaderProps {
 
 export default function AirtimeHeader({ onBack }: AirtimeHeaderProps) {
 	return (
-		<div className="flex items-center mb-6">
+		<div className="mb-6">
 			<button
 				type="button"
 				onClick={onBack}

@@ -36,21 +36,6 @@
   }
 }
 
-body {
-	font-family:
-		"Figtree",
-		ui-sans-serif,
-		system-ui,
-		-apple-system,
-		BlinkMacSystemFont,
-		"Segoe UI",
-		Roboto,
-		"Helvetica Neue",
-		Arial,
-		"Noto Sans",
-		sans-serif;
-}
-
 * {
 	border-color: #e5e7eb;
 }

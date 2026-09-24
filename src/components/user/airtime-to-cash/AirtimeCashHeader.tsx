@@ -8,7 +8,7 @@ interface AirtimeCashHeaderProps {
 
 export default function AirtimeCashHeader({ onBack }: AirtimeCashHeaderProps) {
 	return (
-		<div className="flex items-center mb-6">
+		<div className="mb-6">
 			<button
 				type="button"
 				onClick={onBack}
