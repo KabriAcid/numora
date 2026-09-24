@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import {
 	ArrowLeft,
@@ -8,15 +10,12 @@ import {
 	Camera,
 	Check,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import DashboardLayout from "@/layouts/user/DashboardLayout";
 
-interface ProfilePageProps {
-	user: any;
-	onLogout: () => void;
-}
-
-const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
+const ProfilePage: React.FC = () => {
+	const router = useRouter();
+	const user = {};
 	// Modal states for other progress items
 	const [showEmailModal, setShowEmailModal] = useState(false);
 	const [showBVNModal, setShowBVNModal] = useState(false);
@@ -142,7 +141,6 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
 			setTimeout(() => setShowSuccess(false), 3000);
 		}
 	};
-	const navigate = useNavigate();
 	const [activeTab, setActiveTab] = useState("profile");
 	const [formData, setFormData] = useState({
 		firstName: user?.firstName || "John",
@@ -159,7 +157,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
 	const [showLogoutModal, setShowLogoutModal] = useState(false);
 	const handleConfirmLogout = () => {
 		setShowLogoutModal(false);
-		onLogout();
+		router.push("/login");
 	};
 
 	const handleCancelLogout = () => {
@@ -257,11 +255,11 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onLogout }) => {
 	};
 
 	return (
-		<DashboardLayout user={user} onLogout={onLogout}>
+		<DashboardLayout>
 			<div className="p-6">
 				<div className="flex items-center mb-6">
 					<button
-						onClick={() => navigate("/dashboard")}
+						onClick={() => router.push("/dashboard")}
 						className="mr-4 p-2 hover:bg-gray-100 rounded-lg transition-colors"
 					>
 						<ArrowLeft className="w-5 h-5" />
