@@ -100,7 +100,6 @@ const WalletCard: React.FC<WalletCardProps> = ({ user }) => {
 						</button>
 					</div>
 				</div>
-
 			</div>
 		</div>
 	);
