@@ -2,7 +2,6 @@ export type TransactionType =
 	| "airtime"
 	| "data"
 	| "wallet_funding"
-	| "betting"
 	| "airtime_to_cash";
 export type TransactionStatus = "completed" | "pending" | "failed";
 

@@ -56,7 +56,6 @@ export default function TransactionFilters({
 					<option value="all">All Types</option>
 					<option value="airtime">Airtime</option>
 					<option value="data">Data</option>
-					<option value="betting">Betting</option>
 					<option value="airtime_to_cash">Airtime to Cash</option>
 					<option value="wallet_funding">Wallet Funding</option>
 				</select>

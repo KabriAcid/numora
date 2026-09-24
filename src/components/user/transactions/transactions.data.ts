@@ -29,15 +29,6 @@ export const transactions: readonly TransactionRecord[] = [
 		recipient: "Self",
 	},
 	{
-		id: "TXN007",
-		type: "betting",
-		description: "Betting Funding",
-		amount: -2000,
-		status: "completed",
-		date: "2024-01-10T13:45:00Z",
-		recipient: "BET123456",
-	},
-	{
 		id: "TXN008",
 		type: "airtime_to_cash",
 		description: "Airtime to Cash",

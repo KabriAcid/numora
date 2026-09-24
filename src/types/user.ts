@@ -1,4 +1,6 @@
 export interface DashboardUser {
+  name?: string;
+  virtualAccount?: string;
   email?: string;
   emailVerified?: boolean;
   billingStreet?: string;

@@ -1,8 +1,11 @@
+import { useState } from "react";
+import { Plus } from "lucide-react";
 import WalletCard from "../../shared/ui/WalletCard";
 import ServiceGrid from "../../shared/ui/ServiceGrid";
 import TransactionChart from "../../shared/ui/TransactionChart";
 import SpendingChart from "../../shared/ui/SpendingChart";
 import RecentTransactions from "../../shared/ui/RecentTransactions";
+import FundWalletModal from "../modals/FundWalletModal";
 import type { DashboardUser } from "@/types/user";
 
 interface DashboardOverviewProps {
@@ -10,11 +13,26 @@ interface DashboardOverviewProps {
 }
 
 export default function DashboardOverview({ user }: DashboardOverviewProps) {
+	const [showFundModal, setShowFundModal] = useState(false);
+
 	return (
 		<>
 			<div className="mb-6 sm:mb-8">
 				<WalletCard user={user} />
 			</div>
+			<div className="mb-6 sm:mb-8">
+				<button
+					type="button"
+					onClick={() => setShowFundModal(true)}
+					className="cursor-pointer w-full flex items-center justify-center gap-2 rounded-2xl bg-[#13070C] px-4 py-3 text-sm font-medium text-white transition hover:bg-[#260d18]"
+				>
+					<Plus className="h-4 w-4" />
+					Fund Wallet
+				</button>
+			</div>
+			{showFundModal && (
+				<FundWalletModal onClose={() => setShowFundModal(false)} />
+			)}
 			<section className="mb-6 sm:mb-8">
 				<ServiceGrid />
 			</section>
