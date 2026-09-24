@@ -25,3 +25,17 @@ export interface DataFieldErrors {
 	network?: string;
 	plan?: string;
 }
+
+export interface AirtimeCashNetwork {
+	id: NetworkId;
+	name: string;
+	icon: string;
+	rate: number;
+	prefixes: readonly string[];
+}
+
+export interface AirtimeCashFieldErrors {
+	phoneNumber?: string | null;
+	network?: string;
+	amount?: string | null;
+}

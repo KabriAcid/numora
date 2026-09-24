@@ -1,7 +1,6 @@
-import React from "react";
 import { Wallet } from "lucide-react";
 
-const LoadingScreen: React.FC = () => {
+const LoadingScreen = () => {
   return (
     <div className="min-h-screen bg-[#EFF9F0] flex items-center justify-center">
       <div className="text-center">
