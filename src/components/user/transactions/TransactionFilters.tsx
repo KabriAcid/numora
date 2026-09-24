@@ -2,8 +2,77 @@
 
 import { Search } from "lucide-react";
 
-interface TransactionFiltersProps { search: string; status: string; type: string; date: string; onSearch: (value: string) => void; onStatus: (value: string) => void; onType: (value: string) => void; onDate: (value: string) => void; }
+interface TransactionFiltersProps {
+	search: string;
+	status: string;
+	type: string;
+	date: string;
+	onSearch: (value: string) => void;
+	onStatus: (value: string) => void;
+	onType: (value: string) => void;
+	onDate: (value: string) => void;
+}
 
-export default function TransactionFilters({ search, status, type, date, onSearch, onStatus, onType, onDate }: TransactionFiltersProps) {
-  return <div className="bg-white rounded-2xl p-6 mb-6 shadow-sm"><div className="grid grid-cols-1 md:grid-cols-4 gap-4"><div className="relative"><Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" /><input aria-label="Search transactions" value={search} onChange={(event) => onSearch(event.target.value)} placeholder="Search transactions..." className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-xl" /></div><select aria-label="Transaction status" value={status} onChange={(event) => onStatus(event.target.value)} className="px-4 py-2 border border-gray-300 rounded-xl"><option value="all">All Status</option><option value="completed">Completed</option><option value="pending">Pending</option><option value="failed">Failed</option></select><select aria-label="Transaction type" value={type} onChange={(event) => onType(event.target.value)} className="px-4 py-2 border border-gray-300 rounded-xl"><option value="all">All Types</option><option value="airtime">Airtime</option><option value="data">Data</option><option value="betting">Betting</option><option value="airtime_to_cash">Airtime to Cash</option><option value="wallet_funding">Wallet Funding</option></select><select aria-label="Transaction date" value={date} onChange={(event) => onDate(event.target.value)} className="px-4 py-2 border border-gray-300 rounded-xl"><option value="all">All Time</option><option value="today">Today</option><option value="week">This Week</option><option value="month">This Month</option><option value="year">This Year</option></select></div></div>;
+export default function TransactionFilters({
+	search,
+	status,
+	type,
+	date,
+	onSearch,
+	onStatus,
+	onType,
+	onDate,
+}: TransactionFiltersProps) {
+	return (
+		<div className="bg-white rounded-2xl p-6 mb-6 shadow-sm">
+			<div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+				<div className="relative">
+					<Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+					<input
+						aria-label="Search transactions"
+						value={search}
+						onChange={(event) => onSearch(event.target.value)}
+						placeholder="Search transactions..."
+						className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-xl"
+					/>
+				</div>
+				<select
+					aria-label="Transaction status"
+					value={status}
+					onChange={(event) => onStatus(event.target.value)}
+					className="px-4 py-2 border border-gray-300 rounded-xl"
+				>
+					<option value="all">All Status</option>
+					<option value="completed">Completed</option>
+					<option value="pending">Pending</option>
+					<option value="failed">Failed</option>
+				</select>
+				<select
+					aria-label="Transaction type"
+					value={type}
+					onChange={(event) => onType(event.target.value)}
+					className="px-4 py-2 border border-gray-300 rounded-xl"
+				>
+					<option value="all">All Types</option>
+					<option value="airtime">Airtime</option>
+					<option value="data">Data</option>
+					<option value="betting">Betting</option>
+					<option value="airtime_to_cash">Airtime to Cash</option>
+					<option value="wallet_funding">Wallet Funding</option>
+				</select>
+				<select
+					aria-label="Transaction date"
+					value={date}
+					onChange={(event) => onDate(event.target.value)}
+					className="px-4 py-2 border border-gray-300 rounded-xl"
+				>
+					<option value="all">All Time</option>
+					<option value="today">Today</option>
+					<option value="week">This Week</option>
+					<option value="month">This Month</option>
+					<option value="year">This Year</option>
+				</select>
+			</div>
+		</div>
+	);
 }
