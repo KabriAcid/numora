@@ -11,27 +11,27 @@
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
-		"@prisma/client": "latest",
-		"chart.js": "^4.5.0",
-		"framer-motion": "^12.23.12",
-		"lucide-react": "^0.344.0",
-		"next": "latest",
-		"react": "latest",
-		"react-chartjs-2": "^5.3.0",
-		"react-dom": "latest",
-		"recharts": "^3.1.2",
-		"zod": "latest"
+		"@prisma/client": "7.10.0",
+		"chart.js": "4.5.1",
+		"framer-motion": "13.4.3",
+		"lucide-react": "1.48.0",
+		"next": "16.3.6",
+		"react": "19.3.0",
+		"react-chartjs-2": "5.3.1",
+		"react-dom": "19.3.0",
+		"recharts": "3.10.1",
+		"zod": "4.6.5"
 	},
 	"devDependencies": {
-		"@tailwindcss/postcss": "latest",
-		"@types/node": "latest",
-		"@types/react": "latest",
-		"@types/react-dom": "latest",
-		"eslint": "latest",
-		"eslint-config-next": "latest",
-		"postcss": "latest",
-		"prisma": "latest",
-		"tailwindcss": "latest",
-		"typescript": "latest"
+		"@tailwindcss/postcss": "4.3.3",
+		"@types/node": "26.6.2",
+		"@types/react": "19.3.0",
+		"@types/react-dom": "19.3.0",
+		"eslint": "10.11.0",
+		"eslint-config-next": "16.3.6",
+		"postcss": "8.5.28",
+		"prisma": "7.10.0",
+		"tailwindcss": "4.3.3",
+		"typescript": "7.0.2"
 	}
 }
