@@ -72,18 +72,6 @@ const PricingControl: React.FC = () => {
       color: 'text-red-600'
     },
     {
-      id: 4,
-      service: 'PHCN Electricity',
-      provider: 'PHCN',
-      type: 'electricity',
-      cost_price: 98,
-      selling_price: 100,
-      profit_margin: 2.0,
-      status: 'active',
-      icon: Zap,
-      color: 'text-blue-600'
-    },
-    {
       id: 5,
       service: 'DSTV Compact',
       provider: 'DSTV',
@@ -200,8 +188,6 @@ const PricingControl: React.FC = () => {
           <option value="all">All Services</option>
           <option value="airtime">Airtime</option>
           <option value="data">Data</option>
-          <option value="electricity">Electricity</option>
-          <option value="cable">Cable TV</option>
         </select>
       </div>
 

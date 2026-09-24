@@ -77,8 +77,6 @@ const AdminDashboard: React.FC = () => {
   const serviceData = [
     { name: "Airtime", value: 35, color: "#13070C" },
     { name: "Data", value: 28, color: "#d946ef" },
-    { name: "Electricity", value: 20, color: "#22c55e" },
-    { name: "Cable TV", value: 12, color: "#f59e0b" },
     { name: "Others", value: 5, color: "#ef4444" },
   ];
 

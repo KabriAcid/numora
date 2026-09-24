@@ -1,5 +1,5 @@
 import React from 'react';
-import { Wifi, Phone, Zap, Target, Tv, MoreHorizontal } from 'lucide-react';
+import { Wifi, Phone, Target, MoreHorizontal } from 'lucide-react';
 
 const RecentTransactions: React.FC = () => {
   const transactions = [
@@ -26,17 +26,6 @@ const RecentTransactions: React.FC = () => {
       color: 'text-green-600'
     },
     {
-      id: 3,
-      type: 'Electricity',
-      amount: 250.00,
-      status: 'Successful',
-      date: 'Nov 4, 2023',
-      time: '08:06 PM',
-      transactionId: 'BDG48348E46',
-      icon: Zap,
-      color: 'text-yellow-600'
-    },
-    {
       id: 4,
       type: 'Betting',
       amount: 1800.00,
@@ -47,17 +36,6 @@ const RecentTransactions: React.FC = () => {
       icon: Target,
       color: 'text-red-600'
     },
-    {
-      id: 5,
-      type: 'Cable TV',
-      amount: 5020.00,
-      status: 'Failed',
-      date: 'Oct 26, 2023',
-      time: '02:55 PM',
-      transactionId: 'BDG15592A50',
-      icon: Tv,
-      color: 'text-purple-600'
-    }
   ];
 
   const getStatusColor = (status: string) => {

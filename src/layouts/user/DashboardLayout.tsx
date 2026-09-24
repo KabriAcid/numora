@@ -6,7 +6,6 @@ import {
 	LayoutDashboard,
 	Phone,
 	Wifi,
-	GraduationCap,
 	ArrowRightLeft,
 	Wallet,
 	History,
@@ -31,7 +30,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 		{ path: "/dashboard", label: "Overview", icon: LayoutDashboard },
 		{ path: "/airtime", label: "Buy Airtime", icon: Phone },
 		{ path: "/data", label: "Buy Data", icon: Wifi },
-		{ path: "/education", label: "Education", icon: GraduationCap },
 		{
 			path: "/airtime-to-cash",
 			label: "Airtime to Cash",

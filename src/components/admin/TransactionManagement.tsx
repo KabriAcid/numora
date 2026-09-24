@@ -11,8 +11,6 @@ import {
   Clock,
   Smartphone,
   Wifi,
-  Zap,
-  Tv,
   Calendar
 } from 'lucide-react';
 
@@ -21,7 +19,7 @@ interface Transaction {
   user_name: string;
   user_email: string;
   service: string;
-  service_type: 'airtime' | 'data' | 'electricity' | 'cable' | 'exam_pin';
+  service_type: 'airtime' | 'data' | 'exam_pin';
   amount: number;
   status: 'completed' | 'pending' | 'failed';
   reference: string;
@@ -62,29 +60,6 @@ const TransactionManagement: React.FC = () => {
       reference: 'GLO_1642679000_002',
       created_at: '2024-01-20 14:15:00',
       completed_at: '2024-01-20 14:15:08'
-    },
-    {
-      id: 'TXN003',
-      user_name: 'Mike Johnson',
-      user_email: 'mike.johnson@email.com',
-      service: 'PHCN Electricity ₦5000',
-      service_type: 'electricity',
-      amount: 5000,
-      status: 'pending',
-      reference: 'PHCN_1642678000_003',
-      created_at: '2024-01-20 14:00:00'
-    },
-    {
-      id: 'TXN004',
-      user_name: 'Sarah Wilson',
-      user_email: 'sarah.wilson@email.com',
-      service: 'DSTV Compact Subscription',
-      service_type: 'cable',
-      amount: 8800,
-      status: 'completed',
-      reference: 'DSTV_1642677000_004',
-      created_at: '2024-01-20 13:45:00',
-      completed_at: '2024-01-20 13:45:22'
     },
     {
       id: 'TXN005',
@@ -131,8 +106,6 @@ const TransactionManagement: React.FC = () => {
     const icons = {
       airtime: Smartphone,
       data: Wifi,
-      electricity: Zap,
-      cable: Tv,
       exam_pin: Calendar
     };
     return icons[serviceType as keyof typeof icons] || Smartphone;
@@ -142,7 +115,6 @@ const TransactionManagement: React.FC = () => {
     const colors = {
       airtime: 'text-primary-500',
       data: 'text-accent-500',
-      electricity: 'text-warning-500',
       cable: 'text-info-500',
       exam_pin: 'text-success-500'
     };
