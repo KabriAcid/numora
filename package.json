@@ -1,37 +1,37 @@
 {
-  "name": "numora",
-  "private": true,
-  "version": "0.1.0",
-  "type": "module",
-  "scripts": {
-    "dev": "next dev nextjs",
-    "build": "next build nextjs",
-    "start": "next start nextjs",
-    "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "@prisma/client": "latest",
-    "chart.js": "^4.5.0",
-    "framer-motion": "^12.23.12",
-    "lucide-react": "^0.344.0",
-    "next": "latest",
-    "react": "latest",
-    "react-chartjs-2": "^5.3.0",
-    "react-dom": "latest",
-    "recharts": "^3.1.2",
-    "zod": "latest"
-  },
-  "devDependencies": {
-    "@tailwindcss/postcss": "latest",
-    "@types/node": "latest",
-    "@types/react": "latest",
-    "@types/react-dom": "latest",
-    "eslint": "latest",
-    "eslint-config-next": "latest",
-    "postcss": "latest",
-    "prisma": "latest",
-    "tailwindcss": "latest",
-    "typescript": "latest"
-  }
+	"name": "numora",
+	"private": true,
+	"version": "0.1.0",
+	"type": "module",
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "eslint .",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@prisma/client": "latest",
+		"chart.js": "^4.5.0",
+		"framer-motion": "^12.23.12",
+		"lucide-react": "^0.344.0",
+		"next": "latest",
+		"react": "latest",
+		"react-chartjs-2": "^5.3.0",
+		"react-dom": "latest",
+		"recharts": "^3.1.2",
+		"zod": "latest"
+	},
+	"devDependencies": {
+		"@tailwindcss/postcss": "latest",
+		"@types/node": "latest",
+		"@types/react": "latest",
+		"@types/react-dom": "latest",
+		"eslint": "latest",
+		"eslint-config-next": "latest",
+		"postcss": "latest",
+		"prisma": "latest",
+		"tailwindcss": "latest",
+		"typescript": "latest"
+	}
 }
