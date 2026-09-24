@@ -7,7 +7,7 @@ interface WalletCardProps {
 
 const WalletCard: React.FC<WalletCardProps> = ({ user }) => {
 	const balance = user.balance ?? 5955;
-	const accountName = user.name?.trim() || "KABRI ACID";
+	const accountName = user.name?.trim() || "John Doe";
 	const virtualAccount = user.virtualAccount || "2054219007";
 	const [showBalance, setShowBalance] = useState(true);
 	const [copied, setCopied] = useState(false);
@@ -34,7 +34,7 @@ const WalletCard: React.FC<WalletCardProps> = ({ user }) => {
 				<div className="flex items-start justify-between mb-6">
 					<div className="flex items-center">
 						<div className="w-10 h-10 sm:w-12 sm:h-12 bg-white bg-opacity-20 rounded-lg sm:rounded-xl flex items-center justify-center mr-3 sm:mr-4">
-							<Wallet className="w-6 h-6" />
+							<Wallet className="w-6 h-6 text-dark" />
 						</div>
 						<div>
 							<p className="text-white text-opacity-80 text-[10px] uppercase tracking-[0.28em]">
@@ -58,45 +58,29 @@ const WalletCard: React.FC<WalletCardProps> = ({ user }) => {
 				</div>
 
 				<div className="mb-5">
-					<p className="text-[10px] uppercase tracking-[0.28em] text-white/70">
-						Available balance
-					</p>
-					<h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-2">
-						{showBalance ? `₦${balance.toLocaleString()}` : "₦***,***"}
+					<h3 className="text-3xl sm:text-3xl lg:text-4xl font-bold mt-2">
+						{showBalance ? `₦${balance.toLocaleString()}.97` : "₦***,***"}
 					</h3>
-					<p className="text-white text-opacity-60 text-sm mt-1">
-						Last updated: {new Date().toLocaleDateString()}
-					</p>
-				</div>
-
-				<div className="space-y-1 mb-5">
-					<p className="text-[10px] uppercase tracking-[0.28em] text-white/70">
-						Account holder
-					</p>
-					<h2 className="text-lg sm:text-xl font-semibold tracking-[0.18em] uppercase">
-						{accountName}
-					</h2>
 				</div>
 
 				<div className="space-y-2 mb-5">
 					<p className="text-[10px] uppercase tracking-[0.28em] text-white/70">
 						Virtual account
 					</p>
-					<div className="flex items-center justify-between rounded-2xl bg-white/5 px-3 py-2">
-						<span className="font-mono text-sm tracking-[0.18em] text-white/90">
+					<div>
+						<span className="text-xl font-semibold tracking-[0.18em] text-white/90">
 							{virtualAccount}
 						</span>
 						<button
 							type="button"
 							onClick={handleCopy}
-							className="cursor-pointer inline-flex items-center gap-2 rounded-lg bg-white/10 px-2.5 py-1.5 text-xs font-medium text-white transition hover:bg-white/15"
+							className="cursor-pointer inline-flex items-center gap-2 rounded-lg px-1.5 py-1.5 text-xs font-medium text-white transition hover:bg-white/15"
 						>
 							{copied ? (
 								<Check className="w-3.5 h-3.5" />
 							) : (
 								<Copy className="w-3.5 h-3.5" />
 							)}
-							{copied ? "Copied" : "Copy"}
 						</button>
 					</div>
 				</div>
