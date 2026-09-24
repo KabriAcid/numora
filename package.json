@@ -1,41 +1,37 @@
 {
-  "name": "vite-react-typescript-starter",
+  "name": "numora",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "next dev nextjs",
+    "build": "next build nextjs",
+    "start": "next start nextjs",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@react-oauth/google": "^0.12.2",
-    "axios": "^1.11.0",
+    "@prisma/client": "latest",
     "chart.js": "^4.5.0",
-    "firebase": "^12.1.0",
     "framer-motion": "^12.23.12",
     "lucide-react": "^0.344.0",
-    "react": "^18.3.1",
+    "next": "latest",
+    "react": "latest",
     "react-chartjs-2": "^5.3.0",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^7.8.1",
-    "recharts": "^3.1.2"
+    "react-dom": "latest",
+    "recharts": "^3.1.2",
+    "zod": "latest"
   },
   "devDependencies": {
-    "@eslint/js": "^9.9.1",
-    "@types/react": "^18.3.5",
-    "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^4.3.1",
-    "autoprefixer": "^10.4.18",
-    "eslint": "^9.9.1",
-    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
-    "eslint-plugin-react-refresh": "^0.4.11",
-    "globals": "^15.9.0",
-    "postcss": "^8.4.35",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5.5.3",
-    "typescript-eslint": "^8.3.0",
-    "vite": "^5.4.2"
+    "@tailwindcss/postcss": "latest",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "postcss": "latest",
+    "prisma": "latest",
+    "tailwindcss": "latest",
+    "typescript": "latest"
   }
 }
