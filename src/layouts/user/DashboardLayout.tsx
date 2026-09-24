@@ -53,7 +53,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 		<div className="min-h-screen bg-[#EFF9F0]">
 			{/* Desktop Sidebar */}
 			<div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
-				<div className="flex min-h-0 flex-1 flex-col bg-white shadow-xl">
+				<div className="flex min-h-0 flex-1 flex-col bg-white">
 					<div className="flex h-16 flex-shrink-0 items-center px-4 border-b">
 						<div className="flex items-center">
 							<div className="w-8 h-8 bg-[#13070C] rounded-lg flex items-center justify-center mr-3">
@@ -72,7 +72,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 										onClick={() => router.push(item.path)}
 										className={`cursor-pointer group flex items-center px-3 py-3 text-sm font-medium rounded-2xl transition-all duration-200 w-full text-left ${
 											isActive(item.path)
-												? "bg-[#EFF9F0] text-[#13070C] shadow-sm"
+											? "bg-[#EFF9F0] text-[#13070C]"
 												: "text-gray-600 hover:bg-gray-50 hover:text-[#13070C]"
 										}`}
 									>
@@ -114,13 +114,13 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 					onClick={() => setSidebarOpen(false)}
 				/>
 				<div
-					className={`relative flex-1 flex flex-col max-w-xs w-full bg-white shadow-xl transform transition-transform ${
+					className={`relative flex-1 flex flex-col max-w-xs w-full bg-white transform transition-transform ${
 						sidebarOpen ? "translate-x-0" : "-translate-x-full"
 					}`}
 				>
 					<div className="absolute top-0 right-0 -mr-12 pt-2">
 						<button
-							className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+							className="cursor-pointer ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
 							onClick={() => setSidebarOpen(false)}
 						>
 							<X className="h-6 w-6 text-white" />
@@ -145,7 +145,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 										}}
 										className={`cursor-pointer group flex items-center px-3 py-3 text-sm font-medium rounded-2xl transition-all duration-200 w-full text-left ${
 											isActive(item.path)
-												? "bg-[#EFF9F0] text-[#13070C] shadow-sm"
+												? "bg-[#EFF9F0] text-[#13070C]"
 												: "text-gray-600 hover:bg-gray-50 hover:text-[#13070C]"
 										}`}
 									>
@@ -165,7 +165,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 					<div className="px-2 pb-4">
 						<button
 							onClick={handleLogout}
-							className="group flex items-center px-3 py-3 text-sm font-medium rounded-2xl transition-all duration-200 w-full text-left text-red-600 hover:bg-red-50"
+							className="cursor-pointer group flex items-center px-3 py-3 text-sm font-medium rounded-2xl transition-all duration-200 w-full text-left text-red-600 hover:bg-red-50"
 						>
 							<LogOut className="mr-3 h-5 w-5 flex-shrink-0 text-red-400 group-hover:text-red-600" />
 							Logout
@@ -177,7 +177,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 			{/* Main content */}
 			<div className="lg:pl-64 flex flex-col min-h-screen">
 				{/* Top bar */}
-				<div className="sticky top-0 z-10 flex-shrink-0 flex h-16 bg-white shadow-sm lg:hidden">
+				<div className="sticky top-0 z-10 flex-shrink-0 flex h-16 bg-white lg:hidden">
 					<button
 						className="cursor-pointer px-4 border-r border-gray-200 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#13070C] lg:hidden"
 						onClick={() => setSidebarOpen(true)}
@@ -203,7 +203,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 				<main className="flex-1 pb-20 lg:pb-8">{children}</main>
 
 				{/* Mobile bottom navigation */}
-				<div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg">
+				<div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t">
 					<div className="flex">
 						{mobileNavigationItems.map((item) => {
 							const Icon = item.icon;
@@ -211,7 +211,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 								<button
 									key={item.path}
 									onClick={() => router.push(item.path)}
-									className={`flex-1 flex flex-col items-center py-3 px-2 text-xs font-medium transition-colors ${
+									className={`cursor-pointer flex-1 flex flex-col items-center py-3 px-2 text-xs font-medium transition-colors ${
 										isActive(item.path) ? "text-[#13070C]" : "text-gray-500"
 									}`}
 								>

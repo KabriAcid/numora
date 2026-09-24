@@ -52,7 +52,7 @@ export default function DashboardProfileCompletion({
 	const percentage = Math.round((completed / steps.length) * 100);
 
 	return (
-		<section className="mb-6 sm:mb-8 w-full bg-white rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6">
+		<section className="mb-6 sm:mb-8 w-full bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6">
 			<div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-3">
 				<div className="min-w-0">
 					<h2 className="text-lg sm:text-2xl font-medium text-secondary">
@@ -96,7 +96,7 @@ export default function DashboardProfileCompletion({
 					{steps.map((step) => (
 						<li
 							key={step.label}
-							className={`flex items-start gap-3 sm:gap-4 p-3 rounded-xl border border-gray-100 ${step.completed ? "opacity-60" : ""}`}
+							className={`cursor-pointer flex items-start gap-3 sm:gap-4 p-3 rounded-xl border border-gray-100 ${step.completed ? "opacity-60" : ""}`}
 						>
 							<div className="bg-primary rounded-xl p-2 text-secondary">
 								{step.completed ? "✓" : "○"}

@@ -42,7 +42,7 @@ const ServiceGrid: React.FC = () => {
 					<button
 						key={service.id}
 						onClick={() => router.push(service.path)}
-						className={`cursor-pointer bg-white rounded-xl p-3 shadow-sm border border-gray-100 ${service.hoverColor} transition-all duration-200 hover:shadow-md text-left group`}
+						className={`cursor-pointer bg-white rounded-xl p-3 border border-gray-100 ${service.hoverColor} transition-all duration-200 text-left group`}
 					>
 						<div
 							className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg ${service.color} flex items-center justify-center mx-auto mb-2 transition-transform group-hover:scale-105`}
