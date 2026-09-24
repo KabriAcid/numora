@@ -1,5 +1,5 @@
-import AirtimeToCashPage from "@/components/user/services/AirtimeToCashPage";
+import AirtimeToCashForm from "@/components/user/airtime-to-cash/AirtimeToCashForm";
 
 export default function AirtimeToCashRoute() {
-	return <AirtimeToCashPage />;
+	return <AirtimeToCashForm />;
 }

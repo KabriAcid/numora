@@ -1,5 +1,10 @@
-import DataPage from "@/components/user/services/DataPage";
+import DashboardLayout from "@/layouts/user/DashboardLayout";
+import DataPurchaseForm from "@/components/user/data/DataPurchaseForm";
 
 export default function DataRoute() {
-	return <DataPage />;
+	return (
+		<DashboardLayout>
+			<DataPurchaseForm />
+		</DashboardLayout>
+	);
 }

@@ -1,5 +1,5 @@
-import EducationPage from "@/components/user/services/EducationPage";
+import EducationPaymentForm from "@/components/user/education/EducationPaymentForm";
 
 export default function EducationRoute() {
-	return <EducationPage />;
+	return <EducationPaymentForm />;
 }

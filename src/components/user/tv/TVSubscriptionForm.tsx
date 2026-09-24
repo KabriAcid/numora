@@ -1,136 +1,93 @@
-"use client";
-
 import React, { useState } from "react";
-import { ArrowLeft, GraduationCap, Check } from "lucide-react";
-import { useRouter } from "next/navigation";
-import DashboardLayout from "../layout/DashboardLayout";
+import { ArrowLeft, Tv, Check } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import DashboardLayout from "@/layouts/user/DashboardLayout";
+import dstvIcon from "../../assets/icons/dstv.png";
+import gotvIcon from "../../assets/icons/gotv.png";
+import startimesIcon from "../../assets/icons/startimes.png";
 
-const EducationPage: React.FC = () => {
-	const router = useRouter();
-	const [selectedService, setSelectedService] = useState("");
-	const [examNumber, setExamNumber] = useState("");
+interface TVSubscriptionPageProps {
+	user: any;
+	onLogout: () => void;
+}
+
+const TVSubscriptionPage: React.FC<TVSubscriptionPageProps> = ({
+	user,
+	onLogout,
+}) => {
+	const navigate = useNavigate();
+	const [selectedProvider, setSelectedProvider] = useState("");
+	const [smartCardNumber, setSmartCardNumber] = useState("");
 	const [selectedPackage, setSelectedPackage] = useState("");
 	const [showConfirmModal, setShowConfirmModal] = useState(false);
 	const [errors, setErrors] = useState<any>({});
 	const [showLogoutModal, setShowLogoutModal] = useState(false);
 
-	const educationServices = [
-		{
-			id: "waec",
-			name: "WAEC",
-			icon: "/assets/providers/education/waec.svg",
-			description: "West African Examinations Council",
-		},
-		{
-			id: "jamb",
-			name: "JAMB",
-			icon: "/assets/providers/education/jamb.png",
-			description: "Joint Admissions and Matriculation Board",
-		},
-		{
-			id: "neco",
-			name: "NECO",
-			icon: "/assets/providers/education/neco.png",
-			description: "National Examinations Council",
-		},
-		{
-			id: "nabteb",
-			name: "NABTEB",
-			icon: "/assets/providers/education/nabteb.png",
-			description: "National Business and Technical Examinations Board",
-		},
+	const providers = [
+		{ id: "dstv", name: "DStv", icon: dstvIcon },
+		{ id: "gotv", name: "GOtv", icon: gotvIcon },
+		{ id: "startimes", name: "StarTimes", icon: startimesIcon },
 	];
 
 	const packages = {
-		waec: [
+		dstv: [
+			{ id: "padi", name: "DStv Padi", price: 2500, duration: "1 Month" },
+			{ id: "yanga", name: "DStv Yanga", price: 3500, duration: "1 Month" },
+			{ id: "confam", name: "DStv Confam", price: 6200, duration: "1 Month" },
 			{
-				id: "registration",
-				name: "WAEC Registration",
-				price: 15000,
-				description: "Full registration for WAEC examination",
+				id: "compact",
+				name: "DStv Compact",
+				price: 10500,
+				duration: "1 Month",
 			},
 			{
-				id: "result_checker",
-				name: "Result Checker",
-				price: 1000,
-				description: "Check your WAEC results online",
-			},
-		],
-		jamb: [
-			{
-				id: "registration",
-				name: "JAMB Registration",
-				price: 4700,
-				description: "UTME registration form",
-			},
-			{
-				id: "result_checker",
-				name: "Result Checker",
-				price: 1000,
-				description: "Check your JAMB results online",
-			},
-			{
-				id: "change_course",
-				name: "Change of Course/Institution",
-				price: 2500,
-				description: "Change your course or institution",
+				id: "premium",
+				name: "DStv Premium",
+				price: 24500,
+				duration: "1 Month",
 			},
 		],
-		neco: [
-			{
-				id: "registration",
-				name: "NECO Registration",
-				price: 13500,
-				description: "Full registration for NECO examination",
-			},
-			{
-				id: "result_checker",
-				name: "Result Checker",
-				price: 1000,
-				description: "Check your NECO results online",
-			},
+		gotv: [
+			{ id: "smallie", name: "GOtv Smallie", price: 1100, duration: "1 Month" },
+			{ id: "jinja", name: "GOtv Jinja", price: 2250, duration: "1 Month" },
+			{ id: "jolli", name: "GOtv Jolli", price: 3300, duration: "1 Month" },
+			{ id: "max", name: "GOtv Max", price: 4850, duration: "1 Month" },
 		],
-		nabteb: [
-			{
-				id: "registration",
-				name: "NABTEB Registration",
-				price: 12000,
-				description: "Full registration for NABTEB examination",
-			},
-			{
-				id: "result_checker",
-				name: "Result Checker",
-				price: 1000,
-				description: "Check your NABTEB results online",
-			},
+		startimes: [
+			{ id: "nova", name: "Nova", price: 1200, duration: "1 Month" },
+			{ id: "basic", name: "Basic", price: 2200, duration: "1 Month" },
+			{ id: "smart", name: "Smart", price: 3000, duration: "1 Month" },
+			{ id: "classic", name: "Classic", price: 4200, duration: "1 Month" },
+			{ id: "super", name: "Super", price: 6500, duration: "1 Month" },
 		],
 	};
 
-	const validateExamNumber = (number: string) => {
-		if (!number) return "Exam/Registration number is required";
-		if (number.length < 8) return "Exam number must be at least 8 characters";
+	const validateSmartCardNumber = (number: string) => {
+		if (!number) return "Smart card number is required";
+		if (number.length < 10)
+			return "Smart card number must be at least 10 digits";
 		return null;
 	};
 
-	const handleExamNumberChange = (value: string) => {
-		setExamNumber(value.toUpperCase());
+	const handleSmartCardChange = (value: string) => {
+		const cleaned = value.replace(/\D/g, "");
+		setSmartCardNumber(cleaned);
 
-		const error = validateExamNumber(value);
-		setErrors((prev: any) => ({ ...prev, examNumber: error }));
+		const error = validateSmartCardNumber(cleaned);
+		setErrors((prev: any) => ({ ...prev, smartCardNumber: error }));
 	};
 
-	const handleServiceChange = (serviceId: string) => {
-		setSelectedService(serviceId);
-		setSelectedPackage(""); // Reset package when service changes
+	const handleProviderChange = (providerId: string) => {
+		setSelectedProvider(providerId);
+		setSelectedPackage(""); // Reset package when provider changes
 	};
 
 	const handleSubmit = () => {
-		const examError = validateExamNumber(examNumber);
+		const smartCardError = validateSmartCardNumber(smartCardNumber);
 
 		const newErrors: any = {};
-		if (!selectedService)
-			newErrors.service = "Please select an education service";
-		if (examError) newErrors.examNumber = examError;
+		if (!selectedProvider) newErrors.provider = "Please select a TV provider";
+		if (smartCardError) newErrors.smartCardNumber = smartCardError;
 		if (!selectedPackage) newErrors.package = "Please select a package";
 
 		setErrors(newErrors);
@@ -145,13 +102,13 @@ const EducationPage: React.FC = () => {
 		setShowConfirmModal(false);
 		// Show success message and redirect
 		setTimeout(() => {
-			router.push("/dashboard");
+			navigate("/dashboard");
 		}, 1000);
 	};
 
 	const selectedPackageDetails =
-		selectedService && selectedPackage
-			? packages[selectedService as keyof typeof packages]?.find(
+		selectedProvider && selectedPackage
+			? packages[selectedProvider as keyof typeof packages]?.find(
 					(p) => p.id === selectedPackage,
 				)
 			: null;
@@ -162,7 +119,7 @@ const EducationPage: React.FC = () => {
 
 	const handleConfirmLogout = () => {
 		setShowLogoutModal(false);
-		router.push("/login");
+		onLogout();
 	};
 
 	const handleCancelLogout = () => {
@@ -170,89 +127,88 @@ const EducationPage: React.FC = () => {
 	};
 
 	return (
-		<DashboardLayout onLogout={handleLogoutClick}>
+		<DashboardLayout user={user} onLogout={handleLogoutClick}>
 			<div className="p-6">
 				<div className="flex items-center mb-6">
 					<button
-						onClick={() => router.push("/dashboard")}
+						onClick={() => navigate("/dashboard")}
 						className="mr-4 p-2 hover:bg-gray-100 rounded-lg transition-colors"
 					>
 						<ArrowLeft className="w-5 h-5" />
 					</button>
 					<div className="flex items-center">
-						<div className="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center mr-3">
-							<GraduationCap className="w-5 h-5 text-indigo-600" />
+						<div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center mr-3">
+							<Tv className="w-5 h-5 text-purple-600" />
 						</div>
 						<div>
 							<h1 className="text-2xl font-bold text-gray-900">
-								Education Payments
+								TV Subscription
 							</h1>
-							<p className="text-gray-600">
-								Pay for examination fees and services
-							</p>
+							<p className="text-gray-600">Renew your cable TV subscription</p>
 						</div>
 					</div>
 				</div>
 
 				<div className="max-w-md mx-auto">
-					{/* Education Service Selection */}
+					{/* Provider Selection */}
 					<div className="mb-6">
 						<label className="block text-sm font-medium text-gray-700 mb-2">
-							Education Service
+							TV Provider
 						</label>
-						<div className="grid grid-cols-2 gap-3">
-							{educationServices.map((service) => (
+						<div className="grid grid-cols-3 gap-3">
+							{providers.map((provider) => (
 								<button
-									key={service.id}
-									onClick={() => handleServiceChange(service.id)}
+									key={provider.id}
+									onClick={() => handleProviderChange(provider.id)}
 									className={`p-4 border-2 rounded-2xl transition-all flex flex-col items-center ${
-										selectedService === service.id
+										selectedProvider === provider.id
 											? "border-blue-500 bg-blue-50"
 											: "border-gray-200 hover:border-gray-300"
 									}`}
 								>
 									<img
-										src={service.icon}
-										alt={service.name}
+										src={provider.icon}
+										alt={provider.name}
 										className="w-8 h-8 object-contain mx-auto mb-2 rounded-lg shadow"
 									/>
-									<p className="font-medium text-sm">{service.name}</p>
-									<p className="text-xs text-gray-600">{service.description}</p>
+									<p className="font-medium text-sm">{provider.name}</p>
 								</button>
 							))}
 						</div>
-						{errors.service && (
-							<p className="text-red-500 text-sm mt-1">{errors.service}</p>
+						{errors.provider && (
+							<p className="text-red-500 text-sm mt-1">{errors.provider}</p>
 						)}
 					</div>
 
-					{/* Exam Number Input */}
+					{/* Smart Card Number Input */}
 					<div className="mb-6">
 						<label className="block text-sm font-medium text-gray-700 mb-2">
-							Exam/Registration Number
+							Smart Card / IUC Number
 						</label>
 						<input
 							type="text"
-							value={examNumber}
-							onChange={(e) => handleExamNumberChange(e.target.value)}
-							placeholder="Enter your exam number"
+							value={smartCardNumber}
+							onChange={(e) => handleSmartCardChange(e.target.value)}
+							placeholder="Enter your smart card number"
 							className={`w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-								errors.examNumber ? "border-red-500" : "border-gray-300"
+								errors.smartCardNumber ? "border-red-500" : "border-gray-300"
 							}`}
 						/>
-						{errors.examNumber && (
-							<p className="text-red-500 text-sm mt-1">{errors.examNumber}</p>
+						{errors.smartCardNumber && (
+							<p className="text-red-500 text-sm mt-1">
+								{errors.smartCardNumber}
+							</p>
 						)}
 					</div>
 
 					{/* Package Selection */}
-					{selectedService && (
+					{selectedProvider && (
 						<div className="mb-6">
 							<label className="block text-sm font-medium text-gray-700 mb-2">
-								Select Service
+								Select Package
 							</label>
 							<div className="space-y-3">
-								{packages[selectedService as keyof typeof packages]?.map(
+								{packages[selectedProvider as keyof typeof packages]?.map(
 									(pkg) => (
 										<button
 											key={pkg.id}
@@ -263,14 +219,14 @@ const EducationPage: React.FC = () => {
 													: "border-gray-200 hover:border-gray-300"
 											}`}
 										>
-											<div className="flex justify-between items-start">
-												<div className="flex-1">
+											<div className="flex justify-between items-center">
+												<div>
 													<p className="font-medium">{pkg.name}</p>
-													<p className="text-sm text-gray-600 mt-1">
-														{pkg.description}
+													<p className="text-sm text-gray-600">
+														{pkg.duration}
 													</p>
 												</div>
-												<p className="font-bold text-lg ml-4">
+												<p className="font-bold text-lg">
 													₦{pkg.price.toLocaleString()}
 												</p>
 											</div>
@@ -302,31 +258,34 @@ const EducationPage: React.FC = () => {
 									<Check className="w-8 h-8 text-green-600" />
 								</div>
 								<h3 className="text-xl font-bold text-gray-900 mb-2">
-									Confirm Payment
+									Confirm Subscription
 								</h3>
 								<p className="text-gray-600">
-									Please review your education payment
+									Please review your TV subscription
 								</p>
 							</div>
 
 							<div className="space-y-4 mb-6">
 								<div className="flex justify-between">
-									<span className="text-gray-600">Service</span>
+									<span className="text-gray-600">Provider</span>
 									<span className="font-medium">
-										{
-											educationServices.find((s) => s.id === selectedService)
-												?.name
-										}
+										{providers.find((p) => p.id === selectedProvider)?.name}
 									</span>
 								</div>
 								<div className="flex justify-between">
-									<span className="text-gray-600">Exam Number</span>
-									<span className="font-medium">{examNumber}</span>
+									<span className="text-gray-600">Smart Card</span>
+									<span className="font-medium">{smartCardNumber}</span>
 								</div>
 								<div className="flex justify-between">
 									<span className="text-gray-600">Package</span>
 									<span className="font-medium">
 										{selectedPackageDetails.name}
+									</span>
+								</div>
+								<div className="flex justify-between">
+									<span className="text-gray-600">Duration</span>
+									<span className="font-medium">
+										{selectedPackageDetails.duration}
 									</span>
 								</div>
 								<div className="flex justify-between">
@@ -395,4 +354,4 @@ const EducationPage: React.FC = () => {
 	);
 };
 
-export default EducationPage;
+export default TVSubscriptionPage;

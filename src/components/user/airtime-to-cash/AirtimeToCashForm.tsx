@@ -1,15 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import { ArrowLeft, Wifi, Check } from "lucide-react";
+import { ArrowLeft, RefreshCw, Check } from "lucide-react";
 import { useRouter } from "next/navigation";
-import DashboardLayout from "../layout/DashboardLayout";
+import DashboardLayout from "@/layouts/user/DashboardLayout";
 
-const DataPage: React.FC = () => {
+const AirtimeToCashPage: React.FC = () => {
 	const router = useRouter();
-	const [phoneNumber, setPhoneNumber] = useState("");
 	const [selectedNetwork, setSelectedNetwork] = useState("");
-	const [selectedPlan, setSelectedPlan] = useState("");
+	const [amount, setAmount] = useState("");
+	const [phoneNumber, setPhoneNumber] = useState("");
 	const [showConfirmModal, setShowConfirmModal] = useState(false);
 	const [errors, setErrors] = useState<any>({});
 	const [showLogoutModal, setShowLogoutModal] = useState(false);
@@ -19,15 +19,12 @@ const DataPage: React.FC = () => {
 			id: "mtn",
 			name: "MTN",
 			icon: "/assets/providers/networks/mtn.svg",
+			rate: 0.85,
 			prefixes: [
 				"0803",
 				"0806",
-				"0703",
-				"0706",
 				"0813",
 				"0816",
-				"0810",
-				"0814",
 				"0903",
 				"0906",
 				"0913",
@@ -35,61 +32,27 @@ const DataPage: React.FC = () => {
 			],
 		},
 		{
-			id: "airtel",
-			name: "Airtel",
-			icon: "/assets/providers/networks/airtel-logo1.png",
-			prefixes: [
-				"0802",
-				"0808",
-				"0708",
-				"0812",
-				"0701",
-				"0902",
-				"0907",
-				"0901",
-				"0912",
-			],
-		},
-		{
 			id: "glo",
 			name: "Glo",
 			icon: "/assets/providers/networks/glo.png",
-			prefixes: ["0805", "0807", "0705", "0815", "0811", "0905"],
+			rate: 0.8,
+			prefixes: ["0805", "0807", "0815", "0811", "0905", "0915"],
+		},
+		{
+			id: "airtel",
+			name: "Airtel",
+			icon: "/assets/providers/networks/airtel-logo1.png",
+			rate: 0.82,
+			prefixes: ["0802", "0808", "0812", "0901", "0902", "0907", "0912"],
 		},
 		{
 			id: "9mobile",
 			name: "9mobile",
 			icon: "/assets/providers/networks/9mobile.png",
+			rate: 0.78,
 			prefixes: ["0809", "0817", "0818", "0909", "0908"],
 		},
 	];
-
-	const dataPlans = {
-		mtn: [
-			{ id: "1gb_30", name: "1GB", validity: "30 Days", price: 350 },
-			{ id: "2gb_30", name: "2GB", validity: "30 Days", price: 700 },
-			{ id: "5gb_30", name: "5GB", validity: "30 Days", price: 1500 },
-			{ id: "10gb_30", name: "10GB", validity: "30 Days", price: 3000 },
-		],
-		glo: [
-			{ id: "1gb_30", name: "1GB", validity: "30 Days", price: 400 },
-			{ id: "2gb_30", name: "2GB", validity: "30 Days", price: 800 },
-			{ id: "5gb_30", name: "5GB", validity: "30 Days", price: 1600 },
-			{ id: "10gb_30", name: "10GB", validity: "30 Days", price: 3200 },
-		],
-		airtel: [
-			{ id: "1gb_30", name: "1GB", validity: "30 Days", price: 380 },
-			{ id: "2gb_30", name: "2GB", validity: "30 Days", price: 750 },
-			{ id: "5gb_30", name: "5GB", validity: "30 Days", price: 1550 },
-			{ id: "10gb_30", name: "10GB", validity: "30 Days", price: 3100 },
-		],
-		"9mobile": [
-			{ id: "1gb_30", name: "1GB", validity: "30 Days", price: 420 },
-			{ id: "2gb_30", name: "2GB", validity: "30 Days", price: 840 },
-			{ id: "5gb_30", name: "5GB", validity: "30 Days", price: 1700 },
-			{ id: "10gb_30", name: "10GB", validity: "30 Days", price: 3400 },
-		],
-	};
 
 	const validatePhoneNumber = (phone: string) => {
 		if (!phone) return "Phone number is required";
@@ -108,6 +71,26 @@ const DataPage: React.FC = () => {
 
 		return null;
 	};
+	const handleLogoutClick = () => {
+		setShowLogoutModal(true);
+	};
+
+	const handleConfirmLogout = () => {
+		setShowLogoutModal(false);
+		router.push("/login");
+	};
+
+	const handleCancelLogout = () => {
+		setShowLogoutModal(false);
+	};
+
+	const validateAmount = (amt: string) => {
+		if (!amt) return "Amount is required";
+		const numAmount = Number(amt);
+		if (isNaN(numAmount) || numAmount < 100) return "Minimum amount is ₦100";
+		if (numAmount > 50000) return "Maximum amount is ₦50,000";
+		return null;
+	};
 
 	const handlePhoneChange = (value: string) => {
 		const cleaned = value.replace(/\D/g, "").substring(0, 11);
@@ -118,29 +101,29 @@ const DataPage: React.FC = () => {
 			const detectedNetwork = networks.find((n) => n.prefixes.includes(prefix));
 			if (detectedNetwork && !selectedNetwork) {
 				setSelectedNetwork(detectedNetwork.id);
-				setSelectedPlan(""); // Reset plan when network changes
 			}
 		}
 
 		const error = validatePhoneNumber(cleaned);
-		setErrors((prev: { [key: string]: string | null }) => ({
-			...prev,
-			phoneNumber: error,
-		}));
+		setErrors((prev: typeof errors) => ({ ...prev, phoneNumber: error }));
 	};
 
-	const handleNetworkChange = (networkId: string) => {
-		setSelectedNetwork(networkId);
-		setSelectedPlan(""); // Reset plan when network changes
+	const handleAmountChange = (value: string) => {
+		const cleaned = value.replace(/\D/g, "");
+		setAmount(cleaned);
+
+		const error = validateAmount(cleaned);
+		setErrors((prev: typeof errors) => ({ ...prev, amount: error }));
 	};
 
 	const handleSubmit = () => {
 		const phoneError = validatePhoneNumber(phoneNumber);
+		const amountError = validateAmount(amount);
 
 		const newErrors: any = {};
 		if (phoneError) newErrors.phoneNumber = phoneError;
 		if (!selectedNetwork) newErrors.network = "Please select a network";
-		if (!selectedPlan) newErrors.plan = "Please select a data plan";
+		if (amountError) newErrors.amount = amountError;
 
 		setErrors(newErrors);
 
@@ -158,25 +141,11 @@ const DataPage: React.FC = () => {
 		}, 1000);
 	};
 
-	const selectedPlanDetails =
-		selectedNetwork && selectedPlan
-			? dataPlans[selectedNetwork as keyof typeof dataPlans]?.find(
-					(p) => p.id === selectedPlan,
-				)
-			: null;
-
-	const handleLogoutClick = () => {
-		setShowLogoutModal(true);
-	};
-
-	const handleConfirmLogout = () => {
-		setShowLogoutModal(false);
-		router.push("/login");
-	};
-
-	const handleCancelLogout = () => {
-		setShowLogoutModal(false);
-	};
+	const selectedNetworkData = networks.find((n) => n.id === selectedNetwork);
+	const creditedAmount =
+		selectedNetworkData && amount
+			? Math.floor(Number(amount) * selectedNetworkData.rate)
+			: 0;
 
 	return (
 		<DashboardLayout onLogout={handleLogoutClick}>
@@ -188,14 +157,17 @@ const DataPage: React.FC = () => {
 					>
 						<ArrowLeft className="w-5 h-5" />
 					</button>
+					{/* Removed SVG sign out button for consistent header layout */}
 					<div className="flex items-center">
-						<div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center mr-3">
-							<Wifi className="w-5 h-5 text-blue-600" />
+						<div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center mr-3">
+							<RefreshCw className="w-5 h-5 text-green-600" />
 						</div>
 						<div>
-							<h1 className="text-2xl font-bold text-gray-900">Buy Data</h1>
+							<h1 className="text-2xl font-bold text-gray-900">
+								Airtime to Cash
+							</h1>
 							<p className="text-gray-600">
-								Purchase data bundles for your device
+								Convert your airtime to cash instantly
 							</p>
 						</div>
 					</div>
@@ -230,7 +202,7 @@ const DataPage: React.FC = () => {
 							{networks.map((network) => (
 								<button
 									key={network.id}
-									onClick={() => handleNetworkChange(network.id)}
+									onClick={() => setSelectedNetwork(network.id)}
 									className={`p-4 border-2 rounded-2xl transition-all flex flex-col items-center ${
 										selectedNetwork === network.id
 											? "border-blue-500 bg-blue-50"
@@ -238,11 +210,14 @@ const DataPage: React.FC = () => {
 									}`}
 								>
 									<img
-										src={network.icon}
+										src={network.icon || defaultIcon}
 										alt={network.name}
 										className="w-8 h-8 object-contain mx-auto mb-2 rounded-lg shadow"
 									/>
 									<p className="font-medium text-sm">{network.name}</p>
+									<p className="text-xs text-gray-600">
+										{(network.rate * 100).toFixed(0)}% rate
+									</p>
 								</button>
 							))}
 						</div>
@@ -251,40 +226,42 @@ const DataPage: React.FC = () => {
 						)}
 					</div>
 
-					{/* Data Plan Selection */}
-					{selectedNetwork && (
-						<div className="mb-6">
-							<label className="block text-sm font-medium text-gray-700 mb-2">
-								Select Data Plan
-							</label>
-							<div className="space-y-3">
-								{dataPlans[selectedNetwork as keyof typeof dataPlans]?.map(
-									(plan) => (
-										<button
-											key={plan.id}
-											onClick={() => setSelectedPlan(plan.id)}
-											className={`w-full p-4 border-2 rounded-2xl transition-all text-left ${
-												selectedPlan === plan.id
-													? "border-blue-500 bg-blue-50"
-													: "border-gray-200 hover:border-gray-300"
-											}`}
-										>
-											<div className="flex justify-between items-center">
-												<div>
-													<p className="font-medium">{plan.name}</p>
-													<p className="text-sm text-gray-600">
-														{plan.validity}
-													</p>
-												</div>
-												<p className="font-bold text-lg">₦{plan.price}</p>
-											</div>
-										</button>
-									),
-								)}
+					{/* Amount Input */}
+					<div className="mb-6">
+						<label className="block text-sm font-medium text-gray-700 mb-2">
+							Airtime Amount (₦100 - ₦50,000)
+						</label>
+						<input
+							type="text"
+							value={amount}
+							onChange={(e) => handleAmountChange(e.target.value)}
+							placeholder="Enter airtime amount"
+							className={`w-full px-4 py-3 border rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+								errors.amount ? "border-red-500" : "border-gray-300"
+							}`}
+						/>
+						{errors.amount && (
+							<p className="text-red-500 text-sm mt-1">{errors.amount}</p>
+						)}
+					</div>
+
+					{/* Conversion Preview */}
+					{selectedNetworkData && amount && !errors.amount && (
+						<div className="mb-6 p-4 bg-green-50 rounded-2xl border border-green-200">
+							<div className="flex justify-between items-center">
+								<div>
+									<p className="text-sm text-gray-600">You will receive:</p>
+									<p className="text-2xl font-bold text-green-600">
+										₦{creditedAmount.toLocaleString()}
+									</p>
+								</div>
+								<div className="text-right">
+									<p className="text-sm text-gray-600">Rate:</p>
+									<p className="font-medium">
+										{(selectedNetworkData.rate * 100).toFixed(0)}%
+									</p>
+								</div>
 							</div>
-							{errors.plan && (
-								<p className="text-red-500 text-sm mt-1">{errors.plan}</p>
-							)}
 						</div>
 					)}
 
@@ -295,10 +272,21 @@ const DataPage: React.FC = () => {
 					>
 						Continue
 					</button>
+
+					{/* Info */}
+					<div className="mt-6 p-4 bg-blue-50 rounded-2xl">
+						<h4 className="font-medium text-blue-900 mb-2">How it works:</h4>
+						<ul className="text-sm text-blue-800 space-y-1">
+							<li>• Enter your phone number and airtime amount</li>
+							<li>• We'll send you instructions via SMS</li>
+							<li>• Transfer the airtime as instructed</li>
+							<li>• Cash will be credited to your wallet instantly</li>
+						</ul>
+					</div>
 				</div>
 
 				{/* Confirmation Modal */}
-				{showConfirmModal && selectedPlanDetails && (
+				{showConfirmModal && selectedNetworkData && (
 					<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
 						<div className="bg-white rounded-3xl p-6 w-full max-w-sm">
 							<div className="text-center mb-6">
@@ -306,10 +294,10 @@ const DataPage: React.FC = () => {
 									<Check className="w-8 h-8 text-green-600" />
 								</div>
 								<h3 className="text-xl font-bold text-gray-900 mb-2">
-									Confirm Purchase
+									Confirm Conversion
 								</h3>
 								<p className="text-gray-600">
-									Please review your data purchase
+									Please review your airtime to cash conversion
 								</p>
 							</div>
 
@@ -317,7 +305,7 @@ const DataPage: React.FC = () => {
 								<div className="flex justify-between">
 									<span className="text-gray-600">Network</span>
 									<span className="font-medium">
-										{networks.find((n) => n.id === selectedNetwork)?.name}
+										{selectedNetworkData.name}
 									</span>
 								</div>
 								<div className="flex justify-between">
@@ -325,31 +313,21 @@ const DataPage: React.FC = () => {
 									<span className="font-medium">{phoneNumber}</span>
 								</div>
 								<div className="flex justify-between">
-									<span className="text-gray-600">Data Plan</span>
+									<span className="text-gray-600">Airtime Amount</span>
 									<span className="font-medium">
-										{selectedPlanDetails.name}
+										₦{Number(amount).toLocaleString()}
 									</span>
 								</div>
 								<div className="flex justify-between">
-									<span className="text-gray-600">Validity</span>
+									<span className="text-gray-600">Conversion Rate</span>
 									<span className="font-medium">
-										{selectedPlanDetails.validity}
+										{(selectedNetworkData.rate * 100).toFixed(0)}%
 									</span>
-								</div>
-								<div className="flex justify-between">
-									<span className="text-gray-600">Amount</span>
-									<span className="font-medium">
-										₦{selectedPlanDetails.price}
-									</span>
-								</div>
-								<div className="flex justify-between">
-									<span className="text-gray-600">Charges</span>
-									<span className="font-medium">₦0.00</span>
 								</div>
 								<hr />
-								<div className="flex justify-between font-bold">
-									<span>Total</span>
-									<span>₦{selectedPlanDetails.price}</span>
+								<div className="flex justify-between font-bold text-green-600">
+									<span>You'll Receive</span>
+									<span>₦{creditedAmount.toLocaleString()}</span>
 								</div>
 							</div>
 
@@ -370,28 +348,47 @@ const DataPage: React.FC = () => {
 						</div>
 					</div>
 				)}
+
 				{/* Logout Confirmation Modal */}
 				{showLogoutModal && (
-					<div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black bg-opacity-40">
+					<div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
 						<div className="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full mx-4">
-							<h2 className="text-xl font-bold text-gray-900 mb-4 text-center">
-								Confirm Logout
-							</h2>
-							<p className="text-gray-600 mb-6 text-center">
-								Are you sure you want to logout?
-							</p>
+							<div className="flex items-center justify-between mb-6">
+								<h2 className="text-xl font-bold text-[#13070C]">Sign Out</h2>
+							</div>
+							<div className="text-center mb-8">
+								<div className="w-16 h-16 bg-red-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										className="w-8 h-8 text-red-500"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke="currentColor"
+									>
+										<path
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											strokeWidth={2}
+											d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1"
+										/>
+									</svg>
+								</div>
+								<p className="text-gray-600">
+									Are you sure you want to sign out?
+								</p>
+							</div>
 							<div className="flex space-x-3">
 								<button
 									onClick={handleCancelLogout}
-									className="flex-1 py-3 border border-gray-300 rounded-2xl font-medium hover:bg-gray-50 transition-colors"
+									className="flex-1 bg-gray-100 text-gray-700 py-3 px-4 rounded-2xl font-medium hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-all"
 								>
 									Cancel
 								</button>
 								<button
 									onClick={handleConfirmLogout}
-									className="flex-1 py-3 bg-[#13070C] text-white rounded-2xl font-medium hover:bg-opacity-90 transition-colors"
+									className="flex-1 bg-red-500 text-white py-3 px-4 rounded-2xl font-medium hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all"
 								>
-									Logout
+									Sign Out
 								</button>
 							</div>
 						</div>
@@ -402,4 +399,4 @@ const DataPage: React.FC = () => {
 	);
 };
 
-export default DataPage;
+export default AirtimeToCashPage;
