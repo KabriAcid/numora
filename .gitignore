@@ -8,11 +8,25 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
-dist-ssr
+/.next/
+/out/
+/.vercel/
+dist/
+dist-ssr/
 *.local
-.firebaserc
-.firebase.json
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Prisma local/generated artifacts
+prisma/*.db
+prisma/*.db-journal
+src/generated/
+
+# Test and coverage output
+coverage/
 
 # Editor directories and files
 .vscode/*
@@ -24,5 +38,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-.env
 tsconfig.tsbuildinfo
