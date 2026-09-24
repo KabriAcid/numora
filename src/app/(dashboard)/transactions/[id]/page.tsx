@@ -4,7 +4,8 @@ import { ArrowLeft, CircleCheckBig, Download, ReceiptText } from "lucide-react";
 import DashboardLayout from "@/layouts/user/DashboardLayout";
 import { transactions } from "@/components/user/transactions/transactions.data";
 
-const formatCurrency = (value: number) => `₦${Math.abs(value).toLocaleString()}`;
+const formatCurrency = (value: number) =>
+	`₦${Math.abs(value).toLocaleString()}`;
 
 const formatDate = (value: string) =>
 	new Intl.DateTimeFormat("en", {
@@ -66,10 +67,18 @@ export default async function TransactionDetailsPage({
 					<div className="flex flex-col gap-5 border-b border-gray-200 pb-6 sm:flex-row sm:items-start sm:justify-between">
 						<div className="flex items-center gap-4">
 							<div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#F5F1F2] text-2xl">
-								{transaction.type === "airtime" ? "📱" : transaction.type === "data" ? "📶" : transaction.type === "wallet_funding" ? "💳" : "💰"}
+								{transaction.type === "airtime"
+									? "📱"
+									: transaction.type === "data"
+										? "📶"
+										: transaction.type === "wallet_funding"
+											? "💳"
+											: "💰"}
 							</div>
 							<div>
-								<p className="text-sm text-gray-500">{transaction.description}</p>
+								<p className="text-sm text-gray-500">
+									{transaction.description}
+								</p>
 								<h2 className="mt-1 text-xl font-semibold text-gray-900">
 									{transaction.type
 										.replace("_", " ")
@@ -92,17 +101,25 @@ export default async function TransactionDetailsPage({
 
 					<div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
 						<div className="rounded-2xl bg-gray-50 p-4">
-							<p className="text-xs uppercase tracking-[0.24em] text-gray-500">Date</p>
+							<p className="text-xs uppercase tracking-[0.24em] text-gray-500">
+								Date
+							</p>
 							<p className="mt-2 text-sm font-medium text-gray-900">
 								{formatDate(transaction.date)}
 							</p>
 						</div>
 						<div className="rounded-2xl bg-gray-50 p-4">
-							<p className="text-xs uppercase tracking-[0.24em] text-gray-500">Status</p>
-							<p className="mt-2 text-sm font-medium text-gray-900">{transaction.status}</p>
+							<p className="text-xs uppercase tracking-[0.24em] text-gray-500">
+								Status
+							</p>
+							<p className="mt-2 text-sm font-medium text-gray-900">
+								{transaction.status}
+							</p>
 						</div>
 						<div className="rounded-2xl bg-gray-50 p-4">
-							<p className="text-xs uppercase tracking-[0.24em] text-gray-500">Channel</p>
+							<p className="text-xs uppercase tracking-[0.24em] text-gray-500">
+								Channel
+							</p>
 							<p className="mt-2 text-sm font-medium text-gray-900">
 								{transaction.type === "data"
 									? "Data Bundle"
@@ -114,8 +131,12 @@ export default async function TransactionDetailsPage({
 							</p>
 						</div>
 						<div className="rounded-2xl bg-gray-50 p-4">
-							<p className="text-xs uppercase tracking-[0.24em] text-gray-500">Transaction ID</p>
-							<p className="mt-2 text-sm font-medium text-gray-900">{transaction.id}</p>
+							<p className="text-xs uppercase tracking-[0.24em] text-gray-500">
+								Transaction ID
+							</p>
+							<p className="mt-2 text-sm font-medium text-gray-900">
+								{transaction.id}
+							</p>
 						</div>
 					</div>
 
@@ -125,23 +146,33 @@ export default async function TransactionDetailsPage({
 								<ReceiptText className="h-5 w-5" />
 							</div>
 							<div>
-								<p className="text-xs uppercase tracking-[0.24em] text-gray-500">Invoice summary</p>
-								<h3 className="text-lg font-semibold text-gray-900">Numora payment receipt</h3>
+								<p className="text-xs uppercase tracking-[0.24em] text-gray-500">
+									Invoice summary
+								</p>
+								<h3 className="text-lg font-semibold text-gray-900">
+									Numora payment receipt
+								</h3>
 							</div>
 						</div>
 
 						<div className="mt-6 space-y-4">
 							<div className="flex items-center justify-between text-sm">
 								<span className="text-gray-500">Amount</span>
-								<span className="font-semibold text-gray-900">{formatCurrency(transaction.amount)}</span>
+								<span className="font-semibold text-gray-900">
+									{formatCurrency(transaction.amount)}
+								</span>
 							</div>
 							<div className="flex items-center justify-between text-sm">
 								<span className="text-gray-500">Type</span>
-								<span className="font-semibold text-gray-900">{transaction.description}</span>
+								<span className="font-semibold text-gray-900">
+									{transaction.description}
+								</span>
 							</div>
 							<div className="flex items-center justify-between text-sm">
 								<span className="text-gray-500">Recipient</span>
-								<span className="font-semibold text-gray-900">{transaction.recipient}</span>
+								<span className="font-semibold text-gray-900">
+									{transaction.recipient}
+								</span>
 							</div>
 						</div>
 						<div className="mt-6 rounded-2xl bg-[#13070C] p-4 text-white">
@@ -157,7 +188,9 @@ export default async function TransactionDetailsPage({
 
 					<div className="mt-6 flex items-center justify-center gap-3">
 						<CircleCheckBig className="h-5 w-5 text-green-600" />
-						<p className="text-sm text-gray-600">This transaction has been processed successfully.</p>
+						<p className="text-sm text-gray-600">
+							This transaction has been processed successfully.
+						</p>
 					</div>
 				</div>
 			</div>

@@ -57,6 +57,18 @@ const WalletCard: React.FC<WalletCardProps> = ({ user }) => {
 					</button>
 				</div>
 
+				<div className="mb-5">
+					<p className="text-[10px] uppercase tracking-[0.28em] text-white/70">
+						Available balance
+					</p>
+					<h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-2">
+						{showBalance ? `₦${balance.toLocaleString()}` : "₦***,***"}
+					</h3>
+					<p className="text-white text-opacity-60 text-sm mt-1">
+						Last updated: {new Date().toLocaleDateString()}
+					</p>
+				</div>
+
 				<div className="space-y-1 mb-5">
 					<p className="text-[10px] uppercase tracking-[0.28em] text-white/70">
 						Account holder
@@ -70,7 +82,7 @@ const WalletCard: React.FC<WalletCardProps> = ({ user }) => {
 					<p className="text-[10px] uppercase tracking-[0.28em] text-white/70">
 						Virtual account
 					</p>
-					<div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-3 py-2">
+					<div className="flex items-center justify-between rounded-2xl bg-white/5 px-3 py-2">
 						<span className="font-mono text-sm tracking-[0.18em] text-white/90">
 							{virtualAccount}
 						</span>
@@ -89,17 +101,6 @@ const WalletCard: React.FC<WalletCardProps> = ({ user }) => {
 					</div>
 				</div>
 
-				<div className="mb-2">
-					<p className="text-[10px] uppercase tracking-[0.28em] text-white/70">
-						Available balance
-					</p>
-					<h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-2">
-						{showBalance ? `₦${balance.toLocaleString()}` : "₦***,***"}
-					</h3>
-				</div>
-				<p className="text-white text-opacity-60 text-sm">
-					Last updated: {new Date().toLocaleDateString()}
-				</p>
 			</div>
 		</div>
 	);
