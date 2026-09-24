@@ -106,7 +106,10 @@ const RecentTransactions: React.FC = () => {
 			})}
 
 			<div className="p-4 text-center">
-				<Link href="/transactions" className="text-[#13070C] hover:underline font-medium">
+				<Link
+					href="/transactions"
+					className="text-[#13070C] hover:underline font-medium"
+				>
 					View all transactions
 				</Link>
 			</div>

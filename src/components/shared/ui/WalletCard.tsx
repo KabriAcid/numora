@@ -79,7 +79,11 @@ const WalletCard: React.FC<WalletCardProps> = ({ user }) => {
 							onClick={handleCopy}
 							className="cursor-pointer inline-flex items-center gap-2 rounded-lg bg-white/10 px-2.5 py-1.5 text-xs font-medium text-white transition hover:bg-white/15"
 						>
-							{copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+							{copied ? (
+								<Check className="w-3.5 h-3.5" />
+							) : (
+								<Copy className="w-3.5 h-3.5" />
+							)}
 							{copied ? "Copied" : "Copy"}
 						</button>
 					</div>
