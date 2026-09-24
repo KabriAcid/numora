@@ -4,10 +4,11 @@ import FundWalletModal from "../../user/modals/FundWalletModal";
 import WithdrawModal from "../../user/modals/WithdrawModal";
 
 interface WalletCardProps {
-	user: any;
+	user: { balance?: number };
 }
 
 const WalletCard: React.FC<WalletCardProps> = ({ user }) => {
+	const balance = user.balance ?? 0;
 	const [showBalance, setShowBalance] = useState(true);
 	const [showFundModal, setShowFundModal] = useState(false);
 	const [showWithdrawModal, setShowWithdrawModal] = useState(false);
@@ -51,7 +52,7 @@ const WalletCard: React.FC<WalletCardProps> = ({ user }) => {
 
 					<div className="mb-8">
 						<h2 className="text-3xl lg:text-4xl font-bold mb-1">
-							{showBalance ? `₦${user.balance.toLocaleString()}` : "₦***,***"}
+							{showBalance ? `₦${balance.toLocaleString()}` : "₦***,***"}
 						</h2>
 						<p className="text-white text-opacity-60 text-sm">
 							Last updated: {new Date().toLocaleDateString()}
