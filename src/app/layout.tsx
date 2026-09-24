@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -11,7 +12,16 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
 	return (
 		<html lang="en">
-			<body suppressHydrationWarning>{children}</body>
+			<body suppressHydrationWarning>
+				<NextTopLoader
+					color="#13070C"
+					height={3}
+					showSpinner={false}
+					shadow={false}
+					zIndex={9999}
+				/>
+				{children}
+			</body>
 		</html>
 	);
 }

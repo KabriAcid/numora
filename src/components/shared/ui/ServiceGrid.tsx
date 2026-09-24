@@ -11,7 +11,6 @@ const ServiceGrid: React.FC = () => {
 		{
 			id: "airtime",
 			title: "Airtime",
-			description: "Buy airtime for all networks",
 			icon: Phone,
 			path: "/airtime",
 			color: "bg-blue-50 text-blue-600",
@@ -20,7 +19,6 @@ const ServiceGrid: React.FC = () => {
 		{
 			id: "data",
 			title: "Data",
-			description: "Purchase data bundles",
 			icon: Wifi,
 			path: "/data",
 			color: "bg-green-50 text-green-600",
@@ -29,7 +27,6 @@ const ServiceGrid: React.FC = () => {
 		{
 			id: "airtime-to-cash",
 			title: "Airtime to Cash",
-			description: "Convert airtime to cash",
 			icon: ArrowRightLeft,
 			path: "/airtime-to-cash",
 			color: "bg-orange-50 text-orange-600",
@@ -38,26 +35,23 @@ const ServiceGrid: React.FC = () => {
 	];
 
 	return (
-		<div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+		<div className="grid grid-cols-3 gap-2 sm:gap-3">
 			{services.map((service) => {
 				const Icon = service.icon;
 				return (
 					<button
 						key={service.id}
 						onClick={() => router.push(service.path)}
-						className={`cursor-pointer bg-white rounded-lg p-4 sm:p-5 min-h-32 shadow-sm ${service.hoverColor} transition-all duration-200 hover:shadow-md text-left group`}
+						className={`cursor-pointer bg-white rounded-xl p-3 shadow-sm border border-gray-100 ${service.hoverColor} transition-all duration-200 hover:shadow-md text-left group`}
 					>
 						<div
-							className={`w-10 h-10 rounded-lg ${service.color} flex items-center justify-center mb-3 transition-transform group-hover:scale-105`}
+							className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg ${service.color} flex items-center justify-center mx-auto mb-2 transition-transform group-hover:scale-105`}
 						>
-							<Icon className="w-6 h-6" />
+							<Icon className="w-4 h-4 sm:w-5 sm:h-5" />
 						</div>
-						<h3 className="font-semibold text-[#13070C] mb-1">
+						<h3 className="text-center text-xs sm:text-sm font-semibold text-[#13070C] leading-tight">
 							{service.title}
 						</h3>
-						<p className="text-xs sm:text-sm text-gray-600 line-clamp-2">
-							{service.description}
-						</p>
 					</button>
 				);
 			})}
