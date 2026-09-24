@@ -42,7 +42,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ user, onClose }) => {
     setAmount(cleaned);
     
     const error = validateAmount(cleaned);
-    setErrors(prev => ({ ...prev, amount: error }));
+    setErrors((prev: Record<string, string | null>) => ({ ...prev, amount: error }));
   };
 
   const handleAccountNumberChange = (value: string) => {
@@ -59,7 +59,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ user, onClose }) => {
     }
     
     const error = validateAccountNumber(cleaned);
-    setErrors(prev => ({ ...prev, accountNumber: error }));
+    setErrors((prev: Record<string, string | null>) => ({ ...prev, accountNumber: error }));
   };
 
   const handleContinue = () => {

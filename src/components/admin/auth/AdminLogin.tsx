@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, Shield, Fingerprint } from "lucide-react";
-import axios from "axios";
 
 interface AdminLoginProps {
   onLogin: () => void;
@@ -22,18 +21,13 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
     setError("");
 
     try {
-      // Simulate API call - replace with actual endpoint
-      const response = await axios.post(
-        "/backend/auth/admin_login.php",
-        formData
-      );
-
-      if (response.data.success) {
-        localStorage.setItem("admin_token", response.data.token);
-        localStorage.setItem("admin_user", JSON.stringify(response.data.admin));
+      await new Promise((resolve) => setTimeout(resolve, 400));
+      if (formData.email === "admin@numora.com" && formData.password === "admin123") {
+        localStorage.setItem("admin_token", "demo_token");
+        localStorage.setItem("admin_user", JSON.stringify({ name: "Admin User", role: "super_admin" }));
         onLogin();
       } else {
-        setError(response.data.message || "Login failed");
+        setError("Invalid credentials. Use admin@numora.com / admin123 for demo");
       }
     } catch (err) {
       // For demo purposes, allow login with demo credentials

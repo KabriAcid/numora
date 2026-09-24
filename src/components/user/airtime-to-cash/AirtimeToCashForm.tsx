@@ -12,7 +12,6 @@ const AirtimeToCashPage: React.FC = () => {
 	const [phoneNumber, setPhoneNumber] = useState("");
 	const [showConfirmModal, setShowConfirmModal] = useState(false);
 	const [errors, setErrors] = useState<any>({});
-	const [showLogoutModal, setShowLogoutModal] = useState(false);
 
 	const networks = [
 		{
@@ -71,19 +70,6 @@ const AirtimeToCashPage: React.FC = () => {
 
 		return null;
 	};
-	const handleLogoutClick = () => {
-		setShowLogoutModal(true);
-	};
-
-	const handleConfirmLogout = () => {
-		setShowLogoutModal(false);
-		router.push("/login");
-	};
-
-	const handleCancelLogout = () => {
-		setShowLogoutModal(false);
-	};
-
 	const validateAmount = (amt: string) => {
 		if (!amt) return "Amount is required";
 		const numAmount = Number(amt);
@@ -148,7 +134,7 @@ const AirtimeToCashPage: React.FC = () => {
 			: 0;
 
 	return (
-		<DashboardLayout onLogout={handleLogoutClick}>
+		<DashboardLayout>
 			<div className="p-6">
 				<div className="flex items-center mb-6">
 					<button
@@ -210,7 +196,7 @@ const AirtimeToCashPage: React.FC = () => {
 									}`}
 								>
 									<img
-										src={network.icon || defaultIcon}
+										src={network.icon}
 										alt={network.name}
 										className="w-8 h-8 object-contain mx-auto mb-2 rounded-lg shadow"
 									/>

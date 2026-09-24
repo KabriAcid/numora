@@ -50,7 +50,7 @@ const FundWalletModal: React.FC<FundWalletModalProps> = ({ onClose }) => {
     setAmount(cleaned);
     
     const error = validateAmount(cleaned);
-    setErrors(prev => ({ ...prev, amount: error }));
+    setErrors((prev: Record<string, string | null>) => ({ ...prev, amount: error }));
   };
 
   const handleContinue = () => {

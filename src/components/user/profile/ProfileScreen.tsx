@@ -15,7 +15,7 @@ import DashboardLayout from "@/layouts/user/DashboardLayout";
 
 const ProfilePage: React.FC = () => {
 	const router = useRouter();
-	const user = {};
+	const user: { firstName?: string; lastName?: string; email?: string; phone?: string } = {};
 	// Modal states for other progress items
 	const [showEmailModal, setShowEmailModal] = useState(false);
 	const [showBVNModal, setShowBVNModal] = useState(false);

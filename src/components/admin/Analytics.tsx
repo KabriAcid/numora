@@ -296,7 +296,7 @@ const Analytics: React.FC = () => {
                 borderRadius: "12px",
                 boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
               }}
-              labelFormatter={(value) => new Date(value).toLocaleDateString()}
+              labelFormatter={(value) => new Date(String(value)).toLocaleDateString()}
             />
             <Area
               type="monotone"
