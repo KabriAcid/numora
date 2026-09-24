@@ -1,6 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
+@theme {
+	--color-primary: #eff9f0;
+	--color-primary-50: #f0f9ff;
+	--color-primary-100: #e0f2fe;
+	--color-primary-600: #0284c7;
+	--color-primary-700: #0369a1;
+	--color-secondary: #13070c;
+	--color-dark: #23272f;
+	--color-success: #22c55e;
+}
+
 body {
 	font-family:
 		"Figtree",
@@ -36,6 +47,14 @@ h4,
 h5,
 h6 {
 	font-family: "Figtree", ui-sans-serif, system-ui, sans-serif;
+}
+
+button {
+	cursor: pointer;
+}
+
+button:disabled {
+	cursor: not-allowed;
 }
 
 .glass-card {

@@ -73,8 +73,8 @@ const RecentTransactions: React.FC = () => {
 						key={transaction.id}
 						className="p-4 hover:bg-gray-50 transition-colors"
 					>
-						<div className="flex items-center justify-between">
-							<div className="flex items-center space-x-4">
+						<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+							<div className="flex items-center gap-3 sm:gap-4 min-w-0">
 								<div
 									className={`w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center ${transaction.color}`}
 								>
@@ -82,7 +82,7 @@ const RecentTransactions: React.FC = () => {
 								</div>
 
 								<div className="min-w-0 flex-1">
-									<div className="flex items-center space-x-2">
+									<div className="flex flex-wrap items-center gap-x-2 gap-y-1">
 										<h4 className="font-medium text-gray-900 truncate">
 											{transaction.type}
 										</h4>
@@ -95,7 +95,7 @@ const RecentTransactions: React.FC = () => {
 											{transaction.status}
 										</div>
 									</div>
-									<div className="flex items-center space-x-2 mt-1 text-sm text-gray-500">
+									<div className="flex flex-wrap items-center gap-x-2 gap-y-1 mt-1 text-xs sm:text-sm text-gray-500">
 										<span>{transaction.date}</span>
 										<span>•</span>
 										<span>{transaction.time}</span>
@@ -107,8 +107,8 @@ const RecentTransactions: React.FC = () => {
 								</div>
 							</div>
 
-							<div className="flex items-center space-x-4">
-								<div className="text-right">
+							<div className="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-3 sm:gap-4 pl-13 sm:pl-0">
+								<div className="text-left sm:text-right">
 									<div className="font-semibold text-gray-900">
 										₦{transaction.amount.toLocaleString()}
 									</div>

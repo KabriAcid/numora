@@ -38,24 +38,26 @@ const ServiceGrid: React.FC = () => {
 	];
 
 	return (
-		<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+		<div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
 			{services.map((service) => {
 				const Icon = service.icon;
 				return (
 					<button
 						key={service.id}
 						onClick={() => router.push(service.path)}
-						className={`bg-white rounded-2xl p-6 shadow-sm ${service.hoverColor} transition-all duration-200 hover:shadow-md hover:scale-105 text-left group`}
+						className={`bg-white rounded-lg p-4 sm:p-5 min-h-32 shadow-sm ${service.hoverColor} transition-all duration-200 hover:shadow-md text-left group`}
 					>
 						<div
-							className={`w-12 h-12 rounded-xl ${service.color} flex items-center justify-center mb-4 transition-transform group-hover:scale-110`}
+							className={`w-10 h-10 rounded-lg ${service.color} flex items-center justify-center mb-3 transition-transform group-hover:scale-105`}
 						>
 							<Icon className="w-6 h-6" />
 						</div>
 						<h3 className="font-semibold text-[#13070C] mb-1">
 							{service.title}
 						</h3>
-						<p className="text-sm text-gray-600">{service.description}</p>
+						<p className="text-xs sm:text-sm text-gray-600 line-clamp-2">
+							{service.description}
+						</p>
 					</button>
 				);
 			})}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Wallet, Plus, ArrowUpRight, Eye, EyeOff } from "lucide-react";
+import { Wallet, Plus, Eye, EyeOff } from "lucide-react";
 import FundWalletModal from "../../user/modals/FundWalletModal";
-import WithdrawModal from "../../user/modals/WithdrawModal";
+// import WithdrawModal from "../../user/modals/WithdrawModal";
 
 interface WalletCardProps {
 	user: { balance?: number };
@@ -11,11 +11,12 @@ const WalletCard: React.FC<WalletCardProps> = ({ user }) => {
 	const balance = user.balance ?? 0;
 	const [showBalance, setShowBalance] = useState(true);
 	const [showFundModal, setShowFundModal] = useState(false);
-	const [showWithdrawModal, setShowWithdrawModal] = useState(false);
+	// Withdraw is intentionally disabled until the settlement flow is implemented.
+	// const [showWithdrawModal, setShowWithdrawModal] = useState(false);
 
 	return (
 		<>
-			<div className="bg-gradient-to-r from-[#13070C] to-gray-800 rounded-2xl p-6 text-white relative overflow-hidden">
+			<div className="bg-gradient-to-r from-[#13070C] to-gray-800 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-white relative overflow-hidden">
 				{/* Background Pattern */}
 				<div className="absolute inset-0 opacity-10">
 					<div className="absolute -top-4 -right-4 w-32 h-32 bg-white rounded-full"></div>
@@ -24,9 +25,9 @@ const WalletCard: React.FC<WalletCardProps> = ({ user }) => {
 				</div>
 
 				<div className="relative">
-					<div className="flex items-center justify-between mb-6">
+					<div className="flex items-center justify-between mb-5 sm:mb-6">
 						<div className="flex items-center">
-							<div className="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center mr-4">
+							<div className="w-10 h-10 sm:w-12 sm:h-12 bg-white bg-opacity-20 rounded-lg sm:rounded-xl flex items-center justify-center mr-3 sm:mr-4">
 								<Wallet className="w-6 h-6" />
 							</div>
 							<div>
@@ -40,7 +41,7 @@ const WalletCard: React.FC<WalletCardProps> = ({ user }) => {
 						</div>
 						<button
 							onClick={() => setShowBalance(!showBalance)}
-							className="p-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors"
+							className="cursor-pointer p-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors"
 						>
 							{showBalance ? (
 								<EyeOff className="w-5 h-5" />
@@ -50,8 +51,8 @@ const WalletCard: React.FC<WalletCardProps> = ({ user }) => {
 						</button>
 					</div>
 
-					<div className="mb-8">
-						<h2 className="text-3xl lg:text-4xl font-bold mb-1">
+					<div className="mb-6 sm:mb-8">
+						<h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-1">
 							{showBalance ? `₦${balance.toLocaleString()}` : "₦***,***"}
 						</h2>
 						<p className="text-white text-opacity-60 text-sm">
@@ -60,21 +61,15 @@ const WalletCard: React.FC<WalletCardProps> = ({ user }) => {
 					</div>
 
 					{/* Action Buttons */}
-					<div className="flex space-x-4">
+					<div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
 						<button
 							onClick={() => setShowFundModal(true)}
-							className="flex-1 bg-white bg-opacity-20 hover:bg-opacity-30 backdrop-blur-sm px-6 py-3 rounded-2xl font-medium transition-all flex items-center justify-center"
+							className="cursor-pointer min-w-0 text-white bg-white bg-opacity-20 hover:bg-opacity-30 backdrop-blur-sm px-4 sm:px-6 py-3 rounded-xl font-medium transition-all flex items-center justify-center"
 						>
 							<Plus className="w-5 h-5 mr-2" />
 							Fund Wallet
 						</button>
-						<button
-							onClick={() => setShowWithdrawModal(true)}
-							className="flex-1 bg-transparent border border-white border-opacity-30 hover:bg-white hover:bg-opacity-10 px-6 py-3 rounded-2xl font-medium transition-all flex items-center justify-center"
-						>
-							<ArrowUpRight className="w-5 h-5 mr-2" />
-							Withdraw
-						</button>
+						{/* Withdraw is disabled until the settlement flow is implemented. */}
 					</div>
 				</div>
 			</div>
@@ -83,12 +78,7 @@ const WalletCard: React.FC<WalletCardProps> = ({ user }) => {
 				<FundWalletModal onClose={() => setShowFundModal(false)} />
 			)}
 
-			{showWithdrawModal && (
-				<WithdrawModal
-					user={user}
-					onClose={() => setShowWithdrawModal(false)}
-				/>
-			)}
+			{/* Withdraw modal is intentionally disabled. */}
 		</>
 	);
 };
