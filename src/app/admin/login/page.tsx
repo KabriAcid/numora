@@ -1,7 +1,9 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import AdminLogin from "@/components/admin/auth/AdminLogin";
+
 export default function AdminLoginPage() {
-	return (
-		<main className="p-6">
-			<h1 className="text-2xl font-bold">Admin Login</h1>
-		</main>
-	);
+	const router = useRouter();
+	return <AdminLogin onLogin={() => router.push("/admin")} />;
 }

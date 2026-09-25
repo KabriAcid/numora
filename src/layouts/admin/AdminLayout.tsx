@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
 	LayoutDashboard,
@@ -16,16 +16,22 @@ import {
 	Search,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface AdminLayoutProps {
 	children: React.ReactNode;
-	onLogout: () => void;
 }
 
-const AdminLayout: React.FC<AdminLayoutProps> = ({ children, onLogout }) => {
+interface AdminUser {
+	name?: string;
+	role?: string;
+}
+
+const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
+	const [adminUser, setAdminUser] = useState<AdminUser>({});
 	const pathname = usePathname();
+	const router = useRouter();
 
 	const navigation = [
 		{ name: "Dashboard", href: "/admin", icon: LayoutDashboard },
@@ -36,7 +42,23 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, onLogout }) => {
 		{ name: "Profile", href: "/admin/profile", icon: User },
 	];
 
-	const adminUser = JSON.parse(localStorage.getItem("admin_user") || "{}");
+	useEffect(() => {
+		try {
+			setAdminUser(JSON.parse(localStorage.getItem("admin_user") || "{}"));
+		} catch {
+			setAdminUser({});
+		}
+	}, []);
+
+	const handleLogout = () => {
+		localStorage.removeItem("admin_token");
+		localStorage.removeItem("admin_user");
+		router.push("/admin/login");
+	};
+
+	if (pathname === "/admin/login") {
+		return <>{children}</>;
+	}
 
 	return (
 		<div className="flex h-screen bg-neutral-50">
@@ -119,7 +141,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, onLogout }) => {
 							</div>
 						</div>
 						<button
-							onClick={onLogout}
+							onClick={handleLogout}
 							className="w-full mt-3 flex items-center space-x-2 px-3 py-2 text-sm text-error-600 hover:bg-error-50 rounded-xl transition-colors"
 						>
 							<LogOut className="w-4 h-4" />
