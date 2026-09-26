@@ -74,7 +74,7 @@ button:disabled {
 }
 
 .premium-button {
-	background: var(--color-primary);
+	background: #171717;
 	border-radius: 1rem;
 	color: white;
 	font-weight: 500;

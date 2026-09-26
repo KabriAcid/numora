@@ -129,7 +129,7 @@ const UserManagement: React.FC = () => {
 	const getStatusColor = (status: string) => {
 		const colors = {
 			active: "bg-success-100 text-success-700",
-			suspended: "bg-error-100 text-error-700",
+			suspended: "bg-danger-100 text-danger-700",
 			pending: "bg-warning-100 text-warning-700",
 		};
 		return colors[status as keyof typeof colors] || colors.pending;
@@ -213,7 +213,7 @@ const UserManagement: React.FC = () => {
 										: stat.color === "success"
 											? "bg-success-500"
 											: stat.color === "error"
-												? "bg-error-500"
+												? "bg-danger-500"
 												: "bg-warning-500"
 								} text-white`}
 							>
@@ -357,7 +357,7 @@ const UserManagement: React.FC = () => {
 														onClick={() =>
 															handleStatusChange(user.id, "suspended")
 														}
-														className="p-2 text-error-600 hover:bg-error-50 rounded-lg transition-colors"
+														className="p-2 text-danger-600 hover:bg-danger-50 rounded-lg transition-colors"
 														title="Suspend User"
 													>
 														<Ban className="w-4 h-4" />

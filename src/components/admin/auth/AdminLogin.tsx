@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, Shield, Fingerprint } from "lucide-react";
+import Link from "next/link";
 
 interface AdminLoginProps {
 	onLogin: () => void;
@@ -91,7 +92,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
 					className="text-center mb-8"
 				>
 					<div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary-500 to-accent-500 rounded-3xl mb-6 shadow-xl">
-						<Shield className="w-10 h-10 text-white" />
+						<Link href="/"><Shield className="w-10 h-10 text-black-500" /></Link>
 					</div>
 					<h1 className="text-4xl font-ginto font-bold text-neutral-900 mb-2">
 						Numora
